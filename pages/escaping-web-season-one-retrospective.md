@@ -99,7 +99,7 @@ To take the other side of this, I've actually now found it to be an advantage to
 
 Oh! Also, your show needs show art. Here's what I sketched up for Escaping Web, and Oz (for some strange reason) loved it, too.
 
-![ewlogo](./images/ew.jpg)
+![ewlogo](ew.jpg)
 
 Our spider has a Nand gate on its back. Cute.
 
@@ -123,7 +123,7 @@ Yes, I know, I know. The audio on the Grant episode is the worst. I'm sorry, wor
 
 Also, everyone says that leaving ratings on iTunes is "super-helpful", and I encouraged some folks to do that. We got thirteen 5-star reviews. Is that good? Probably not. But at least they were all fives! Two of my close friends even left a nice written review, and also one person I don't recognize at the moment (but probably also know personally).
 
-![itunesratings](./images/itunesratings.png)
+![itunesratings](itunesratings.png)
 
 Still, these tweets and these ratings and the personal texts we both received meant a lot to me and Oz. So, thank you!
 

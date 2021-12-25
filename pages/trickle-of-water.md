@@ -8,4 +8,4 @@ image: "ch.jpg"
 
 My favorite *Calvin and Hobbes* strip
 
-![comic](./images/ch.jpg)
+![comic](calvinhobbes.jpg)

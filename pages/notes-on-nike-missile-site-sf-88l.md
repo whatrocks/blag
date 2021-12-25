@@ -8,21 +8,21 @@ description: "nike missile"
 
 Many, many days ago, when humans could still roam the Earth for non-essential activities, our little crew visited Nike Missile Site SF-88L as another destination in our [sixth grade class-trip](/notes-on-map-and-compass-navigation) whistle-stop tour of nerdy places in the Bay Area.
 
-![site](./images/site.jpeg)
+![site](site.jpeg)
 
 [Nike Missile Site SF 88-L](https://en.wikipedia.org/wiki/Nike_Missile_Site_SF-88) is just over the Golden Gate Bridge in the Marin headlands (essentially behind Hawk Hill), so it's a short drive or hike or bike ride away from the city.
 
-![radar](./images/radar.jpeg)
+![radar](radar.jpeg)
 
 Check out its [National Park Service website](https://www.nps.gov/goga/nike-missile-site.htm) for its operating hours and tour times. As you might expect, it looks like the site is closed for the time being. If you're lucky (and can plan ahead), try to go on the first Saturday of the month, when its staffed by volunteer veterans who worked at various Nike sites around the country. 
 
 We got lucky, and the veterans were both hilarious and super interesting. Added bonus: they were also able to operate some of the terrifying machinery, like so:
 
-![missileloading](./images/animation.gif)
+![missileloading](animation.gif)
 
 I brought along my little notebook and took copious notes while they were talking (which I've reproduced below). 
 
-![history](./images/history.jpeg)
+![history](history.jpeg)
 
 But first I wanted to share a favorite moment.
 
@@ -31,7 +31,7 @@ Near the end of the tour, we were led underground to where they kept the Nike He
 Meanwhile, as we're watching this gigantic warhead move skyward a hydraulic lift, I can't help but be distracted: Where have I heard these sounds before?
 
 <audio controls="controls">
-  <source type="audio/mp3" src="./images/trash_compactor.mp3"></source>
+  <source type="audio/mp3" src="trash_compactor.mp3"></source>
 </audio>
 
 That's when the veteran asked, "Anyone ever seen Star Wars?"
@@ -40,7 +40,7 @@ My hand burst into the air like Hermoine's.
 
 Apparently, George Lucas visited the Nike missile site before filming *A New Hope*, and he found some inspiration for this scene:
 
-![trash](./images/trash.jpg)
+![trash](trash.jpg)
 
 This experience now lends more credence to the apocryphal story of how those Oakland shipping container lift thingies became proto AT-ATs for a day-dreaming Lucas.
 
@@ -78,26 +78,26 @@ Anyway, as mentioned, here's what I scribbled down during the tour:
 
 And here are some of the better photos from my phone. If you like old control panels for old computers (like me), then this place is your kind of place!
 
-![buttons](./images/buttons.jpeg)
+![buttons](buttons.jpeg)
 
-![controls](./images/controls.jpeg)
+![controls](controls.jpeg)
 
-![dials](./images/dials.jpeg)
+![dials](dials.jpeg)
 
-![missile](./images/missile.jpeg)
+![missile](missile.jpeg)
 
-![parallax](./images/parallax.jpeg)
+![parallax](parallax.jpeg)
 
-![phone](./images/phone.jpeg)
+![phone](phone.jpeg)
 
-![plot](./images/plot.jpeg)
+![plot](plot.jpeg)
 
-![power](./images/power.jpeg)
+![power](power.jpeg)
 
-![secret](./images/secret.jpeg)
+![secret](secret.jpeg)
 
-![sign](./images/sign.jpeg)
+![sign](sign.jpeg)
 
-![squib](./images/squib.jpeg)
+![squib](squib.jpeg)
 
-![test](./images/test.jpeg)
+![test](test.jpeg)

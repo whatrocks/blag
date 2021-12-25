@@ -9,13 +9,13 @@ image: "cubicle.png"
 Every good app needs a mascot. Meet some of the critters behind some internal tools (co-designed with [Lise Statelman](http://lisestatelman.com/) and [Chau Nguyen](https://www.linkedin.com/in/ctn017/)).
 
 #### Hadron
-![Hadron](./images/cubicle.png)
+![Hadron](cubicle.png)
 
 #### Badron
-![Badron](./images/holodeck.png)
+![Badron](holodeck.png)
 
 #### Levi
-![Levi](./images/levi.png)
+![Levi](levi.png)
 
 #### Adele
-![Adele](./images/adele.png)
+![Adele](adele.png)

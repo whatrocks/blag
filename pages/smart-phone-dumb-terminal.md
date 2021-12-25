@@ -14,7 +14,7 @@ Don't get me wrong -- the other stuff is pretty magical, too, especially Tailsca
 
 I mean, look at this:
 
-![Dumb terminal smart phone](./images/keyboard.jpg)
+![Dumb terminal smart phone](keyboard.jpg)
 
 It's downright cute, aside from the legs.
 

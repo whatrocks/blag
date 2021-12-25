@@ -6,7 +6,7 @@ description: "summer wind photography"
 image: "summerwind.jpg"
 ---
 
-![email](./images/summerwind.jpg)
+![email](summerwind.jpg)
 
 *Newport, Rhode Island*
 

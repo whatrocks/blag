@@ -8,7 +8,7 @@ image: "zone.png"
 
 I recently watched Pixar's SOUL and I loved its depiction of being *in the zone*:
 
-![In the Zone](./images/zone.png)
+![In the Zone](zone.png)
 
 This is a beautiful, astrally-projected depiction of Mihaly Csikszentmihalyi's *flow* concept. For the unfamiliar, here's how Csikszentmihalyi describes flow, or *the optimal experience*:
 
@@ -18,7 +18,7 @@ That sounds pretty good, right? Csikszentmihalyi contends that flow is how we hu
 
 Even better was SOUL's depiction of the non-flow state - the lost souls:
 
-![lost souls](./images/lost-souls.jpg)
+![lost souls](lost-souls.jpg)
 
 Definitely been there. Usually its whenever I hear, "Can you see my screen?" These poor creatures wander the astral plane, lost and unhappy and unsure why.
 
@@ -252,11 +252,11 @@ echo $feed$END | tee podcast.xml
 
 Lots of minor bugs and typos later, and I've got my RSS feed! Is this script hideous? Sure, but it works! I'm having fun and that's all that matters right now. Speaking of fun, I also had to create cover-art, obviously:
 
-![Cover Art](./images/coverart.jpg)
+![Cover Art](coverart.jpg)
 
 Finally, using the same GitHub Pages approach, I upload my stuff and import my Franken-pod into Overcast, like so:
 
-![Listen](./images/listen.jpeg)
+![Listen](listen.jpeg)
 
 I decide to call the project `Castellan` because it has the word "cast" in it and it means keeper of a castle or something, and that feels pretty Frankenstein-y to me.
 

@@ -14,7 +14,7 @@ This is the credo of Klutz Press, the most important book publisher of my childh
 
 If you've heard of Klutz, then you've likely seen their debut: [Juggling For the Complete Klutz](https://www.amazon.com/gp/product/0932592007/ref=as_li_qf_asin_il_tl?ie=UTF8&tag=whatrocks09-20&creative=9325&linkCode=as2&creativeASIN=0932592007&linkId=adaa512e8af09feab7c571ec8f2863cc). 
 
-![juggling](./images/juggling.png)
+![juggling](juggling.png)
 
 If not, I highly suggest seeking out a copy. Keep in mind, it's more than just a *book* -- *Juggling for the Complete Klutz* has these amazing attributes:
 
@@ -45,7 +45,7 @@ So, why don't we see more spiral-bound books? Without knowing that much about pr
 
 The little "paper" football that came with the *Table Top Football: A Guide to the Classic Lunchroom Sport* was a revered grail of mine. I remember that my dad took a sheetrock knife and made a small incision in its plastic case attached to the book so that the football could be slid in and out, with the explicit rule that the football must either be *in the case* or *being used in a game*. This is much like the inexorable [Jon Siracusan](https://hypercritical.co) rule for Airpods. Obey, or the Airpods will be instantly lost forever.
 
-![football](./images/football.jpg)
+![football](football.jpg)
 
 Side note that there are some people who just love making small cuts into the plastic cases for things, so that you easily return them to their "pristine" condition. I, myself, don't understand these people. I like wripping these cases to shreds instantly.
 
@@ -53,7 +53,7 @@ Anyway, back to these Klutz books. By including juggling bean bags, yarn for fri
 
 ### Klutz books have hilarious art
 
-![shenanigan](./images/shenanigan.jpg)
+![shenanigan](shenanigan.jpg)
 
 Just look at that paper airplane stuck in the teacher's hair!
 

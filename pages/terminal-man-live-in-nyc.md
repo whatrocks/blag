@@ -20,7 +20,7 @@ What follows may shock you:
 
 I've spent a lot of time at airports over the last year and a half. When you have that much free time, you invent some hobbies. One of mine is creating loop-driven songs on Garageband.
 
-![Garageband](./images/garageband.png)
+![Garageband](garageband.png)
 
 This screenshot is one of my more recent tracks Over Water, Under You. I assembled July Nineteen in a similar fashion, playing with the pre-set available loops to come up with weird and interesting combinations. I decided to use 'July Nineteen' for the talent show performance because it's loud and short and catchy.
 

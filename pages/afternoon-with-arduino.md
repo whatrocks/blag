@@ -16,7 +16,7 @@ An Arduino is a **microcontroller** board. The board contains a CPU (central pro
 
 Here's a picture of my Arduino (of the [Uno](https://store.arduino.cc/usa/arduino-uno-rev3) varietal):
 
-![Uno](./images/uno.jpg)
+![Uno](uno.jpg)
 
 I love the MADE IN ITALY mark in the upper left.
 
@@ -50,7 +50,7 @@ This is already one of the fun things about playing with Arduino. There are all 
 
 So, let's take a look at an LED together.
 
-![LED](./images/led.jpg)
+![LED](led.jpg)
 
 See the longer pin / leg sticking out of the red part? That's the **anode** terminal. The anode is the positive end of the LED. The shorter leg is the **cathode** - the negative side. Electrons will flow from the anode to the cathode when connected. You'll want to connect the positive end to something providing voltage, and the negative end needs to be connected to ground. All diodes are polarized, meaning they have these distinct positive and negative sides. And LEDs (light emitting diodes) happen to provide illumination when they're connected to an active circuit.
 
@@ -85,7 +85,7 @@ I'm going to stick the LED into the Arduino, with the anode leg going into pin 1
 
 Finally, we can send our program from our computer to the Arduino over a USB connection by clicking the `Upload` button in the IDE. Your Arduino should flash happily once its complete, and then it's off to the infinite races.
 
-![Binary Counting](./images/blink.gif)
+![Binary Counting](blink.gif)
 
 Look at that blinker. Pretty great, huh? Note that this gif definitely speeds things up a bit.
 
@@ -116,7 +116,7 @@ Baud rate, huh? I know this `baud` term, too. Modems had baud rates, IIRC. Some 
 
 To view your "console", you can click the "Serial Monitor" button in the IDE. 
 
-![Hello](./images/hello.png)
+![Hello](hello.png)
 
 In addition to viewing received information, you can also send messages back to the Arduino in this monitor using the text input on the top panel and the `Send` button. For example, you might write a program that toggled an LED on or off based on a specific input key.
 
@@ -179,7 +179,7 @@ void output_result(const long result) {
 
 ```
 
-![Binary Counting](./images/binary.gif)
+![Binary Counting](binary.gif)
 
 I'm not sure why the red LED isn't as bright as the other three LEDs. I tried swapping it out with another LED to no avail. But, hey, other than that, this thing works!
 

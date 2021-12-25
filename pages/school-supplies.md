@@ -8,7 +8,7 @@ image: "loop.png"
 
 Somedays I remember that I have a [loop pedal](https://amzn.to/2H8SH8O).
 
-![loop pedal](./images/loop.png)
+![loop pedal](loop.png)
 
 Those are the best sorts of days.
 

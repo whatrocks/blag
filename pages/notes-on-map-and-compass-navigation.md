@@ -81,15 +81,15 @@ After the Nike Missile site, we decided to take a course on map & compass naviga
 
 * Fun experiment: slice a potato to measure contour lines! *Note I did this when I got home, as you can see here:*
 
-![potato1](./images/p1.jpg)
+![potato1](p1.jpg)
 
-![potato1](./images/p2.jpg)
+![potato1](p2.jpg)
 
-![potato5](./images/p5.jpg)
+![potato5](p5.jpg)
 
 * Contour lines are shaped like upside down V when there is a small creek valley. The V points uphill, away from the water direction
 
-![vshape](./images/v.jpg)
+![vshape](v.jpg)
 
 * Spurs look like shallow U shapes
 
@@ -106,7 +106,7 @@ After the Nike Missile site, we decided to take a course on map & compass naviga
 
 * Angles are always measured clockwise
 
-![compass](./images/compass.jpg)
+![compass](compass.jpg)
 
 * If you forget the compass directions, it spells "WE" left to right.
 
@@ -118,7 +118,7 @@ After the Nike Missile site, we decided to take a course on map & compass naviga
 
 * Angle of declination needs to be known for your area (look this up!)
 
-![declination](./images/declination.jpg)
+![declination](declination.jpg)
 
 * Angle of declination grows larger as you move north
 

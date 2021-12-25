@@ -8,7 +8,7 @@ image: ""
 
 Subclassing in JavaScript is quite useful. I used JavaScript subclasses to create this Star Wars inspired game.
 
-![game](./images/subclasswars.gif)
+![game](subclasswars.gif)
 
 You can [play it right now](https://whatrocks.github.io/aluminum-falcon/), or check out the [code on Github](https://github.com/whatrocks/aluminum-falcon). The rest of this insanely long post will demonstrate how to use JavaScript subclassing to build the foundations of a similar game or visualization.
 
@@ -342,7 +342,7 @@ We've now recreated our 90's screensaver. This alone is a very cool accomplishme
  */
  var TieFighter = function(x, y, z, timeBetweenSteps){
    MoveStar.apply(this, arguments);
-   this.$node = $('<img src="../images/subclass-wars/tiefighter.png"></img>');
+   this.$node = $('<img src=".subclass-wars/tiefighter.png"></img>');
    this.step();
  };
  TieFighter.prototype = Object.create(MoveStar.prototype);

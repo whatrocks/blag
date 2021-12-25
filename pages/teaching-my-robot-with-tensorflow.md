@@ -16,7 +16,7 @@ In addition to Cozmo's "free play" (aka basically alive) mode, you can drop him 
 
 I wrote a script to ask Cozmo to take photos of a few objects around the office: a fake plant, a half-way used "thing" of toothpaste (what are these actually called - tubes?), and a bottle of La Croix seltzer.
 
-![detective](./images/cozmo-paparazzi.gif)
+![detective](cozmo-paparazzi.gif)
 
 As you can see, Cozmo delightfully circles the objects and takes tons of photos to build our training dataset.
 
@@ -31,7 +31,7 @@ floyd run \
 
 Next, I just needed to write a script asking Cozmo to explore the office to try to find one of these objects. He'll periodically hit a REST endpoint on FloydHub where I've deployed our newly-retrained model with an image of what he's currently looking at. If Cozmo's at least 80% confident that he's looking at the object, then he'll zooms towards it like a complete maniac.
 
-![detective](./images/cozmo-detective.gif)
+![detective](cozmo-detective.gif)
 
 Setting up a model-serving endpoint on FloydHub is also super easy. I wrote a teeny-tiny Flask app to receive an image from Cozmo, evaluate it against our model, and send back its best guesses at what Cozmo's currently looking at. Then, to deploy the app on FloydHub and set up a publicly accessible REST endpoint, it just one more command:
 
@@ -47,6 +47,6 @@ The code for Cozmo's new "paparazzi" and "detective" modes can be found on my [G
 
 Thanks to Google Code Labs for their [great guide on transfer learning with Inception v3](https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/#0) and [@nheidloff](https://github.com/nheidloff) for his [Cozmo visual recognition project](https://github.com/nheidloff/visual-recognition-for-cozmo-with-tensorflow), both of which are the basis for this project.
 
-![triforce](./images/link.png)
+![triforce](link.png)
 
 I'm still holding out hope for this Link thing, too.

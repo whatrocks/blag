@@ -20,7 +20,7 @@ Gotta start off with a banger. I'm shocked that this magazine/company still (or 
 
 Speaking on terrifying, I'm happy to report NJ's favorite insane asylum explorers are alive and well! They're down to two issues a year, but they're just as creepy and fun as ever. Sign up for an [annual subscription here](https://store.weirdnj.com/), in case your local Welsh Farms stopped carrying them.
 
-![Weird NJ](./images/weird.jpg)
+![Weird NJ](weird.jpg)
 
 ## Nintendo Power
 
@@ -28,7 +28,7 @@ Now we're getting into the good stuff. Nintendo Power was far-and-away the most 
 
 Then, on some horrible, woebegone day 15-odd years ago, I purged their cardboard box home in my parent's attic and only kept three issues (thankfully, I kept the Link to the Past strategy guide, I'm not a complete monster). But I'm still kicking myself every time I think about it.
 
-![Zelda](./images/zelda.jpg)
+![Zelda](zelda.jpg)
 
 That was a whole lot of backstory to say that you can't subscribe to Nintendo Power anymore.. in magazine format. But they do have a [monthly podcast](https://www.nintendo.com/nintendo-power-podcast/)! And it's kinda fun! Apparently the new president of Nintendo's last name is Bowser and that's an actual, honest-to-goodness coincidence. The spirit of Howard and Nester lives on.
 
@@ -38,7 +38,7 @@ Also, if you really, really do want to get your NP nostalgia on, I suggest check
 
 Another not-quite-magazine that I treasured. Many hours were spent daydreaming over which skateboard deck and shoes I wanted to buy instead of actually going outside and practicing skateboarding.
 
-![CCS](./images/ccs.jpg)
+![CCS](ccs.jpg)
 
 These babies used to arrive 14 times a year, but [you can still get them 2x a year by signing up here](https://shop.ccs.com/pages/catalog-request) and I do and I'm still trying to pick the perfect deck rather than work on my heel-flip.
 
@@ -46,7 +46,7 @@ These babies used to arrive 14 times a year, but [you can still get them 2x a ye
 
 AFAIK, sending this card in the mail will not result in the Flying Apparatus Catalog by Klutz Press arriving in your mailbox.
 
-![Klutz Press](./images/klutz.jpg)
+![Klutz Press](klutz.jpg)
 
 But I've just filled it out and I'll update this post if things turn out AWESOME. In the mean time, you can read all about my love of Klutz in [this open love-letter](/create-wonderful-things-be-good-have-fun), and just scour eBay and Amazon for their used books!
 

@@ -46,15 +46,15 @@ The six levels of interaction with a system are:
 
 Yes, this is zero-indexed, obviously. Want to see it as a Ben Thompson [Stratechery-style](https://stratechery.com/) diagram?
 
-![levels](./images/stages.png)
+![levels](stages.png)
 
 My thanks to the [Excalidraw web app](https://excalidraw.com) for their excellent box drawing tool. While I'm at it, should I add some [Wait But Why-style](https://www.waitbutwhy.com) little stick figures?
 
-![people](./images/people.png)
+![people](people.png)
 
 Not funny enough? How about a concentric-circle approach? That probably makes more sense, anyway.
 
-![onion](./images/onion.png)
+![onion](onion.png)
 
 Yes, those are the vintage Apple logo colors, because I literally cannot help myself (it was hard enough not to write another post about [my Apple IIe](/my-new-old-apple-iie-computer)).
 
