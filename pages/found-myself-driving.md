@@ -12,7 +12,7 @@ Last night I got to ride in my first driverless [Cruise](https://getcruise.com) 
 
 Lyrics, for the record:
 
-```
+```plaintext
 Hop into the back seat
 It's time for a ride
 Tonight we're Cruisin'

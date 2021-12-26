@@ -16,7 +16,7 @@ BETTER THIS CHRISTMAS
 
 By Charlie Harrington*
 
-```
+```plaintext
 So mad at myself
 That elf on the shelf
 Oh, if he only knew
