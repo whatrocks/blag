@@ -48,6 +48,10 @@ blockquote {
   font-weight: 300;
 }
 
+code[class*="language-"] {
+  white-space: pre-wrap;
+}
+
 header {
   text-align: center;
   padding: 10px;
