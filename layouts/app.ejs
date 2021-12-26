@@ -11,16 +11,21 @@
   <body>
     <header>
       <h2 id="siteheadline"><span id="sitelogo">¶</span><a href="<%= pathTo("/") %>">Charlie Harrington</a></h2>
-      <div>
-        <span><a href="<%= pathTo("about") %>">About</a></span>
+      <div id="topnav">
+        <a href="<%= pathTo("about") %>">About</a>
         <span>•</span>
-        <span><a href="<%= pathTo("library") %>">Library</a></span>
+        <a href="<%= pathTo("library") %>">Library</a>
         <span>•</span>
-        <span><a href="<%= pathTo("rss.xml") %>">RSS</a></span>
+        <a href="<%= pathTo("rss.xml") %>">RSS</a>
       </div>
     </header>
     <div id="contents">
-    <%- body %>
+      <%if (title !== "About" && title !== "Index" && title !== "Library" && title !== "Books" && title !== "Walkingman") { %>
+        <h1 class="title"><%= title %></h1>
+        <h3 class="subtitle"><%= date %></h3>
+        <div class="borderLine"></div>
+      <% } %>
+      <%- body %>
     </div>
     <footer>
       <div>

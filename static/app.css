@@ -22,11 +22,11 @@ li {
 }
 
 ol > li {
-  margin-bottom: 0.25rem;
+  margin-bottom: 10px;
 }
 
 ul > li {
-  margin-bottom: 0.25rem;
+  margin-bottom: 10px;
 }
 
 li > p {
@@ -43,14 +43,14 @@ a {
 
 blockquote {
   border-left: 2px solid rgb(33, 93, 211);
-  padding-left: 1rem;
+  padding-left: 20px;
   font-style: italic;
   font-weight: 300;
 }
 
 header {
   text-align: center;
-  padding: 0.5rem;
+  padding: 10px;
   border-bottom: 1px solid #eee;
 }
 
@@ -96,10 +96,51 @@ img {
   line-height: 1.1;
   margin-left: -2px;
   font-size: 24px;
-  /* text-transform: uppercase; */
-  /* color:$font; */
   font-weight: 600;
   margin: 0;
   margin-bottom: .25rem;
   padding: 0;
+  color: rgb(17, 17, 17) !important;
+}
+
+#siteheadline > a {
+  color: rgb(17, 17, 17) !important;
+}
+
+#siteheadline > a:hover {
+  color: rgb(33, 93, 211);
+  text-decoration: none;
+}
+
+#topnav > a {
+  color: rgb(17, 17, 17) !important;
+}
+
+.title {
+  margin: 0;
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  width: 100%;
+}
+
+.subtitle {
+  text-align: center;
+  color: rgb(182,182,182);
+  margin: 0;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  width: 100%;
+}
+
+.borderLine {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+  background: none;
+  border-bottom: 1px solid #eee;
+  height: 0;
+  width: 100%;
 }

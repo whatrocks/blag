@@ -1,5 +1,6 @@
 ---
 title: Index
+date: "2000-01-01"
 ---
 
 <% pages.sort((c,d) => {
