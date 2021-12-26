@@ -3,14 +3,11 @@ title: Index
 ---
 
 <% pages.sort((a,b) => {
-    const aDate = Date.parse(a.date);
-    const bDate = Date.parse(b.date);
-    if (aDate > bDate) return -1;
-    if (aDate < bDate) return 1;
-    return 0;
+    return new Date(a.date) - new Date(b.date);
 })
+.reverse()
 .forEach((page) => { _%>
-    <%if (page.title !== "About" && page.title !== "Index") { %>
+    <%if (page.title !== "About" && page.title !== "Index" && page.title !== "Library" && page.title !== "Books" && page.title !== "Walkingman") { %>
 * [<%= page.title || pathTo(page) %>](<%= pathTo(page) %>): <%= page.date %>
     <% } %>
 <% }); _%>

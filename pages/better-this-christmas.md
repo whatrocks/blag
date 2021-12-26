@@ -6,6 +6,8 @@ description: "A new Christmas song about being a kid"
 image: "better.jpg"
 ---
 
+# Better This Christmas
+
 I always wanted to write a Christmas song, so here you go (performed live at The Day After Thanksgiving Ping-Pong Tournament Party):
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/7kyNf14Zdno" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
