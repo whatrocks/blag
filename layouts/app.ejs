@@ -3,11 +3,14 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><%= title %></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="<%= pathTo("app.css") %>" rel="stylesheet">
   </head>
   <body>
     <header>
-      <h2><a href="<%= pathTo("/") %>">¶ Charlie Harrington</a></h2>
+      <h2 id="siteheadline"><span id="sitelogo">¶</span><a href="<%= pathTo("/") %>">Charlie Harrington</a></h2>
       <div>
         <span><a href="<%= pathTo("about") %>">About</a></span>
         <span>•</span>
@@ -16,7 +19,9 @@
         <span><a href="<%= pathTo("rss.xml") %>">RSS</a></span>
       </div>
     </header>
+    <div id="contents">
     <%- body %>
+    </div>
     <footer>
       <div>
         <form
