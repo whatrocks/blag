@@ -8,7 +8,7 @@ image: "marnie004.jpg"
 
 Maybe you caught this week's [HN post](https://news.ycombinator.com/item?id=24564775) that [Studio Ghibli](http://www.ghibli.jp/info/013344/) dropped 400 images into the public domain. The comments suggested that there's something odd in Japanese copyright law about taking screenshots of films, and that Studio Ghibli might have furnished these to help keep people talking about their films in reviews and whatnot.
 
-![marnie](marnie004.jpg)        
+![marnie](/img/marnie004.jpg)        
 
 A more useful comment gave a nice tip for scraping the images in a single `wget` command:
 
@@ -42,7 +42,7 @@ There's a neat command to change your Pi's desktop background from the terminal:
 pcman --set-wallpaper /home/pi/Pictures/ghibli/ged009.jpg
 ```
 
-![marnie](ged009.jpg)
+![marnie](/img/ged009.jpg)
 
 Make sure that you've given the proper directory location for your Ghibli images, which, of course, you can get with the `pwd` print working directory command.
 
@@ -90,7 +90,7 @@ Not super helful. It does confirm that job ran, which is good, though. That rule
 sudo apt-get install postfix
 ```
 
-![postfix](postfix.png)
+![postfix](/img/postfix.png)
 
 You should choose a "Local" installation. Once we have a mail server, we can now inspect the cron job "mail" logs:
 
@@ -122,7 +122,7 @@ Cool. Okay, so, what does this one mean? This [stack overflow answer](https://st
 
 Yes! Our cron job works!
 
-![marnie](karigurashi024.jpg)
+![marnie](/img/karigurashi024.jpg)
 
 What are these `DISPLAY` and `XDG_RUNTIME_DIR`? According to [this other Stack Overflow answer](https://askubuntu.com/questions/872792/what-is-xdg-runtime-dir), `DISPLAY` is an address for your display and `XDG_RUNTIME_DIR` is a place to store temporary files for your user. Probably some more to dig into here, but for now, I'm just going to stare at my VNC Viewer and watch the background change.
 

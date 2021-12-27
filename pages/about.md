@@ -8,7 +8,7 @@ description: "about"
 
 Hello! My name is Charlie Harrington. I'm a computer programmer and writer living in San Francisco, California. I grew up in Red Bank, New Jersey. Here's a grainy photo of me playing *Let It Be* on banjo:
 
-![charlie](ch.jpg)
+![charlie](/img/ch.jpg)
 
 I'm also in the middle of ~~writing~~ ~~editing~~ re-editing a novel about robots. If you like adventures and being a kid and summer reading and box fans, then this could be the book for you!
 
