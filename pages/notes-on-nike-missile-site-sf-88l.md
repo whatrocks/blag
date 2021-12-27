@@ -16,9 +16,7 @@ Many, many days ago, when humans could still roam the Earth for non-essential ac
 
 Check out its [National Park Service website](https://www.nps.gov/goga/nike-missile-site.htm) for its operating hours and tour times. As you might expect, it looks like the site is closed for the time being. If you're lucky (and can plan ahead), try to go on the first Saturday of the month, when its staffed by volunteer veterans who worked at various Nike sites around the country. 
 
-We got lucky, and the veterans were both hilarious and super interesting. Added bonus: they were also able to operate some of the terrifying machinery, like so:
-
-![missileloading](animation.gif)
+We got lucky, and the veterans were both hilarious and super interesting. Added bonus: they were also able to operate some of the terrifying machinery and raise one of the missiles.
 
 I brought along my little notebook and took copious notes while they were talking (which I've reproduced below). 
 
