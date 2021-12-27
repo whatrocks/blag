@@ -48,6 +48,10 @@ blockquote {
   font-weight: 300;
 }
 
+pre {
+  width: 100%;
+}
+
 code[class*="language-"] {
   white-space: pre-wrap;
 }
