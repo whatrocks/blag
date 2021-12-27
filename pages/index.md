@@ -1,5 +1,5 @@
 ---
-title: Index
+title: Charlie Harrington
 date: "2000-01-01"
 ---
 
