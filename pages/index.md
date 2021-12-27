@@ -10,7 +10,7 @@ date: "2000-01-01"
     return b[0] - a[0] || b[1] - a[1] || b[2] - a[2]; 
 })
 .forEach((page) => { _%>
-    <%if (page.title !== "About" && page.title !== "Index" && page.title !== "Library" && page.title !== "Books" && page.title !== "Walkingman") { %>
+    <%if (page.title !== "About" && page.title !== "Charlie Harrington" && page.title !== "Library" && page.title !== "Books" && page.title !== "Walkingman") { %>
 * [<%= page.title || pathTo(page) %>](<%= pathTo(page) %>): <%= page.date %>
     <% } %>
 <% }); _%>
