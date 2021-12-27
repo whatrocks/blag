@@ -16,7 +16,7 @@ I'm happy to report that after a little bit of NLP using Markov chains (and a wh
 
 [If you're interested in reading more about the specifics of my project, I wrote about it in detail on the FloydHub blog](https://blog.floydhub.com/markov-chains), or you can try it out now:
 
-[![Run on FloydHub](https://static.floydhub.com/button/button.svg)](https://floydhub.com/run?template=https://github.com/whatrocks/markov-commencement-speech)
+[![Run on FloydHub](https://static.floydhub.com/button/button.svg)](/img/https://floydhub.com/run?template=https://github.com/whatrocks/markov-commencement-speech)
 
 Click this button to open a Workspace on FloydHub where you can generate your own "commencement speech style" sentences in a live JupyterLab environment that we call a `Workspace`.
 

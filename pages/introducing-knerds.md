@@ -8,7 +8,7 @@ image: "gang-close.png"
 
 Knerds is a simple and fun iOS game that helps you learn the names of your co-workers through brute force, cuddly mascots, and spaced repetition.
 
-![Banner](banner.png)
+![Banner](/img/banner.png)
 
 ### Diving into Objective-C
 
@@ -22,7 +22,7 @@ I wanted to build a flashcard app that helped you learn the names of your co-wor
 
 Pretty soon, after an hour or so on Thursday night, Knerd by Knewton lived:
 
-![Knerd by Knewton](k.png)
+![Knerd by Knewton](/img/k.png)
 
 It wasn’t a good app — the picture didn’t change, there were no swipes or gestures, and the “quiz” was pretty lame — but the basic elements were there. I had a foundation. I was able to test my app on my actual phone — awesome. Even if I wasn’t able to proceed much further, I knew that I would be able to submit at least a basic working iOS quiz app as my “hack.”
 Back to the drawing board
@@ -31,7 +31,7 @@ We use a Trello board to organize potential hacks into four categories: Performa
 
 To my shock Dan McGorry, our lead UX designer replied:
 
-![Trello](trello.png)
+![Trello](/img/trello.png)
 
 And that’s when things got real.
 
@@ -47,7 +47,7 @@ Designing solid UX is more challenging than I thought. My initial concept for a 
 
 Here’s a look at one of the early sets:
 
-![Wireframes](wires1.png)
+![Wireframes](/img/wires1.png)
 
 That Friday was not exactly a day off from work for me, and I told Dan as much — that we should continue to develop the wires and concept up to the end of the day, and that I would devote my weekend to implementing our app, but with no guarantee of my success — just the old hack day try.
 
@@ -59,13 +59,13 @@ Importantly, Dan and I agreed that the app was lacking something critical —�
 
 Pretty soon, Dan came back with the knerds:
 
-![Knerds](knerds-group.png)
+![Knerds](/img/knerds-group.png)
 
 We chatted through some minor tweaks, like the placement of bows, the eye colors, and the introduction of a fourth triangle-y knerd, but these little geometric critters were pretty much perfect from the start. And my love for the knerds began. 
 
 By the end of Friday, our wires looked like a real app:
 
-![Wireframes](wires2.png)
+![Wireframes](/img/wires2.png)
 
 Now it was time for me to code up or shut up.
 
@@ -155,25 +155,25 @@ But Dan and I kept going. We named them all. And then I couldn’t stop myself�
 
 #### Olive
 
-![Olive](orange.png)
+![Olive](/img/orange.png)
 
 Olive is the young Captain of the knerds. This mission was her first ever. Olive is brave and bold, and loves to explore, but she’s still young and inexperienced. She’s determined to make the most of their mission!
 
 #### Mr. Figg
 
-![Mr Figg](green.png)
+![Mr Figg](/img/green.png)
 
 Mr. Figg is Head of Security. He’s responsible for protecting the Knerds from trouble, but somehow Isaak always seems to find a way to make it anyway. Mr. Figg has a tough exterior, but also a heart of gold.
 
 #### K.A.M.
 
-![K.A.M.](red.png)
+![K.A.M.](/img/red.png)
 
 K.A.M. is the Communications Officer. She’s part robot (we think). Her suction cup legs can rotate around her body, so she can easily climb and stick to any surface. She also can upgrade her legs to new components, like helicopter drone blades so she can fly, but she lost her repair/upgrade kit during the crash.
 
 #### Isaak
 
-![Isaak](blue.png)
+![Isaak](/img/blue.png)
 
 Isaak is Olive’s younger brother. He snuck onto the ship before takeoff because he didn’t want to miss out on the adventure! Isaak is always getting into trouble, which is easy because he’s so tiny, but his misadventures often lead the knerds to important new discoveries.
 
@@ -188,14 +188,14 @@ Oh, and Avery invented bad guys for the knerds! I asked her to draw them:
 
 #### Binky
 
-![Binky](binky4.jpg)
+![Binky](/img/binky4.jpg)
 
 #### Chill Factor
 
-![Chill Factor](chillfactor4.jpg)
+![Chill Factor](/img/chillfactor4.jpg)
 
 #### Bill
 
-![Bill](bill3.jpg)
+![Bill](/img/bill3.jpg)
 
 It looks like the knerds will need all the help they can get — will you help them?

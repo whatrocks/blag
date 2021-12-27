@@ -48,7 +48,7 @@ Along related lines, this is where folks started experimenting with "computer ne
 
 Timesharing. You've probably heard of it before. Essentially, the few people lucky enough to have access to these machines would sit at "dumb" Teletype terminals and their commands would be executed in some mainframe somewhere else (usually their university). You didn't have to own a computer to use one, you just needed to pay for access (sounds a lot like "cloud computing" nowadays, right? Time is a flat circle). It wasn't just all university-work. Games were being created and shared, and projects like [PLATO](https://en.wikipedia.org/wiki/PLATO_(computer_system)) at University of Illinois were doing interactive things that seem impossible for their era:
 
-![PLATO](plato.jpg)
+![PLATO](/img/plato.jpg)
 
 Take a look at the rows for 80s and 90s - you're basically looking at Halt and Catch Fire season by season.<sup>2</sup> Personal computers. The World Wide Web. AOL Instant Messager. This is where things start hitting hard on the nostalgia receptors for me. I'll never forget the early `90s Christmas where we got our SoundBlaster 16 sound card. Carmen Sandiego never sounded so good.
 
@@ -99,7 +99,7 @@ They are making the 90s-LAN party possible again. It was a beautiful thing when 
 
 I recently used Tailscale to set up a little Raspberry Pi-powered robot car. I can SSH into my little robot and drive it around, and I'm feeling like a kid again.
 
-![car](car.jpg)
+![car](/img/car.jpg)
 
 #### Oxide Computer Company
 

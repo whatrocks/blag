@@ -39,7 +39,7 @@ That's probably enough to get you started. But, if you're up for it, I'll walkth
 
 ## Host your episode audio on archive.org
 
-![Jurassic Park scene](jp2.png)
+![Jurassic Park scene](/img/jp2.png)
 
 > Ah, now eventually you do plan to have audio on your, on your podcast, right? Hello?
 
@@ -65,11 +65,11 @@ mv Apple\ IIe\ computer\ floppy\ drive\ setup.mp3 1-apple-iie-floppy-drive-setup
 
 Excellent. Now we can go to archive.org, hit `Upload` in the upper right, and fill out the metadata for our audio files:
 
-![archive.org upload](archive-upload.png)
+![archive.org upload](/img/archive-upload.png)
 
 Each episode mp3 file will have its own page on Archive.org, like so:
 
-![archive.org page](archive-page.png)
+![archive.org page](/img/archive-page.png)
 
 Finally, we can grab our mp3 file URL with the `VBR MP3` link, which should give us a URL like this for episode 2: `https://archive.org/download/ittp-002/2-apple-iic-unboxing.mp3`. Paste each episode's mp3 link into a scratch file somewhere, because we'll need it later!
 
@@ -107,7 +107,7 @@ syte serve
 
 Head on over to localhost:3500:
 
-![Syte default page](syte.png)
+![Syte default page](/img/syte.png)
 
 Looking good. Let's first update the home page. Change your `pages/index.md` file to this: 
 
@@ -208,11 +208,11 @@ Links and resources:
 
 If you head back to `localhost:3500`, our episodes now show up on the homepage:
 
-![Syte default page with episodes](syte_episodes.png)
+![Syte default page with episodes](/img/syte_episodes.png)
 
 And here's what an episode page looks like.
 
-![Syte default page](episode.png)
+![Syte default page](/img/episode.png)
 
 It's terrible (terribly awesome?). I'll leave it as an exercise to the reader to update the CSS (start with the the `app.css` in the `/static` folder). But you know? It's enough for our purposes.
 
@@ -253,7 +253,7 @@ Here's what I came up with: take a perfect-square screenshot of one of my episod
 convert screenshot.jpg -resize 3000x3000 ittp.jpg
 ```
 
-![ITTP coverart](ittp.jpg)
+![ITTP coverart](/img/ittp.jpg)
 
 Put this awesome file in your `/static` folder and then add this to `app.yaml`:
 
@@ -324,7 +324,7 @@ Let's also turn on GitHub Pages for this repo so we can access our coverart. We 
 
 Now I'm not going to do a full walkthrough of this part, because Cloudflare Pages is a rapidly changing new product. At a high-level, create a new Project with Pages, add your GitHub repo, and then configure your build. This build configuration step is important to get right, so here's what mine looks like:
 
-![Cloudflare Pages](buildconfig.png)
+![Cloudflare Pages](/img/buildconfig.png)
 
 It's important to get these details in the Build Configuration:
 * `Build command: syte build`
@@ -348,13 +348,13 @@ base_url: https://in-the-troll-pit.pages.dev
 
 But since mine is `base_url: https://ittp.charlieharrington.com`, I'm going to make that change now in Cloudflare, which is super easy if Cloudflare is managing your DNS - just hit the "Custom domains" tab and follow their guide. It takes a while for DNS to reflect your changes, so just wait ~2 days until the URL works correctly before you move on to the next step.
 
-![Cloudflare Pages Custom Domain](customdomain.png)
+![Cloudflare Pages Custom Domain](/img/customdomain.png)
 
 ## Upload your RSS feed to iTunes directory
 
 This part is less interesting to me, so I'm not going to go too deep. Go to [Podcasts Connect](https://podcastsconnect.apple.com/my-podcasts) (in Safari!) and create a new show and fill out the info with a link to your feed.
 
-![PodcastConnect](podcastconnect.png)
+![PodcastConnect](/img/podcastconnect.png)
 
 It takes a couple days for the show to appear in iTunes. Keep refreshing, though. That helps it go faster.
 
@@ -362,11 +362,11 @@ You can also upload your show to other directories like [Google](https://support
 
 If you really can't wait for iTunes, you can usually just add a podcast RSS url manually in your player of choice (mine's Overcast). Let's give that a shot. 
 
-![Overcast Example 1](overcast1.jpg)
+![Overcast Example 1](/img/overcast1.jpg)
 
-![Overcast Example 2](overcast2.jpg)
+![Overcast Example 2](/img/overcast2.jpg)
 
-![Overcast Example 3](overcast3.jpg)
+![Overcast Example 3](/img/overcast3.jpg)
 
 That looks awesome! The shownotes look perfect!!
 

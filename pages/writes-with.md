@@ -30,7 +30,7 @@ My inability to bear the blog switching costs at this moment isn't going to stop
 
 ## Writes With
 
-![Writes With logo](writeswith.png)
+![Writes With logo](/img/writeswith.png)
 
 The [Writes With](https://www.writeswith.com) syte is already live, with two interviews: [Brian Dear](https://writeswith.com/interviews/brian-dear/), author of **The Friendly Orange Glow: The Untold Story of the PLATO System and the Dawn of Cyberculture**, and [Pooja Reddy](https://writeswith.com/interviews/pooja-reddy/), author of **The Big Bold Blue**.
 

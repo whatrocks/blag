@@ -26,7 +26,7 @@ Butchering some data pipeline terms, let's define an inbox (e.g. email, social m
 
 O! Ye of little time! How are you meant to evaluate the "importance" of a given message? Let's explore that across two vectors: (1) prior awareness of the message's sender and (2) usefulessness of the message contents.
 
-![grid](msggrid.png)
+![grid](/img/msggrid.png)
 
 The sweet-spot is that upper row: useful messages from both "people we know" and "people we don't know." Whereas if you're in the bottom row, you're gonna have a bad time: useless messages are never... useful.
 
@@ -80,7 +80,7 @@ So, far we've only explored the features of an individual message -- not the nat
 
 Regardless of an individual message's usefuless or your prior awareness of its sender, an inbox has two other important features that contribute to our mental well-being: (1) typical message volume and (2) expected urgency of triage.
 
-![inbox](inboxgrid.png)
+![inbox](/img/inboxgrid.png)
 
 The message volume thing is straightforward. Some platforms have a never-ending feed of messages that you can "enjoy," others not so much.
 
@@ -88,7 +88,7 @@ At the same time, each inbox medium connotes a inherent sense of urgency. **The 
 
 Let's be more specific with some typical inboxes in our lives:
 
-![inbox overlay](inboxoverlay.png)
+![inbox overlay](/img/inboxoverlay.png)
 
 Phone calls are just about as "urgent" as it gets. Prior to iOS 14, phone calls used to interrupt whatever you were doing, taking up your iPhone's entire screen real estate. Doesn't get more urgent-y than that! Luckily, calls are relatively sparse compared to text messages, which you still need to respond to, but you can "put them on ice" for days at a time with a high-degree of cultural acceptance.
 
@@ -110,7 +110,7 @@ OK, enough about content-monetization (have I mentioned I have a free newsletter
 
 First, we should establish principles-slash-goals for each quadrant in our Conjoined Box of Message Success:
 
-![message actions](messageactions.png)
+![message actions](/img/messageactions.png)
 
 How might we think about upholding these principles in our email inboxes?
 

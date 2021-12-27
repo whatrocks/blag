@@ -21,19 +21,19 @@ Basically, do it. It's super easy. **I'll show you how in this post.**
 
 Imagine waking up to this email:
 
-![email](email.png)
+![email](/img/email.png)
 
 It's like Christmas morning! Once you click that link, you'll be taken to your Overdrive account:
 
-![overdrive](overdrive.png)
+![overdrive](/img/overdrive.png)
 
 Even before you've had your (first) coffee of the day, you can probably manage to click that `Read Now with Kindle` button:
 
-![amazon](amazon.png)
+![amazon](/img/amazon.png)
 
 Click `Get Library Book`, and you're done! Your morning commute just got a little bit nerdier.
 
-![borrowed](borrowed.png)
+![borrowed](/img/borrowed.png)
 
 ### Borrowing Audiobooks
 

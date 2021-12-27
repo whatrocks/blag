@@ -8,10 +8,10 @@ image: "vc.gif"
 
 Von Chomp is a monster who loves to count - workout reps, patrons at hipster BBQs, even 🍪s. 
 
-![vc](vc.gif)
+![vc](/img/vc.gif)
 
 Meet von Chomp now on the Apple App Store: https://appsto.re/us/VN7lib.i 
 
 ### Don't take my word for it
 
-![ratings](ratings.png)
+![ratings](/img/ratings.png)

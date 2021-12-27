@@ -20,7 +20,7 @@ From what I've learned in my [limited YouTube research](https://www.youtube.com/
 
 And, thus, Mario Paint.
 
-![Mario Paint](mariopaint.jpg)
+![Mario Paint](/img/mariopaint.jpg)
 
 There's just no reason for this game to be this good. Sure, MS Paint on Windows was always a fun time-waster back in the day. But it certaintly wasn't weird. And Mario Paint is w-e-i-r-d. It's like Photoshop on Magic Mushrooms. Plus an animation studio. Plus a digital audio workstation (aka Garageband). And all this back when we were still recording our favorite songs from the radio on cassette tapes (if we were lucky enough to catch them, and even then usually missing the first few bars). 
 
@@ -42,7 +42,7 @@ Why am I a software engineer? Mario Paint.
 
 Thought you'd never ask. In 2015, I was living in London working in business development for an edtech startup, traveling a whole lot, with a bunch of downtime in airports. I decided to Carpe Diem the idle-airport-time to teach myself programming (something I'd been trying to do, on and off, for the previous seven years), so I bought a Big Nerd Ranch iPhone book. When my company planned a two-day hackathon, I pledged to build a little iPhone app, following the book step-by-step. I've [written about this experience before](/introducing-knerds), so I won't fully rehash it. But the key thing is that, in addition to the basic Tinder/flash-card UX, I decided to add some fun little characters for the app (designed by my co-worker and pal [Dan McGorry](https://www.dfxm326.com/)). Then, these characters obviously needed a backstory. A week or so later, I traveled back to New Jersey for my aunt's wedding and I was showing the app to anyone who would listen (not many). Except for my 9 year old cousin. She bit hard. She came up with even more ideas for their powers (hair that grows to become a bridge, melting down into a popsicle liquid so you can glide, and so on). The kicker: the next day, my aunt delivered to me some enemies for the game that my cousin had drawn, like Chill Factor:
 
-![Chill Factor](chillfactor4.jpg)
+![Chill Factor](/img/chillfactor4.jpg)
 
 I knew then and there that I wanted to [create wonderful things, be good, and have fun](/create-wonderful-things-be-good-have-fun) for my career. I quit my job and studied to become a computer programmer.
 

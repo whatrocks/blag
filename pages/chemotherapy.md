@@ -124,7 +124,7 @@ Instead, insurance wants to make sure that you really-super-duper-need whatever 
 
 Insurance is frustrating and scary. I do not understand it. I do not want to understand it. I wish it was simpler. I wish I didn't have to make sure that I was "covered" for things related to my health and my family's health. I also know that I'm incredibly lucky to have good insurance. I took a screenshot from my insurance app back in December:
 
-![insurance bill](bill.png)
+![insurance bill](/img/bill.png)
 
 WTF. That's an insane amount of money. But my life was saved, sooo...? The insurance company even assigned me a nurse to "check in on me" as a resource back in November and December, which sadly was more of a nuisance than anything else. And, then, when my company switched insurance providers at the beginning of 2021, this nurse service stopped abruptly. The whole thing's odd. But I can say again that I am extremely grateful to have had good insurance during my cancer treatment.
 
@@ -173,15 +173,15 @@ Now, given of all that prep and preamble, it's finally time to start chemo!
 
 Wait. We need a way to get the chemo into your body. There's two options: a PICC line or a port. In either case, we need a tube that's threaded through your veins directly above your heart. If you go PICC, we gotta thread that in for every single treatment. If you go port, you only do that once, but you get this Tony Stark metal disk thing in your chest. You can guess which one I chose.
 
-![Port](port.jpg)
+![Port](/img/port.jpg)
 
 Now I have an ID card that explains why metal detectors don't like me anymore.
 
-![Port Chest](portchest.jpg)
+![Port Chest](/img/portchest.jpg)
 
 Gross and weird, but also cool and weird. With this port, it's a simple little pin prick to get me all connected to the IV stuff. Here I am plugged in.
 
-![plugged](plugged.jpg)
+![plugged](/img/plugged.jpg)
 
 My three week cycle consists of this:
 
@@ -195,11 +195,11 @@ The point of the third week is to help your white blood cells recover. The chemo
 
 The drip takes like 2 hours. I usually bring some books and a chicken parm sub and my Nintendo Switch. Here's me after a pee-break:
 
-![bathroom selfie](bathroom.jpg)
+![bathroom selfie](/img/bathroom.jpg)
 
 I buy this pill box on Amazon, cause why not:
 
-![pill box](pillbox.jpg)
+![pill box](/img/pillbox.jpg)
 
 This sucker lives in our kitchen counter in plain sight so that I never forget to take my 2x a day sets, and so far, I haven't ever forgotten.
 

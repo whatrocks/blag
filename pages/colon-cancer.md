@@ -22,13 +22,13 @@ I've always been a standing wiper. Not sure entirely why. I must have once, acci
 
 This charming anecdote does factor into our story, because it means I've always had a pretty good sense for my poo. Consistency, quality, and color, both in the bowl and on the TP. Did you know, there's even a seven-stage scientific classification system for your poo, called the [Bristol stool scale](https://en.wikipedia.org/wiki/Bristol_stool_scale)?!
 
-![Bristol stool scale](bristol.png)
+![Bristol stool scale](/img/bristol.png)
 
 I first noticed blood two or three years ago. On a monthly or so cadence, I'd wipe and notice a reddish tinge. Not bright red, more like muddy-red. Poopy-red. Initially, I thought little of it. Just a minor curiousity. It certainly didn't happen every time. Still, I decided to check off the `Blood in stool` box on the forms at my annual physical with my primary care doctor that year.
 
 A brief aside on the phrase "your primary care doctor." Like in *Forgetting Sarah Marshall*, the last doctor I really thought of as "my doctor" was my pediatrician. Since "becoming an adult", I've lived in three cities in two countries, which means that I've generally had no idea who my primary care doctor is or was, only that I'd need to find one to give me a referral to get this wart on my foot removed.
 
-![Firetruck](firetruck.png)
+![Firetruck](/img/firetruck.png)
 
 Anyway, this season's Dr. Who told me not to worry about the blood. "It's probably hemorrhoids."
 
@@ -64,7 +64,7 @@ But that's it. Easy. I watched Stranger Things season 3 again during my bowel pr
 
 Okay, next, I woke up on September 9th. My appointment is around 2 PM. Normal day, right?
 
-![sf](sf.jpg)
+![sf](/img/sf.jpg)
 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">A strange, apocalyptic orange-red sky looms over the Bay Area. Here&#39;s what you need to know.<br>Read more: <a href="https://t.co/JxpYSnUPG9">https://t.co/JxpYSnUPG9</a> <a href="https://t.co/ZPOj4X3jRg">pic.twitter.com/ZPOj4X3jRg</a></p>&mdash; San Francisco Chronicle (@sfchronicle) <a href="https://twitter.com/sfchronicle/status/1303799596515172352?ref_src=twsrc%5Etfw">September 9, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
@@ -88,7 +88,7 @@ And so began one of the worst weeks of our lives.
 
 Let's talk about the odds for a moment.
 
-![odds](odds.png)
+![odds](/img/odds.png)
 
 We've already discussed my vigorous, proto-Batman level of health. And how I'm a fresh-faced, occasionally-bearded, 34 year old with the heart of a child and the strength of a chimpanzee (no, that's a [humanzee](https://en.wikipedia.org/wiki/Humanzee)).
 
@@ -124,7 +124,7 @@ Carly and I are in a daze for most of the next week. And so are our parents and 
 
 Much like the South Park lament "The Simpsons did it!", there's usually an [xkcd](https://xkcd.com/1048/) for whatever you're feeling or thinking:
 
-![emotions](https://imgs.xkcd.com/comics/emotion.png)
+![emotions](/img/https://imgs.xkcd.com/comics/emotion.png)
 
 As a wannabe stoic, I allow my negative visualization to run rampant. I'm thinking of the possibility that I've got only a few years (months?) left to live.
 
@@ -162,7 +162,7 @@ Carly and I have a plan. We're planners. We needed this. A bit of our haze is li
 
 We got married (eloped, both technically and social-distanced-ly) on Sept. 30th!
 
-![wedding](wedding.jpg)
+![wedding](/img/wedding.jpg)
 
 Look at those oblivious smiles. Wait -- we aren't oblivious, I have cancer. We just love eachother.
 
@@ -176,7 +176,7 @@ I don't have much to add about the surgery itself.  I was there. But I don't rem
 
 I did remember to bring a book, though:
 
-![book](musashi.jpg)
+![book](/img/musashi.jpg)
 
 And, then, after glimpsing my many-limbed robotic friend in the surgery room, it's lights out.
 
@@ -188,11 +188,11 @@ Sure, my guts feel like someone took a blender to them, but I'm in great spirits
 
 Side note that IVs are interesting. They're like open ports into your body, allowing the medical team to either remove or add fluids. I didn't expect that they'd just keep these ports open during your hospital stay, but they do. I guess that makes sense.
 
-![port](port.jpg)
+![port](/img/port.jpg)
 
 Another secret weapon of mine that aided in my recovery: this cute avocado buddy that my sister and her boyfriend sent me:
 
-![avo](avo.jpg)
+![avo](/img/avo.jpg)
 
 I'm squeezing this thing every time I'm jabbed with a needle (many, many times), using it as a pillow, and just loving it, cause it's so cute.
 
@@ -202,7 +202,7 @@ On Wednesday, after I've started farting and pooping again (great signs!), I'm s
 
 I'm home and moving slow and still feel a bunch of surgical pain in my tummy, but overall feel so happy about my progress. I have some cool scars, which I'm thinking about submitting to the [@secret_buttholes Instagram](https://www.instagram.com/secret_buttholes/?hl=en):
 
-![scars](scars.jpg)
+![scars](/img/scars.jpg)
 
 On Thursday, I get a call from my surgeon. The pathology is back early. There's no signs that the cancer spread past the colon walls. The lymph nodes don't show any signs of cancer in them. Which essentially means I had Stage 2 cancer. Per my doctors, there's no immediate need for chemotherapy.
 
@@ -230,7 +230,7 @@ My wife and my family are depending on me to stay healthy, and I'm going to do e
 
 It's now about a week and half out from my surgery. I'm doing better on the Bristol scale, but not quite back to normal yet.
 
-![walking](recovery.png)
+![walking](/img/recovery.png)
 
 Monday was my surgery. Tuesday didn't capture my walks, because I didn't have my phone on me. But I'm moving around again, and eager to get back to regularly-scheduled life.
 

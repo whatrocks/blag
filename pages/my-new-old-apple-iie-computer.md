@@ -44,11 +44,11 @@ I still turned on the computer and the monitor anyway, and was relieved to hear 
 
 By this point, it was high time to get on my bike and head into work (back when we still things like that). But I still made a quick pit-stop at a hardware store along the way, and somehow a physical store in the physical world still carried this little guy:
 
-![Monitor cable](monitorplug.jpeg)
+![Monitor cable](/img/monitorplug.jpeg)
 
 That night, after work, I turned it on. One beep and then:
 
-![boot](boot.jpeg)
+![boot](/img/boot.jpeg)
 
 "Isn't it beautiful?" I said to Carly. "And don't you just love how the `II` is shown as `//` slashes. The green, too, it's like something out of the Rebel Alliance."
 
@@ -62,9 +62,9 @@ But I'm a software engineer. I know how to Google. Soon, a `Ctrl-Reset` had me a
 
 I was ready for this.
 
-![yup](yup.jpeg)
+![yup](/img/yup.jpeg)
 
-![loop](loop.jpeg)
+![loop](/img/loop.jpeg)
 
 I didn't grow up coding in BASIC, but I'm a student of history. I certainly knew that it's a rite of passage to code up a little infinite loop whenever you see a BASIC prompt.
 
@@ -94,21 +94,21 @@ And it worked! I looked up an old program in an old Apple magazine online, and c
 
 Now that I've got a working, adorable Apple IIe, the first thing I decide to do is take it apart. Say what you will about the [new Mac Pro case design](https://www.apple.com/mac-pro/), but it's got nothing on this little hatch.
 
-![Apple IIe top down](topclosed.jpeg)
+![Apple IIe top down](/img/topclosed.jpeg)
 
-![lift](lift.jpeg)
+![lift](/img/lift.jpeg)
 
-![loaded](loaded.jpeg)
+![loaded](/img/loaded.jpeg)
 
 As you can see, I've hit a pretty big jackpot on the expansion card front. I'll walk through each card individually in a bit.
 
 Here's a bare-bones look at the motherboard after removing all the expansion cards.
 
-![Apple IIe top open](topdown.jpeg)
+![Apple IIe top open](/img/topdown.jpeg)
 
 And a close-up of the seven (7!) expansion slots, not including the extra one for adding more memory or 80-column mode.
 
-![Apple IIe slots](slots.jpeg)
+![Apple IIe slots](/img/slots.jpeg)
 
 This again reminds of the recent discussions on [Accidental Tech Podcast](https://atp.fm) and other podcasts about the new Mac Pro and its expansion slots. There was a lot of fun discussion about what John Siracusa was going to put into his long-awaited Mac Pro's expansion slots.
 
@@ -120,7 +120,7 @@ These expansion slots in Apple II computers CHANGED your computer. Transmogrifie
 
 Even the back of the Apple IIe shows the potential of this machine to be utterly transformed by each owner. These slots are yours for the shaping, dear computer user.
 
-![Back of Apple IIe](back.jpeg)
+![Back of Apple IIe](/img/back.jpeg)
 
 So, anyway, what the heck did I find inside my Apple IIe? Let's go through them one-by-one.
 
@@ -128,9 +128,9 @@ So, anyway, what the heck did I find inside my Apple IIe? Let's go through them 
 
 The [Extended 80-Column Text Card](https://en.wikipedia.org/wiki/Apple_80-Column_Text_Card) is quite literal: it gives you 80 columns of text instead of 40! Mine also provides extra RAM, bringing my Apple IIe's total RAM up to a whopping 128kB.
 
-![80 Column card](80col.jpeg)
+![80 Column card](/img/80col.jpeg)
 
-![col card](eightycol.jpeg)
+![col card](/img/eightycol.jpeg)
 
 How do you get into 80-column mode? Type `PR#3` into the BASIC prompt. It kinda looks worse on this monitor, but I can already see the value for more complex programs.
 
@@ -138,29 +138,29 @@ How do you get into 80-column mode? Type `PR#3` into the BASIC prompt. It kinda 
 
 I am probably most excited about this card. The [Super Serial Card II](https://en.wikipedia.org/wiki/Apple_II_serial_cards) can be used as a modem, a printer connection, and I have a pretty good suspicion that I'll be able to connect to it an Arduino or a Raspberry Pi for some fun.
 
-![Super Serial Card II](serial.jpeg)
+![Super Serial Card II](/img/serial.jpeg)
 
-![Super Serial Card II closeup](serial2.jpeg)
+![Super Serial Card II closeup](/img/serial2.jpeg)
 
 #### MicroModem IIe
 
 It's a modem! With an external port that looks like a telephone jack. Some wizards at work told me that I probably cannot just plug this into a modern phone line and expect it to work, though. They said that phone lines don't really work the same way anymore. This is something I'm not quite clear on yet, but I did manage to find the [Micromodel II Owner's Manual](https://apple2online.com/web_documents/hayes_micromodem_ii_owner__s_guide.pdf), so there could be some fun to be had here.
 
-![modem card](modem.jpeg)
+![modem card](/img/modem.jpeg)
 
-![modem card closeup](modem2.jpeg)
+![modem card closeup](/img/modem2.jpeg)
 
 #### DuoDisk and Disk II Card
 
 The [DuoDisk](https://en.wikipedia.org/wiki/Disk_II#DuoDisk) is a combination drive with two 5 1/4-inch floppy drive bays next to each other. It looks nice when you sandwich it between your Apple II and its monitor.
 
-![Apple IIe with floppy](floppymodule.jpeg)
+![Apple IIe with floppy](/img/floppymodule.jpeg)
 
 The card uses the same Disk II system famously designed by Woz. The [Wikipedia](https://en.wikipedia.org/wiki/Disk_II) entry on the Disk II is fascinating and well-worth the quick read. Apparently, the Apple II was getting a lot of flak for not including a disk drive, instead relying on external cassette tape storage. Woz's solution was the Disk II system, a simpler design than the industry standards, proved incredibly successful, both financially and functionally. Per Wikipedia:
 
 > Wozniak called the resultant Disk II system "my most incredible experience at Apple and the finest job I did", and credited it and VisiCalc with the Apple II's success.
 
-![floppy card](floppycard.jpeg)
+![floppy card](/img/floppycard.jpeg)
 
 If anyone's got any spare 5 1⁄4-inch floppies, let me know, because now I've got two whole slots for them (this is actually a serious inquiry, please [tweet](https://twitter.com/whatrocks) at me!).
 
@@ -182,7 +182,7 @@ This project is definitely my top priority, because it seems odd and useful. I'd
 
 These are smaller efforts, which means they'll likely linger for a while.
 
-![keyboard](keyboard.jpeg)
+![keyboard](/img/keyboard.jpeg)
 
 - Find replacement keys for my missing keys. I hope this doesn't mean buying an entire *other* Apple IIe. Or do I?
 - "Retro-brite" and deep clean - a la 8 Bit Guy - to make the case look brand new
@@ -220,15 +220,15 @@ That's why this Apple IIe is such an important machine to me. It's something I c
 
 And here a few more close-ups of the computer as a reward for making it this far.
 
-![Apple IIe Logo](apple.jpeg)
+![Apple IIe Logo](/img/apple.jpeg)
 
-![Motherboard](chips.jpeg)
+![Motherboard](/img/chips.jpeg)
 
-![chips](chips2.jpeg)
+![chips](/img/chips2.jpeg)
 
-![Double Apple Logo](doubleapple.jpeg)
+![Double Apple Logo](/img/doubleapple.jpeg)
 
-![memory](memory.jpeg)
+![memory](/img/memory.jpeg)
 
 #### Footnotes
 

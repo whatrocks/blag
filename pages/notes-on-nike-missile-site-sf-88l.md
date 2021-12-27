@@ -8,11 +8,11 @@ description: "nike missile"
 
 Many, many days ago, when humans could still roam the Earth for non-essential activities, our little crew visited Nike Missile Site SF-88L as another destination in our [sixth grade class-trip](/notes-on-map-and-compass-navigation) whistle-stop tour of nerdy places in the Bay Area.
 
-![site](/site.jpeg)
+![site](/img//site.jpeg)
 
 [Nike Missile Site SF 88-L](https://en.wikipedia.org/wiki/Nike_Missile_Site_SF-88) is just over the Golden Gate Bridge in the Marin headlands (essentially behind Hawk Hill), so it's a short drive or hike or bike ride away from the city.
 
-![radar](radar.jpeg)
+![radar](/img/radar.jpeg)
 
 Check out its [National Park Service website](https://www.nps.gov/goga/nike-missile-site.htm) for its operating hours and tour times. As you might expect, it looks like the site is closed for the time being. If you're lucky (and can plan ahead), try to go on the first Saturday of the month, when its staffed by volunteer veterans who worked at various Nike sites around the country. 
 
@@ -20,7 +20,7 @@ We got lucky, and the veterans were both hilarious and super interesting. Added 
 
 I brought along my little notebook and took copious notes while they were talking (which I've reproduced below). 
 
-![history](history.jpeg)
+![history](/img/history.jpeg)
 
 But first I wanted to share a favorite moment.
 
@@ -38,7 +38,7 @@ My hand burst into the air like Hermoine's.
 
 Apparently, George Lucas visited the Nike missile site before filming *A New Hope*, and he found some inspiration for this scene:
 
-![trash](trash.jpg)
+![trash](/img/trash.jpg)
 
 This experience now lends more credence to the apocryphal story of how those Oakland shipping container lift thingies became proto AT-ATs for a day-dreaming Lucas.
 
@@ -76,26 +76,26 @@ Anyway, as mentioned, here's what I scribbled down during the tour:
 
 And here are some of the better photos from my phone. If you like old control panels for old computers (like me), then this place is your kind of place!
 
-![buttons](buttons.jpeg)
+![buttons](/img/buttons.jpeg)
 
-![controls](controls.jpeg)
+![controls](/img/controls.jpeg)
 
-![dials](dials.jpeg)
+![dials](/img/dials.jpeg)
 
-![missile](missile.jpeg)
+![missile](/img/missile.jpeg)
 
-![parallax](parallax.jpeg)
+![parallax](/img/parallax.jpeg)
 
-![phone](phone.jpeg)
+![phone](/img/phone.jpeg)
 
-![plot](plot.jpeg)
+![plot](/img/plot.jpeg)
 
-![power](power.jpeg)
+![power](/img/power.jpeg)
 
-![secret](secret.jpeg)
+![secret](/img/secret.jpeg)
 
-![sign](sign.jpeg)
+![sign](/img/sign.jpeg)
 
-![squib](squib.jpeg)
+![squib](/img/squib.jpeg)
 
-![test](test.jpeg)
+![test](/img/test.jpeg)

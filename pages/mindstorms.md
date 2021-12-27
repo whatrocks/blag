@@ -12,11 +12,11 @@ I read [Mindstorms](https://www.amazon.com/gp/product/0465046746/ref=as_li_qf_as
 
 You may have heard of Papert's LOGO programming language before, which issues commands to an adorable round robot called a Turtle. Papert designed LOGO and the Turtle in the late 1960s to help children learn how to learn with computers. Here's a photo of Papert and his robotic operating buddy:
 
-![Papert](papert.jpg)
+![Papert](/img/papert.jpg)
 
 The popular Lego Mindstorms products are inspired by Papert and this book, along with many other cute robot learning toys for children, like [my good friend Cozmo the Robot](/teaching-my-robot-with-tensorflow) or the insanely cute Cubetto from [Primo Toys](https://www.primotoys.com):
 
-![Cubetto](cubetto.png)
+![Cubetto](/img/cubetto.png)
 
 When you conjure up an image of "learning with computers", you might think of a rote "quiz app" or "flashcard app" - but Papert suggests that it can be more -- more creative, more exploratory, more fun, and longer-lasting. I think about how I took Calc AB and Calc BC in high school, and I was pretty good at them, too, but I had no idea what I was really doing. I knew the mechanics, not the meaning. When Papert connects teaching the Turtle to move in a cirle and the principals of differential calculus -- measuring growth by movement at the growing tip -- all I can say is 🤯.
 

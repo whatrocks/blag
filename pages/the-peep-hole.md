@@ -10,7 +10,7 @@ Two weeks ago I woke up at 5 AM on the dot and had this entire creepy dream in m
 
 It being October and all, I thought I'd share this scary story...
 
-![yeasayer](yeasayer.png)
+![yeasayer](/img/yeasayer.png)
 
 *Image source: the [awesome Yeasayer music video](https://www.youtube.com/watch?v=JyBl5ZgnEr4) for their song Ambling Alp*
 
