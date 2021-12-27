@@ -8,7 +8,7 @@ description: "nike missile"
 
 Many, many days ago, when humans could still roam the Earth for non-essential activities, our little crew visited Nike Missile Site SF-88L as another destination in our [sixth grade class-trip](/notes-on-map-and-compass-navigation) whistle-stop tour of nerdy places in the Bay Area.
 
-![site](site.jpeg)
+![site](/site.jpeg)
 
 [Nike Missile Site SF 88-L](https://en.wikipedia.org/wiki/Nike_Missile_Site_SF-88) is just over the Golden Gate Bridge in the Marin headlands (essentially behind Hawk Hill), so it's a short drive or hike or bike ride away from the city.
 
