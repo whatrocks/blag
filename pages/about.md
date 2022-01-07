@@ -3,7 +3,7 @@ date: "2000-01-01"
 title: "About"
 category: "About"
 image: ""
-description: "about"
+description: "About Charlie Harrington"
 ---
 
 Hello! My name is Charlie Harrington. I'm a computer programmer and writer living in San Francisco, California. I grew up in Red Bank, New Jersey. Here's a grainy photo of me playing *Let It Be* on banjo:

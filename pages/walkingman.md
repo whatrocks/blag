@@ -2,7 +2,7 @@
 date: "2000-00-00"
 title: "Walkingman"
 category: ""
-description: ""
+description: "The Walkingman Collection"
 image: ""
 ---
 
