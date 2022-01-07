@@ -2,7 +2,7 @@
 date: "2000-00-00"
 title: "Books"
 category: ""
-description: ""
+description: "Books by Charlie Harrington"
 image: ""
 ---
 
