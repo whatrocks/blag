@@ -1,0 +1,19 @@
+name: Lighthouse Check
+on: [pull_request]
+
+jobs:
+  lighthouse-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - run: mkdir ${{ env.GITHUB_WORKSPACE }}/tmp/artifacts
+      - name: Run Lighthouse
+        uses: foo-software/lighthouse-check-action@master
+        with:
+          gitAuthor: ${{ github.actor }}
+          gitBranch: ${{ github.ref }}
+          gitHubAccessToken: ${{ secrets.GITHUB_TOKEN }}
+          outputDirectory: ${{ env.GITHUB_WORKSPACE }}/tmp/artifacts
+          urls: 'https://charlieharrington.com'
+          sha: ${{ github.sha }}
