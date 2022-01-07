@@ -10,7 +10,21 @@ Hello! My name is Charlie Harrington. I'm a computer programmer and writer livin
 
 ![charlie](/img/ch.jpg)
 
-I'm also in the middle of ~~writing~~ ~~editing~~ re-editing a novel about robots. If you like adventures and being a kid and summer reading and box fans, then this could be the book for you!
+### Projects
+
+#### Active
+
+* [Fahrenheit 52](https://f52.charlieharrington.com) - a weekly writing challenge for 2022 inspired by Ray Bradbury
+* [In The Troll Pit](https://ittp.charlieharrington.com) - livestream adventures in retro computing
+* [Writes With](https://writeswith.com) - nerdy interviews with writers about their tools
+
+I'm also ~~writing~~ ~~editing~~ re-editing a novel about robots. If you like adventures and being a kid and summer reading and box fans, then this could be the book for you!
+
+#### Pretty Much Inactive But Who Knows?
+
+* [Escaping Web](https://escapingweb.github.io) - a podcast with my friend [Oz](https://twitter.com/oznova_) about software engineers who've found their calling outside of routine web development
+* [Von Chomp](https://apps.apple.com/us/app/von-chomp/id1211087343?mt=8) - iOS "monster" tally counter app where counting tastes delicious
+* [Terminal Man](/relay) - weird songs that I make on flights using Logic or Garageband
 
 ### Elsewhere on the Internet
 
