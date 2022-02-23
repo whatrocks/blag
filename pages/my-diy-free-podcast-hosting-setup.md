@@ -111,21 +111,7 @@ Head on over to localhost:3500:
 
 Looking good. Let's first update the home page. Change your `pages/index.md` file to this: 
 
-```markdown
----
-title: In The Troll Pit
----
-# In The Troll Pit
-
-A podcast about retro computers and the people who love them.
-
-Episodes:
-<% for (const page of pages.filter(p => p.title !== 'In The Troll Pit')) { _%>
-* [<%= page.title || pathTo(page) %>](<%= pathTo(page) %>)
-<% } _%>
-
-Keep tinkering!
-```
+<script src="https://gist.github.com/whatrocks/3a1a96aecd85dccc2ddb01b1376a410f.js"></script>
 
 Nothing's showing up in our episode list anymore (cause I filtered out the homepage), so let's add our episode pages. We'll need a Markdown file for each, and a folder to hold them:
 
