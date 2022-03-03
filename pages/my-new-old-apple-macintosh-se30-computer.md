@@ -186,7 +186,7 @@ Send me your ideas or old floppies, please.
 
 This is my personal computer. My data lives here. Not on the internet. When I turn this on and play Tetris, I can see my friend Steve's high score from last week on the leader board, when he visited me and I forced him to play this thing. 
 
-The Mac SE/30 feels "personal" in a way that my swappable, upgradable, cloud-backed-up phone and modern laptop just don't. They're [dumb terminals](/smart-phone-dumb-terminal), but this is MY smart computer.
+The Mac SE/30 feels "personal" in a way that my swappable, cloud-backed-up phone and modern laptop just don't. They're [dumb terminals](/smart-phone-dumb-terminal), but this is MY smart computer.
 
 ## A final coda
 
