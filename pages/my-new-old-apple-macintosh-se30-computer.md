@@ -40,7 +40,7 @@ Next big ticking timb-bomb are the electrolytic capacitors, which are just gonna
 
 Guess what? This thing's got no sound.
 
-After that, I was afraid to turn on my precious. If you recall my adventures with [the Apple IIe I found in the trash](my-new-old-apple-iie-computer), I'm no stranger to capacitor issues.
+After that, I was afraid to turn on my precious. If you recall my adventures with [the Apple IIe I found in the trash](/my-new-old-apple-iie-computer), I'm no stranger to capacitor issues.
 
 ## Knowing when to ask for help
 
