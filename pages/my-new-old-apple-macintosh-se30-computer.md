@@ -36,7 +36,7 @@ Long story short, I got the dang thing, and it works! But I was also scared, bec
 
 In fact, I did a lil' research, and found out that these compact Macs got problems. There's a thing inside called a PRAM battery that looks like a mini D-cell and it helps keep things like the correct date going, and it's basically doomed to explode. Sages tell us that it's an absolute must to remove this battery in the modern era, or you're gonna have a bad time.
 
-Next big ticking timb-bomb are the electrolytic capacitors, which are just gonna do pretty much the same thing as the battery: get all weird and puffy and oozy and start leaking everywhere on the circuit board. One of the tell-tale signs of leaking electrolytic fluid in compact Macs is when the sound stops working.
+Next big ticking time-bomb are the electrolytic capacitors, which are just gonna do pretty much the same thing as the battery: get all weird and puffy and oozy and start leaking everywhere on the circuit board. One of the tell-tale signs of leaking electrolytic fluid in compact Macs is when the sound stops working.
 
 Guess what? This thing's got no sound.
 
@@ -52,11 +52,11 @@ During my extensive vision quest for this machine, I had many conversations with
 
 I hit the jackpot with my first reach out.
 
-Soon, I delivered him my machine. Almost immediately, I started receiving regular text updates about my Mac: before-and-after cleaning photos, absurb RAM upgrade options, etc. He also sent along pictures throughout the restoration, which were like little treats for me. I knew my Mac was in capable, caring hands. When I finally picked it up two weeks later, my little cutie had changed, a lot.
+Soon, I delivered him my machine. Almost immediately, I started receiving regular text updates about my Mac: before-and-after cleaning photos, absurd RAM upgrade options, etc. He also sent along pictures throughout the restoration, which were like little treats for me. I knew my Mac was in capable, caring hands. When I finally picked it up two weeks later, my little cutie had changed, a lot.
 
 ## Why this computer is super cool
 
-In addition to giving it a nice once-over (no retrobrite, just some wiping), removing the PRAM battery, swapping out the capacitors, my "dealer" also offered to upgrade my machine's RAM (which started out as a measly 1MB). Going to 4 MB seemed like a good idea, but he also offered going further... to the absolute max possible in this machine: a whopping 128MB, which would also require an upgraded ROM chip.
+In addition to giving it a nice once-over (no retrobrite, just some wiping), removing the PRAM battery, swapping out the capacitors, my "dealer" also offered to upgrade my machine's RAM (which started out as a measly 1MB). Going to 4 MB seemed like a good idea (and the max stock RAM was 8 MB), but he also offered going further... to the absolute max possible in this machine: a whopping 128MB, which would also require an upgraded ROM chip.
 
 "Go for it," I said.
 
@@ -104,11 +104,11 @@ Here's our baby with its upgraded ROM and RAM:
 
 ActionRetro has a [great YouTube video](https://www.youtube.com/watch?v=Sann_7dwMDk) describing the same RAM/ROM setup. Honestly, I have no idea how to even leverage this RAM, but I had to have it.
 
-Also, my "computer guy" replaced the existing hard disk with a [SCSI2SD](http://www.codesrc.com/mediawiki/index.php/SCSI2SD), installing System 7 and even System 8 along with the original System 6 on the SD card. There are also other options for this like [BlueSCSI](https://scsi.blue/) or the [FloppyEmu](https://www.bigmessowires.com/floppy-emu/). My guy was familiar with SCSI2SD, so we went with this approach. I'm happy. The only thing I'm slightly concerned about is what happens if the SD card just randomly dies (like has happened on several of my Raspberry Pi's), cause I'd have to open up the case to fix it, I think. I'm thinking that I might grab a FloppyEmu as a back-up.
+Also, my "computer guy" replaced the existing hard disk with a [SCSI2SD](http://www.codesrc.com/mediawiki/index.php/SCSI2SD), installing System 7 and even Mac OS 8.1 along with the original System 6 on the SD card. There are also other options for this like [BlueSCSI](https://scsi.blue/) or the [FloppyEmu](https://www.bigmessowires.com/floppy-emu/). My guy was familiar with SCSI2SD, so we went with this approach. I'm happy. The only thing I'm slightly concerned about is what happens if the SD card just randomly dies (like has happened on several of my Raspberry Pi's), cause I'd have to open up the case to fix it, I think. I'm thinking that I might grab a FloppyEmu as a back-up.
 
-Switching between the OS versions is super easy. There's a shortcut to called System Picker - and I just pick a system and then restart and boom, I'm in the selected OS. System 8 takes a bit longer to load than the others, but that's probably cause it was never supposed to work on this machine in the first place, which is cool.
+Switching between the OS versions is super easy. There's a shortcut to called System Picker - and I just pick a system and then restart and boom, I'm in the selected OS. Mac OS 8.1 takes a bit longer to load than the others, but that's probably cause it was never supposed to work on this machine in the first place, which is cool.
 
-Finally, my guy left me a little Welcome note (written in SimpleText) on the desktop with some tips, like how to set the correct date in the Control Panel now that the battery's gone, as well as how to enable 24-bit addressing to make use of the 128 MB RAM.
+Finally, my guy left me a little Welcome note (written in SimpleText) on the desktop with some tips, like how to set the correct date in the Control Panel now that the battery's gone, as well as how to enable 32-bit addressing to make use of the 128 MB RAM (as 24-bit addressing has a 16 MB limit).
 
 This was all-around fantastic customer service, facilitated via shared nerdy interests on the Internet.
 
@@ -173,7 +173,7 @@ Everyone's favorite screen saver application! And I get it. I've already spent o
 Here's my current ideas list for Mac SE/30 projects:
 
 * [ ] Figure out how to get new software. Do I really need an early 2000s "bridge" Mac to write floppies?
-* [ ] Get on the internet. System 8 has Netscape and an early Microsoft browser, but I need some sort of ethernet card, I think. Or use a Raspberry Pi as a bridge?
+* [ ] Get on the internet. Mac OS 8.1 has Netscape and an early Microsoft browser, but I need some sort of ethernet card, I think. Or use a Raspberry Pi as a bridge?
 * [ ] Get a color video card (rare and expensive) and set up dual monitor
 * [ ] Write Apple-Script to automate turning on 32-bit addressing automatically and setting the correct date every time I turn on the computer
 * [ ] Code a game and publish it on GitHub / archive.org for other weirdos like me
