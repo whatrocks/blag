@@ -38,7 +38,7 @@
               id="library-input"
               class="librarySelect"
             >
-              select author, title, genre, date_read, review from library where year_read in (2022, 2021);
+            select author, title, cover_url, amazon_link from library where genre in ('Science Fiction', 'Fantasy') order by year_read desc;
             </p>
             <div id="library-button-row">
               <div class="btn" id="library-button">Book Search</div>
@@ -171,7 +171,7 @@
         const library = document.getElementById("the-library");
         const QUERIES = [
           "select * from library where is_favorite = true order by year_read desc;",
-          "select author, title, cover_url, amazon_link from library where genre = 'Science Fiction';",
+          "select author, title, cover_url, amazon_link, review from library where genre = 'Middle Grade' order by year_read desc;",
         ]
         if (library) {
           const libraryButton = document.getElementById("library-button");
