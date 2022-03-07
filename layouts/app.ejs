@@ -40,7 +40,10 @@
             >
               select author, title, genre, date_read, review from library where year_read in (2022, 2021);
             </p>
-            <button id="library-button">Search Charlie's books</button>
+            <div id="library-button-row">
+              <div class="btn" id="library-button">Search Charlie's books</div>
+              <div class="btn" id="library-lazy">I'm Feeling Lazy</div>
+            </div>            
           </form>
           <div id="booklist"></div>
         </div>
@@ -128,6 +131,7 @@
           cover.width = "165";
           bookElement.appendChild(cover);
           Object.keys(book).forEach(key=> {
+            if (key === "cover_url") return;
             const p = document.createElement("p");
             p.innerText = `${key}: ${book[key]}`;
              bookElement.appendChild(p);
@@ -153,18 +157,28 @@
         }
         // Only do stuff on the library page!
         const library = document.getElementById("the-library");
+        const QUERIES = [
+          "select * from library where is_favorite = true order by year_read desc;",
+          "select author, title, amazon_link from library where genre = 'Science Fiction';",
+        ]
         if (library) {
-          const libraryForm = document.getElementById("library-form");
-          libraryForm.addEventListener('submit', e => {
+          const libraryButton = document.getElementById("library-button");
+          libraryButton.addEventListener('click', e => {
             e.preventDefault();
-            submitQuery();            
+            const queryInput = document.getElementById("library-input");
+            const query = queryInput.innerText.trim();
+            fetchBooks(query, printBooks);
+          });
+          const lazyButton = document.getElementById("library-lazy");
+          lazyButton.addEventListener('click', e => {
+            e.preventDefault();
+            const queryInput = document.getElementById("library-input");
+            const randomIdx = Math.floor(Math.random() * QUERIES.length);
+            queryInput.innerText = QUERIES[randomIdx];
+            const query = queryInput.innerText.trim();
+            fetchBooks(query, printBooks);
           });
         }
-        function submitQuery() {
-          const queryInput = document.getElementById("library-input");
-          const query = queryInput.innerText.trim();
-          fetchBooks(query, printBooks)
-        }        
       });
     </script>
   </body>
