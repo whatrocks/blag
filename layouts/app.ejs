@@ -175,14 +175,28 @@
         const QUERIES = [
           "select * from library where is_favorite = true order by year_read desc;",
           "select author, title, cover_url, amazon_link, review from library where genre = 'Middle Grade' order by year_read desc;",
-          "select count(*), year_read from library group by 2;"
+          "select count(*), year_read from library group by 2;",
+          "select title, author, cover_url, amazon_link from library where topic = 'Ancient Rome'",
         ]
         if (library) {
+          // get existing query
+          const params = new Proxy(new URLSearchParams(window.location.search), {
+            get: (searchParams, prop) => searchParams.get(prop),
+          });
+          if (params.sql) {
+            fetchBooks(params.sql, printBooks);
+          }
+           
+          // to set new query 
+          const newParams = new URLSearchParams();
+          
           const libraryButton = document.getElementById("library-button");
           libraryButton.addEventListener('click', e => {
             e.preventDefault();
             const queryInput = document.getElementById("library-input");
             const query = queryInput.innerText.trim();
+            newParams.set("sql", query)
+            window.history.replaceState({}, '', `${location.pathname}?${newParams}`)
             fetchBooks(query, printBooks);
           });
           const lazyButton = document.getElementById("library-lazy");
@@ -192,6 +206,8 @@
             const randomIdx = Math.floor(Math.random() * QUERIES.length);
             queryInput.innerText = QUERIES[randomIdx];
             const query = queryInput.innerText.trim();
+            newParams.set("sql", query)
+            window.history.replaceState({}, '', `${location.pathname}?${newParams}`)
             fetchBooks(query, printBooks);
           });
         }
