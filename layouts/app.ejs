@@ -32,7 +32,7 @@
       <%if (title === "Library") { %>
         <div id="the-library">
           <h3>Enter a SQL query to search my book list:</h3>
-          <form id="library-form">
+          <div id="library-form">
             <p
               contentEditable
               id="library-input"
@@ -41,11 +41,20 @@
               select author, title, genre, date_read, review from library where year_read in (2022, 2021);
             </p>
             <div id="library-button-row">
-              <div class="btn" id="library-button">Search Charlie's books</div>
+              <div class="btn" id="library-button">Book Search</div>
               <div class="btn" id="library-lazy">I'm Feeling Lazy</div>
             </div>            
-          </form>
+          </div>
           <div id="booklist"></div>
+          <p>
+            This list of books I love (because I basically love every book I read)
+        uses affiliate links to Amazon. If you purchase an item through one of
+        these links here or elsewhere on my site, I receive a small kickback
+        (often around 4-5%). Here's the full deal: Charlie Harrington is a
+        participant in the Amazon Services LLC Associates Program, an affiliate
+        advertising program designed to provide a means for sites to earn
+        advertising fees by advertising and linking to Amazon.com.
+          </p>
         </div>
       <% } %>
       <%- body %>
