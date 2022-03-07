@@ -123,7 +123,6 @@
           const bookElement = document.createElement("div");
           bookElement.classList = ["card"];
           Object.keys(book).forEach(key=> {
-            if (!book[key].length) return;
             switch(key) {
               case 'cover_url':
                 const cover = document.createElement("img");
@@ -144,7 +143,11 @@
                 break;
               default:
                 const p = document.createElement("p");
-                p.innerText = `${key}: ${book[key]}`;
+                if (key.startsWith("COUNT")) {
+                  p.innerText = `Count: ${book[key]}`
+                } else {
+                  p.innerText = `${key}: ${book[key]}`;
+                }
                 bookElement.appendChild(p);              
             }            
           });
@@ -172,6 +175,7 @@
         const QUERIES = [
           "select * from library where is_favorite = true order by year_read desc;",
           "select author, title, cover_url, amazon_link, review from library where genre = 'Middle Grade' order by year_read desc;",
+          "select count(*), year_read from library group by 2;"
         ]
         if (library) {
           const libraryButton = document.getElementById("library-button");
