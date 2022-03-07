@@ -196,3 +196,48 @@ img {
   font-size: 14px;
   line-height: 27.6px;
 }
+
+/* library */
+#the-library {
+  width: 100%;
+}
+
+.librarySelect {
+  padding: 5px 10px;
+  width: 100%;
+  font-size: 22px;
+  border: 4px solid rgb(33, 93, 211);
+  border-radius: 4px;
+  /* margin-right: 20px; */
+}
+
+#library-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  text-align: center;
+  background-color: white;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem;
+  padding: 1rem;
+  min-width: 200px;
+  min-height: 430px;
+}
+
+#library-button {
+  width: 100%;
+  height: 60px;
+  font-size: 26px;
+  font-weight: 600;
+  background-color: rgb(33, 93, 211);
+  color: white;
+}

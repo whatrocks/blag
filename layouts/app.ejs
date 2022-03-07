@@ -29,6 +29,22 @@
         <h3 class="subtitle"><%= date %></h3>
         <div class="borderLine"></div>
       <% } %>
+      <%if (title === "Library") { %>
+        <div id="the-library">
+          <h3>Enter a SQL query to search my book list:</h3>
+          <form id="library-form">
+            <p
+              contentEditable
+              id="library-input"
+              class="librarySelect"
+            >
+              select author, title, genre, date_read, review from library where year_read in (2022, 2021);
+            </p>
+            <button id="library-button">Search Charlie's books</button>
+          </form>
+          <div id="booklist"></div>
+        </div>
+      <% } %>
       <%- body %>
     </div>
     <footer>
@@ -80,5 +96,76 @@
     </footer>
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
     <script>hljs.highlightAll();</script>
+    <script>
+      // Charlie's library script
+      document.addEventListener("DOMContentLoaded", function() {
+        function printBooks(books) {
+          const booklist = document.getElementById("booklist");
+          booklist.innerHTML = ''
+          for (let book of books) {
+            if (book["cover_url"] && book["title"]) {
+              prettyPrintBook(book);
+            } else {
+              const bookElement = document.createElement("div");
+              bookElement.classList["card"];
+              bookElement.innerText = Object.keys(book).reduce((accum, next)=> {
+                return `${next}: ${book[next]}, ${accum}`;
+              },"")
+              booklist.appendChild(bookElement);
+              booklist.appendChild(document.createElement("hr"))
+            }
+          }
+        }
+        function prettyPrintBook(book) {
+          const booklist = document.getElementById("booklist");
+          console.log("prtty!")
+          const bookElement = document.createElement("div");
+          bookElement.classList = ["card"];
+          const cover = document.createElement("img");
+          cover.alt = `${book.title}`
+          cover.src = `${book.cover_url}`;
+          cover.height = "250"
+          cover.width = "165";
+          bookElement.appendChild(cover);
+          Object.keys(book).forEach(key=> {
+            const p = document.createElement("p");
+            p.innerText = `${key}: ${book[key]}`;
+             bookElement.appendChild(p);
+          });
+          booklist.appendChild(bookElement);
+        }
+        function fetchBooks(query, cb) {
+            const xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+              if (xmlhttp.readyState === XMLHttpRequest.DONE) {
+                const status = xmlhttp.status;
+                if (status === 0 || (status >= 200 && status < 400)) {
+                    const results = JSON.parse(xmlhttp.responseText)
+                    cb(results)
+                } else {
+                    const booklist = document.getElementById("booklist");
+                    booklist.innerHTML = "That didn't work";
+                }
+              }
+            }
+            xmlhttp.open("POST", "https://roapi-library.whatrocks.repl.co/api/sql", true);
+            xmlhttp.send(query);
+        }
+        // Only do stuff on the library page!
+        const library = document.getElementById("the-library");
+        if (library) {
+          const libraryForm = document.getElementById("library-form");
+          libraryForm.addEventListener('submit', e => {
+            e.preventDefault();
+            submitQuery();            
+          });
+        }
+        function submitQuery() {
+          const queryInput = document.getElementById("library-input");
+          const query = queryInput.innerText.trim();
+          fetchBooks(query, printBooks)
+        }        
+      });
+    </script>
   </body>
 </html>
