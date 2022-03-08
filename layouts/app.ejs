@@ -31,7 +31,10 @@
       <% } %>
       <%if (title === "Library") { %>
         <div id="the-library">
-          <h3>Enter a SQL query to search my book list:</h3>
+          <div id="library-instructions">
+            <h3 id="library-title">Enter a SQL query to search my book list:</h3>
+            <span id="library-schema">&nbsp;&nbsp;Show schema</span>
+          </div>
           <div id="library-form">
             <p
               contentEditable
@@ -111,13 +114,32 @@
     <script>
       // Charlie's library script
       document.addEventListener("DOMContentLoaded", function() {
+
+        const BASE_URL = 'https://roapi-library.whatrocks.repl.co/api/';
+
         function printBooks(books) {
           const booklist = document.getElementById("booklist");
           booklist.innerHTML = ''
-          for (let book of books) {
+          if (Array.isArray(books)) {
+            for (let book of books) {
               prettyPrintBook(book);
+            }
+          } else {
+            for (let field of books.library.fields) {
+              printSchema(field)
+            }             
           }
         }
+        function printSchema(field) {
+          const booklist = document.getElementById("booklist");
+          const bookElement = document.createElement("div");
+          bookElement.classList = ["card"];
+          const p = document.createElement("p");
+          p.innerText = `${field.name}: ${field.data_type}`;
+          bookElement.appendChild(p);
+          booklist.appendChild(bookElement);
+        }
+
         function prettyPrintBook(book) {
           const booklist = document.getElementById("booklist");
           const bookElement = document.createElement("div");
@@ -153,7 +175,7 @@
           });
           booklist.appendChild(bookElement);
         }
-        function fetchBooks(query, cb) {
+        function fetchBooks(query, cb, query_type = 'sql') {
             const xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function() {
               if (xmlhttp.readyState === XMLHttpRequest.DONE) {
@@ -167,8 +189,9 @@
                 }
               }
             }
-            xmlhttp.open("POST", "https://roapi-library.whatrocks.repl.co/api/sql", true);
-            xmlhttp.send(query);
+            const http_verb = query_type === "sql" ? 'POST' : 'GET';
+              xmlhttp.open(http_verb, `${BASE_URL}${query_type}`, true);
+              xmlhttp.send(query); 
         }
         // Only do stuff on the library page!
         const library = document.getElementById("the-library");
@@ -209,6 +232,10 @@
             newParams.set("sql", query)
             window.history.replaceState({}, '', `${location.pathname}?${newParams}`)
             fetchBooks(query, printBooks);
+          });
+          const schemaButton = document.getElementById("library-schema");
+          schemaButton.addEventListener('click', e => { 
+            fetchBooks('', printBooks, 'schema');
           });
         }
       });
