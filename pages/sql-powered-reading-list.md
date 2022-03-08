@@ -1,7 +1,7 @@
 ---
-date: "2022-03-06"
+date: "2022-03-08"
 title: "SQL-Powered Reading List"
-category: "design"
+category: "computers"
 description: "roapi replit book recommendations reading list"
 image: "sql-reading-list/booklist.png"
 ---
