@@ -28,4 +28,6 @@ On top of this, I also set up my git config and copied over some of [my dotfiles
 
 I'm ready to do some C, on the go!
 
+My only gripe, at this point, is the lack of support for alphanumeric key-repeat in iSH and Termius. Very odd, and makes vim navigation much harder.
+
 Now, with the exception of Procreate, none of this stuff is better than having a real-deal laptop, but it's pretty cool how close we can get to a decent dev environment on an iPad. And it's great for watching stuff, too, but you already knew that.
