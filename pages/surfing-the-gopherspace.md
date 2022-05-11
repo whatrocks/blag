@@ -55,7 +55,7 @@ Looks like something out of *War Games*, which makes me like this protocol very 
 
 As you may have guessed, Gopher did not win the war with HTTP. Wikipedia gives us a few supporting statements for this conclusion that I'd like to jam into my 5 paragraph essay.
 1. U of Minn tried to charge for their Gopher server implementation for a while, before finally open sourcing it (1993 until 2000)
-2. The Mosaic browser could act as a Gopher client -- in addition to its main purpose of being a web browser
+2. The [Mosaic web browser](https://en.wikipedia.org/wiki/Mosaic_(web_browser)) could act as a Gopher client -- in addition to its main purpose of being a web browser
 3. Gopher is just more rigid than freewheelin' HTML
 
 Also, there's probably more reasons, including that it's not supes secure, being a plaintext protocol and all.
