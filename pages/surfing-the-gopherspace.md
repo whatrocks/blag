@@ -141,7 +141,7 @@ inav:	fake	(NULL)	0
 
 Woot! We're finally gophering over here. I'm not sure what these "fake" and "NULL"s are all about. Something for later. You may also note that the port is `4444` which I arbitrarily picked (this is another thing you'll want to adjust in your config file), and the host name will be the IP of your Raspberry Pi.
 
-Let's try to fetch one our stories next.
+Let's try to fetch one of our stories next.
 
 ```
 curl gopher://charliesraspberrypi:4444/1/stories/plastic-man-on-the-moon.txt
