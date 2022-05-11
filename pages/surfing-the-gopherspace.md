@@ -34,7 +34,7 @@ Your favorite network - the Internet - has its own set of protocols that orchest
 
 But the Web -- and its Hypertext Transfer Protocol -- wasn't always top dog for sharing text on the Internet. There were rivals. Competitors. *Gophers.*
 
-I'm no historian (despite being a history major -- how exactly does that work, anyway?), my folk-understanding-slash-Wikipedia-reading tells me this: while Tim Berners-Lee was inventing HTTP and the Web on a NeXT cube inside of a particle accelerator, a bunch of University of Michigan (go Golden Gophers!) students and their professor were working on something they, of course, called the Gopher protocol.
+I'm no historian (despite being a history major -- how exactly does that work, anyway?), my folk-understanding-slash-Wikipedia-reading tells me this: while Tim Berners-Lee was inventing HTTP and the Web on a NeXT cube inside of a particle accelerator, a bunch of University of Minnesota (go Golden Gophers!) students and their professor were working on something they, of course, called the Gopher protocol.
 
 Their RFC ([RFC 1436](https://datatracker.ietf.org/doc/html/rfc1436)) is worth a skim. Gopher is a plaintext protocol well-suited for sharing text documents in a file system-like hierarchy - a `distributed document delivery system`, in their own words. 
 
