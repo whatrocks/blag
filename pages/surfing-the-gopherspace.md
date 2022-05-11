@@ -2,7 +2,7 @@
 date: "2022-05-10"
 title: "Surfing the Gopherspace"
 category: "computers"
-description: "gopherspace gopher gopherspace pygopherd protocol www http internet"
+description: "gopherspace gopher gopherhole pygopherd protocol www http internet"
 image: "gopher/caddyshack.jpg"
 ---
 
