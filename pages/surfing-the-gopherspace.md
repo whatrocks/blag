@@ -116,7 +116,7 @@ You should see this Gopherspace pop up in the Replit browser window! Here's mine
 <iframe frameborder="0" width="100%" height="500px" src="https://gopherhole.whatrocks.repl.co"></iframe>
 
 
-Very cool! Go ahead, click stuff. You can navigate to and read my story about an action figure on the Moon. 
+Very cool! Go ahead, click stuff. You can navigate to and read [my story about an action figure on the Moon](https://f52.charlieharrington.com/stories/plastic-man-on-the-moon/).
 
 However, it looks like we're just interacting with a Web interface rather than accessing my gopherspace via the actual gopher protocol. That's no good. It does give a link to "view with gopher", but this doesn't work, even when you try it with curl. I suspect there's something blocking this on the Replit side - I've tried adjusting the ports many times, but haven't been able to figure this out. Any Replit folks out there who might have an idea, let me know.
 
