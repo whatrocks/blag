@@ -106,6 +106,6 @@ Never!
 
 Now I'm adding [Tailscale](https://tailscale.com) so that I can officially disconnect the keyboard and mouse and still be able to easy SSH into this wall computer. And I think I broke something else running `sudo apt-get update`, cause it's not booting up right now. Sigh...
 
-Also, this whole caffeine thing is making me realize that I don't want to read anything before coffee, so I think automating morning coffee has got to be the next step.
+Also, this whole caffeine thing makes me realize that I don't want to read anything before coffee, so I think automating morning coffee has got to be the next step.
 
 I hope this little project reinvigorates your faith in the EO1, noble carriers of this wonderous device. Here's to even more people starting computer companies!
