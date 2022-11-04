@@ -27,7 +27,7 @@ I'm also ~~writing~~ ~~editing~~ re-editing a middle grade novel about robots an
 
 * [Farcaster](https://searchcaster.xyz/search?username=whatrocks)
 * [Twitter](https://twitter.com/whatrocks)
-* [YouTube](https://www.youtube.com/channel/UCqk3WloxX7Ya5bYSqYNA2Lg)
+* [YouTube](https://www.youtube.com/@whatrocks)
 * [Twitch](https://twitch.tv/what_rocks)
 * [GitHub](https://github.com/whatrocks)
 * [Replit](https://replit.com/@whatrocks)
