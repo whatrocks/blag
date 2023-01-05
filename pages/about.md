@@ -25,10 +25,11 @@ I'm also ~~writing~~ ~~editing~~ re-editing a middle grade novel about robots an
 
 ### Elsewhere on the Internet
 
+* [YouTube](https://www.youtube.com/@whatrocks)
 * [Farcaster](https://searchcaster.xyz/search?username=whatrocks)
 * [Mastodon](https://mastodon.social/@whatrocks)
 * [Twitter](https://twitter.com/whatrocks)
-* [YouTube](https://www.youtube.com/@whatrocks)
+* [Substack](https://whatrocks.substack.com)
 * [Twitch](https://twitch.tv/what_rocks)
 * [GitHub](https://github.com/whatrocks)
 * [Replit](https://replit.com/@whatrocks)
