@@ -6,17 +6,20 @@ image: ""
 description: "About Charlie Harrington"
 ---
 
-Hello! I'm Charlie Harrington. I'm a programmer and writer in California.
+Hello! I'm Charlie, a programmer and writer in California. I'm writing a middle grade novel about robots. If you'd like to follow along, join my newsletter below!
 
-### Active Projects
+### Selected Short Stories
 
-* [SQLcaster](https://sqlcaster.xyz) - explore the [Farcaster](https://farcaster.xyz) network via SQL (thanks to [ROAPI](https://roapi.github.io/docs))
-* [Writes With](https://writeswith.com) - nerdy interviews with writers about their tools
+* [Nibbles](https://f52.charlieharrington.com/stories/nibbles/)
+* [The Hive](https://f52.charlieharrington.com/stories/the-hive/)
+* [The Outer Beach](https://f52.charlieharrington.com/stories/the-outer-beach/)
+* [Offboarding](https://f52.charlieharrington.com/stories/offboarding/)
+* [Flynn's Arrow](https://f52.charlieharrington.com/stories/flynns-arrow/)
 
-I'm also ~~writing~~ ~~editing~~ re-editing a middle grade novel about robots and being a kid.
+### Projects
 
-### Pretty Much Inactive Projects But Who Knows?
-
+* [SQLcaster](https://sqlcaster.xyz) - explore the [Farcaster](https://farcaster.xyz) social protocol via SQL (thanks to [ROAPI](https://roapi.github.io/docs))
+* [Writes With](https://writeswith.com) - nerdy interviews with writers about their writing tools
 * [Fahrenheit 52](https://f52.charlieharrington.com) - a weekly writing challenge for 2022 inspired by Ray Bradbury
 * [In The Troll Pit](https://ittp.charlieharrington.com) - livestream adventures in retro computing
 * [Escaping Web](https://escapingweb.github.io) - a podcast with [Oz](https://twitter.com/oznova_) about software engineering and learning
@@ -25,10 +28,11 @@ I'm also ~~writing~~ ~~editing~~ re-editing a middle grade novel about robots an
 
 ### Elsewhere on the Internet
 
-* [Farcaster](https://searchcaster.xyz/search?username=whatrocks)
+* [YouTube](https://www.youtube.com/@whatrocks)
+* [Farcaster](https://fcast.me/whatrocks)
 * [Mastodon](https://mastodon.social/@whatrocks)
 * [Twitter](https://twitter.com/whatrocks)
-* [YouTube](https://www.youtube.com/@whatrocks)
+* [Substack](https://whatrocks.substack.com)
 * [Twitch](https://twitch.tv/what_rocks)
 * [GitHub](https://github.com/whatrocks)
 * [Replit](https://replit.com/@whatrocks)
@@ -37,6 +41,4 @@ I'm also ~~writing~~ ~~editing~~ re-editing a middle grade novel about robots an
 * [Read.cv](https://read.cv/whatrocks)
 * [LinkedIn](https://www.linkedin.com/in/charlieharrington)
 
-Thank you for visiting my site.
-
--- *The Webmaster*
+Thanks for visiting my site. See you later!
