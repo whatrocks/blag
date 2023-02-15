@@ -29,7 +29,7 @@ Hello! I'm Charlie, a programmer and writer in California. I'm writing a middle 
 ### Elsewhere on the Internet
 
 * [YouTube](https://www.youtube.com/@whatrocks)
-* [Farcaster](https://fcast.me/whatrocks)
+* [Farcaster](https://warpcast.com/whatrocks)
 * [Mastodon](https://mastodon.social/@whatrocks)
 * [Twitter](https://twitter.com/whatrocks)
 * [Substack](https://whatrocks.substack.com)
