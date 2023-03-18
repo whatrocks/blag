@@ -18,11 +18,12 @@ Hello! I'm Charlie, a programmer and writer in California. I'm writing a middle 
 
 ### Projects
 
+* [The CS Primer Show](https://www.youtube.com/@cs_primer) - a YouTube podcast with [Oz](https://twitter.com/oznova_) about computer science and computer science education
 * [SQLcaster](https://sqlcaster.xyz) - explore the [Farcaster](https://farcaster.xyz) social protocol via SQL (thanks to [ROAPI](https://roapi.github.io/docs))
 * [Writes With](https://writeswith.com) - nerdy interviews with writers about their writing tools
 * [Fahrenheit 52](https://f52.charlieharrington.com) - a weekly writing challenge for 2022 inspired by Ray Bradbury
 * [In The Troll Pit](https://ittp.charlieharrington.com) - livestream adventures in retro computing
-* [Escaping Web](https://escapingweb.github.io) - a podcast with [Oz](https://twitter.com/oznova_) about software engineering and learning
+* [Escaping Web](https://escapingweb.github.io) - a six-episode podcast with [Oz](https://twitter.com/oznova_) about software engineering and learning
 * [Von Chomp](https://apps.apple.com/us/app/von-chomp/id1211087343?mt=8) - iOS "monster" tally counter app where counting tastes delicious
 * [Terminal Man](/relay) - weird songs that I make on flights using Logic or Garageband
 
