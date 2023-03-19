@@ -6,7 +6,7 @@ description: "The CS Primer Show is a podcast about computer science and compute
 image: "csps.png"
 ---
 
-Straight from the Nand Cave and also somewhere else comes [The CS Primer Show](https://www.youtube.com/@cs_primer). 
+Straight from the Nand Cave and also somewhere else in a cave or maybe outer space comes [The CS Primer Show](https://www.youtube.com/@cs_primer). 
 
 Here's episode one, where Oz and I meander around Richard Hamming's excellent talk [You And Your Research](https://www.cs.virginia.edu/~robins/YouAndYourResearch.html).
 
