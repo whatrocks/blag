@@ -18,7 +18,7 @@ Hello! I'm Charlie, a programmer and writer in California. I'm writing a middle 
 
 ### Projects
 
-* [The CS Primer Show](https://www.youtube.com/@cs_primer) - a YouTube podcast with [Oz](https://twitter.com/oznova_) about computer science and computer science education
+* [The CS Primer Show](https://show.csprimer.com) - a podcast with [Oz](https://twitter.com/oznova_) about computer science and computer science education (watch on [YouTube](https://www.youtube.com/@cs_primer))
 * [SQLcaster](https://sqlcaster.xyz) - explore the [Farcaster](https://farcaster.xyz) social protocol via SQL (thanks to [ROAPI](https://roapi.github.io/docs))
 * [Writes With](https://writeswith.com) - nerdy interviews with writers about their writing tools
 * [Fahrenheit 52](https://f52.charlieharrington.com) - a weekly writing challenge for 2022 inspired by Ray Bradbury
