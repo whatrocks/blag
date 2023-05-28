@@ -10,7 +10,7 @@ The latest of my "sixth grade class trip" adventures found me (and some co-worke
 
 > Side note - my notes on previous "sixth grade class trips" include [Nike Missile Site SF 88L](http://localhost:3500/notes-on-nike-missile-site-sf-88l) and an [REI Map and Compass Navigation course](/notes-on-map-and-compass-navigation).
 
-Maybe, like me, you've seen the SLAC sign countless times whilst driving down the SF peninsula past Menlo Park and wondered what sort of particle physics wonders were being conducted hundreds of feet beneath you and Highway 101.
+Maybe, like me, you've seen the SLAC sign countless times whilst driving down the SF peninsula past Menlo Park and wondered what sort of particle physics wonders were being conducted hundreds of feet beneath you and Interstate 280.
 
 Well, now I know. And I have the obligatory two-mile long hallway selfie to prove it:
 
