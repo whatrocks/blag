@@ -1,103 +1,102 @@
 <!DOCTYPE html>
 <html lang="en-us">
-
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="<%= description %>" />
-  <title>
-    <%= title %>
-  </title>
-  <link rel="icon" href="<%= pathTo(" favicon.ico") %>" />
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/default.min.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
-    rel="stylesheet">
-  <link href="<%= pathTo(" app.css") %>" rel="stylesheet">
-</head>
-
-<body>
-  <header>
-    <h2 id="siteheadline"><span id="sitelogo">¶</span><a href="<%= pathTo(" /") %>">Charlie Harrington</a></h2>
-    <div id="topnav">
-      <a href="<%= pathTo(" about") %>">About</a>
-      <span>•</span>
-      <a href="<%= pathTo(" library") %>">Library</a>
-    </div>
-  </header>
-  <div id="contents">
-    <%if (title !=="About" && title !=="Charlie Harrington" && title !=="Library" && title !=="Books" && title
-      !=="Walkingman" ) { %>
-      <h1 class="title">
-        <%= title %>
-      </h1>
-      <h3 class="subtitle">
-        <%= date %>
-      </h3>
-      <div class="borderLine"></div>
-      <% } %>
-        <%if (title==="Library" ) { %>
-          <div id="the-library">
-            <div id="library-instructions">
-              <h3 id="library-title">Enter a SQL query to search my book list:</h3>
-              <span id="library-schema">&nbsp;&nbsp;Show schema</span>
-            </div>
-            <div id="library-form">
-              <p contentEditable id="library-input" class="librarySelect">
-                select author, title, cover_url, amazon_link from library where genre in ('Science Fiction', 'Fantasy')
-                order by year_read desc;
-              </p>
-              <div id="library-button-row">
-                <div class="btn" id="library-button">Book Search</div>
-                <div class="btn" id="library-lazy">I'm Feeling Lazy</div>
-              </div>
-            </div>
-            <div id="booklist"></div>
-            <p>
-              This list of books I love (because I basically love every book I read)
-              uses affiliate links to Amazon. If you purchase an item through one of
-              these links here or elsewhere on my site, I receive a small kickback
-              (often around 4-5%). Here's the full deal: Charlie Harrington is a
-              participant in the Amazon Services LLC Associates Program, an affiliate
-              advertising program designed to provide a means for sites to earn
-              advertising fees by advertising and linking to Amazon.com.
-            </p>
-          </div>
-          <% } %>
-            <%- body %>
-  </div>
-  <footer>
-    <div>
-      <iframe src="https://whatrocks.substack.com/embed" width="340" height="320"
-        style="border:1px solid #EEE; background:white;" frameborder="0" scrolling="no"></iframe>
-      <p class="warning">
-        The almost-never newsletter. I won't spam you, and you can unsubscribe
-        anytime.
-      </p>
-      <div class="copyright">
-        <span>© 2023</span>
-        <span> | </span>
-        <span>
-          <a href="https://www.charlieharrington.com/rss.xml" target="_blank" rel="noopener noreferrer">
-            RSS feed
-          </a>
-        </span>
-        <span> | </span>
-        <span>
-          <a href="https://mastodon.social/@whatrocks" target="_blank" rel="me">
-            Follow @whatrocks on Mastodon
-          </a>
-        </span>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="<%= description %>"/>
+    <title><%= title %></title>
+    <link rel="icon" href="<%= pathTo("favicon.ico") %>" />
+    <link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/default.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="<%= pathTo("app.css") %>" rel="stylesheet">
+  </head>
+  <body>
+    <header>
+      <h2 id="siteheadline"><span id="sitelogo">¶</span><a href="<%= pathTo("/") %>">Charlie Harrington</a></h2>
+      <div id="topnav">
+        <a href="<%= pathTo("about") %>">About</a>
+        <span>•</span>
+        <a href="<%= pathTo("library") %>">Library</a>
       </div>
+    </header>
+    <div id="contents">
+      <%if (title !== "About" && title !== "Charlie Harrington" && title !== "Library" && title !== "Books" && title !== "Walkingman") { %>
+        <h1 class="title"><%= title %></h1>
+        <h3 class="subtitle"><%= date %></h3>
+        <div class="borderLine"></div>
+      <% } %>
+      <%if (title === "Library") { %>
+        <div id="the-library">
+          <div id="library-instructions">
+            <h3 id="library-title">Enter a SQL query to search my book list:</h3>
+            <span id="library-schema">&nbsp;&nbsp;Show schema</span>
+          </div>
+          <div id="library-form">
+            <p
+              contentEditable
+              id="library-input"
+              class="librarySelect"
+            >
+            select author, title, cover_url, amazon_link from library where genre in ('Science Fiction', 'Fantasy') order by year_read desc;
+            </p>
+            <div id="library-button-row">
+              <div class="btn" id="library-button">Book Search</div>
+              <div class="btn" id="library-lazy">I'm Feeling Lazy</div>
+            </div>            
+          </div>
+          <div id="booklist"></div>
+          <p>
+            This list of books I love (because I basically love every book I read)
+        uses affiliate links to Amazon. If you purchase an item through one of
+        these links here or elsewhere on my site, I receive a small kickback
+        (often around 4-5%). Here's the full deal: Charlie Harrington is a
+        participant in the Amazon Services LLC Associates Program, an affiliate
+        advertising program designed to provide a means for sites to earn
+        advertising fees by advertising and linking to Amazon.com.
+          </p>
+        </div>
+      <% } %>
+      <%- body %>
     </div>
-  </footer>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
-  <%if (title==="Library" ) { %>
+    <footer>
+      <div>
+        <iframe src="https://whatrocks.substack.com/embed" width="480" height="320" style="border:1px solid #EEE; background:white;" frameborder="0" scrolling="no"></iframe>
+        <p class="warning">
+          The almost-never newsletter. I won't spam you, and you can unsubscribe
+          anytime.
+        </p>
+        <div class="copyright">
+          <span>© 2023</span>
+          <span> | </span>
+          <span>
+            <a
+              href="https://www.charlieharrington.com/rss.xml"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              RSS feed
+            </a>
+          </span>
+          <span> | </span>
+          <span>
+            <a
+              href="https://mastodon.social/@whatrocks"
+              target="_blank"
+              rel="me"
+            >
+              Follow @whatrocks on Mastodon
+            </a>
+          </span>
+        </div>
+      </div>
+    </footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
     <script>
       // Charlie's library script
-      document.addEventListener("DOMContentLoaded", function () {
+      document.addEventListener("DOMContentLoaded", function() {
 
         const BASE_URL = 'https://roapi-library.whatrocks.repl.co/api/';
 
@@ -111,7 +110,7 @@
           } else {
             for (let field of books.library.fields) {
               printSchema(field)
-            }
+            }             
           }
         }
         function printSchema(field) {
@@ -128,8 +127,8 @@
           const booklist = document.getElementById("booklist");
           const bookElement = document.createElement("div");
           bookElement.classList = ["card"];
-          Object.keys(book).forEach(key => {
-            switch (key) {
+          Object.keys(book).forEach(key=> {
+            switch(key) {
               case 'cover_url':
                 const cover = document.createElement("img");
                 cover.alt = `${book.title}`
@@ -154,28 +153,28 @@
                 } else {
                   p.innerText = `${key}: ${book[key]}`;
                 }
-                bookElement.appendChild(p);
-            }
+                bookElement.appendChild(p);              
+            }            
           });
           booklist.appendChild(bookElement);
         }
         function fetchBooks(query, cb, query_type = 'sql') {
-          const xmlhttp = new XMLHttpRequest();
-          xmlhttp.onreadystatechange = function () {
-            if (xmlhttp.readyState === XMLHttpRequest.DONE) {
-              const status = xmlhttp.status;
-              if (status === 0 || (status >= 200 && status < 400)) {
-                const results = JSON.parse(xmlhttp.responseText)
-                cb(results)
-              } else {
-                const booklist = document.getElementById("booklist");
-                booklist.innerHTML = "That didn't work";
+            const xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+              if (xmlhttp.readyState === XMLHttpRequest.DONE) {
+                const status = xmlhttp.status;
+                if (status === 0 || (status >= 200 && status < 400)) {
+                    const results = JSON.parse(xmlhttp.responseText)
+                    cb(results)
+                } else {
+                    const booklist = document.getElementById("booklist");
+                    booklist.innerHTML = "That didn't work";
+                }
               }
             }
-          }
-          const http_verb = query_type === "sql" ? 'POST' : 'GET';
-          xmlhttp.open(http_verb, `${BASE_URL}${query_type}`, true);
-          xmlhttp.send(query);
+            const http_verb = query_type === "sql" ? 'POST' : 'GET';
+              xmlhttp.open(http_verb, `${BASE_URL}${query_type}`, true);
+              xmlhttp.send(query); 
         }
         // Only do stuff on the library page!
         const library = document.getElementById("the-library");
@@ -193,10 +192,10 @@
           if (params.sql) {
             fetchBooks(params.sql, printBooks);
           }
-
+           
           // to set new query 
           const newParams = new URLSearchParams();
-
+          
           const libraryButton = document.getElementById("library-button");
           libraryButton.addEventListener('click', e => {
             e.preventDefault();
@@ -218,13 +217,11 @@
             fetchBooks(query, printBooks);
           });
           const schemaButton = document.getElementById("library-schema");
-          schemaButton.addEventListener('click', e => {
+          schemaButton.addEventListener('click', e => { 
             fetchBooks('', printBooks, 'schema');
           });
         }
       });
     </script>
-    <% } %>
-</body>
-
+  </body>
 </html>
