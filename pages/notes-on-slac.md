@@ -1,5 +1,5 @@
 ---
-date: "2023-05-25"
+date: "2023-05-27"
 title: "Notes on Stanford Linear Accelerator Center"
 category: "learning"
 image: "slac/selfie.jpg"
