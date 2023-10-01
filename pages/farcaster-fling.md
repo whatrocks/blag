@@ -113,7 +113,7 @@ Now, why aren't we using the finger protocol all the time? Well, couple reasons 
 
 ## Back to Frankenstein's laboratory
 
-Well, what if I combine what I love about OhLife (simple daily email journal) with Carmack's Finger .plan files (simple project status updates) with something that's encrypted, accessible, "likeable", and also "open and hackable?"
+Well, what if I combine what I love about OhLife (simple daily email journal) with Carmack's Finger .plan files (simple project status updates) with something that's secure, accessible, "likeable", and also "open and hackable?"
 
 It's time introduce the next protocol in this blog post: the Farcaster protocol.
 
