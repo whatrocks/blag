@@ -1,6 +1,6 @@
 ---
 date: "2023-10-01"
-title: "Replacing the Finger protocol with the Farcaster protocol for .plan files"
+title: "Using Farcaster protocol for .plan-style daily notes"
 category: "computers"
 description: "farcaster social network val.town fling decentralized finger protocol val.town"
 image: "fling-web.png"
