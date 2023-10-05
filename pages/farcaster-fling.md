@@ -107,7 +107,7 @@ Cool!
 
 Now, why aren't we using the finger protocol all the time? Well, couple reasons from what I've gleaned:
 
-* **No encryption**: the Finger protocol uses plaintext - so everyone with WireGuard on the Starbucks wifi can see your .plan and other "finger" information (which I'm guessing would include phone numbers and other potentially sensitive stuff)
+* **No encryption**: the Finger protocol uses plaintext - so everyone with Wireshark on the Starbucks wifi can see your .plan and other "finger" information (which I'm guessing would include phone numbers and other potentially sensitive stuff)
 * **No access** Folks don't really know each other's IP addresses and we also don't really make these directly publicly accessible to the Internet anyway, and I've also read that many networks will block port 79 (which Finger uses)
 * **No likes**: We just like our social network karma, okay? Nothing wrong with that.
 
