@@ -160,22 +160,19 @@
             booklist.appendChild(bookElement);
           }
           function fetchBooks(query, cb, query_type = 'sql') {
-              const xmlhttp = new XMLHttpRequest();
-              xmlhttp.onreadystatechange = function() {
-                if (xmlhttp.readyState === XMLHttpRequest.DONE) {
-                  const status = xmlhttp.status;
-                  if (status === 0 || (status >= 200 && status < 400)) {
-                      const results = JSON.parse(xmlhttp.responseText)
-                      cb(results)
-                  } else {
-                      const booklist = document.getElementById("booklist");
-                      booklist.innerHTML = "That didn't work";
-                  }
-                }
+            const xmlhttp = new XMLHttpRequest();
+            xmlhttp.onload = function() {
+              if (xmlhttp.status >= 200 && xmlhttp.status < 400) {
+                const results = JSON.parse(xmlhttp.responseText);
+                cb(results);
+              } else {
+                const booklist = document.getElementById("booklist");
+                booklist.innerHTML = "That didn't work";
               }
-              const http_verb = query_type === "sql" ? 'POST' : 'GET';
-                xmlhttp.open(http_verb, `${BASE_URL}${query_type}`, true);
-                xmlhttp.send(query); 
+            };
+            const http_verb = query_type === "sql" ? 'POST' : 'GET';
+            xmlhttp.open(http_verb, `${BASE_URL}${query_type}`, true);
+            xmlhttp.send(query);
           }
           // Only do stuff on the library page!
           const library = document.getElementById("the-library");

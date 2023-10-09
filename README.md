@@ -2,7 +2,7 @@
 
 charlie's web syte
 
-#### nice commands
+## nice commands
 
 Add missing `/img/` to markdown images for a single page
 
