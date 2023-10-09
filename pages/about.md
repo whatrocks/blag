@@ -6,7 +6,7 @@ image: ""
 description: "About Charlie Harrington"
 ---
 
-Hello! I'm Charlie, a programmer and writer in California. I'm writing a middle grade novel about robots. If you'd like to follow along, join my newsletter below!
+Hello! I'm Charlie Harrington, a computer programmer and cub writer in California.
 
 ### Selected Short Stories
 
@@ -16,10 +16,12 @@ Hello! I'm Charlie, a programmer and writer in California. I'm writing a middle 
 * [Offboarding](https://f52.charlieharrington.com/stories/offboarding/)
 * [Flynn's Arrow](https://f52.charlieharrington.com/stories/flynns-arrow/)
 
-### Projects
+### Active Projects
 
-* [The CS Primer Show](https://show.csprimer.com) - a podcast with [Oz](https://twitter.com/oznova_) about computer science and computer science education (watch on [YouTube](https://www.youtube.com/@cs_primer))
-* [SQLcaster](https://sqlcaster.xyz) - explore the [Farcaster](https://farcaster.xyz) social protocol via SQL (thanks to [ROAPI](https://roapi.github.io/docs))
+* [The CS Primer Show](https://show.csprimer.com) - a podcast with my friend [Oz Nova](https://twitter.com/oznova_) about computer science and computer science education (watch on [YouTube](https://www.youtube.com/@cs_primer))
+
+### Dormant Projects
+
 * [Writes With](https://writeswith.com) - nerdy interviews with writers about their writing tools
 * [Fahrenheit 52](https://f52.charlieharrington.com) - a weekly writing challenge for 2022 inspired by Ray Bradbury
 * [In The Troll Pit](https://ittp.charlieharrington.com) - livestream adventures in retro computing
