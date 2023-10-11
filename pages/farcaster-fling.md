@@ -174,14 +174,8 @@ Most of this diagram is showing my mental model for how Farcaster works. Let's f
 The "Daily Email Sender" will use a popular Farcaster search tool to search through Farcaster for a random previous "fling" cast I sent, and then `console.email` it to me. We will also configure this val to set a "reply val" to receive (and execute) from any replies.
 
 To grab any "flings", you can use Searchcaster's API:
-```javascript
-const flings = await fetch(
-    `https://searchcaster.xyz/api/search?regex=%E2%8C%86&username=${FARCASTER_USERNAME}`,
-  ).then((res) => res.json());
-let filteredCasts = flings.casts.filter((cast) =>
-    cast.body.data.text[0] === "⌆"
-);
-```
+
+<iframe src="https://www.val.town/embed/stevekrouse.farcasterFlings" />
 
 Remember our constraint - that the first character of a Fling root cast must be `⌆`. 
 
