@@ -49,10 +49,6 @@ Johnny 5 looks a lot like R.O.B., except with more nuclear-weapons. He loves rea
 ![johnny-5](/img/johnny5.jpg)
 > Source: [Synthiam](https://synthiam.com/Community/Questions/Original-Movie-Rc-Johnny-5-For-Sale-6415)
 
-Major spoiler-alert for Short Circuit 2, but this action sequence gets me every time:
-
-<iframe width="720" height="415" src="https://www.youtube.com/embed/POxMp61Ksbk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
 ### Wall-E
 
 What do you get when you cross R.O.B., Johnny 5, and a Tonka truck? This lil' garbage-collecting cutie!
