@@ -6,24 +6,13 @@ image: ""
 description: "About Charlie Harrington"
 ---
 
-Hello! I'm Charlie Harrington, a computer programmer and cub writer in California.
+Hello! I'm Charlie Harrington, a computer programmer and cub novelist in California.
 
-### Selected Short Stories
-
-* [Nibbles](https://f52.charlieharrington.com/stories/nibbles/)
-* [The Hive](https://f52.charlieharrington.com/stories/the-hive/)
-* [The Outer Beach](https://f52.charlieharrington.com/stories/the-outer-beach/)
-* [Offboarding](https://f52.charlieharrington.com/stories/offboarding/)
-* [Flynn's Arrow](https://f52.charlieharrington.com/stories/flynns-arrow/)
-
-### Active Projects
+### Projects
 
 * [The CS Primer Show](https://show.csprimer.com) - a podcast with my friend [Oz Nova](https://twitter.com/oznova_) about computer science and computer science education (watch on [YouTube](https://www.youtube.com/@cs_primer))
-
-### Dormant Projects
-
 * [Writes With](https://writeswith.com) - nerdy interviews with writers about their writing tools
-* [Fahrenheit 52](https://f52.charlieharrington.com) - a weekly writing challenge for 2022 inspired by Ray Bradbury
+* [Fahrenheit 52](https://f52.charlieharrington.com) - a weekly writing challenge (write one new short story every week for a year) in 2022, inspired by a Ray Bradbury quote
 * [In The Troll Pit](https://ittp.charlieharrington.com) - livestream adventures in retro computing
 * [Escaping Web](https://escapingweb.github.io) - a six-episode podcast with [Oz](https://twitter.com/oznova_) about software engineering and learning
 * [Von Chomp](https://apps.apple.com/us/app/von-chomp/id1211087343?mt=8) - iOS "monster" tally counter app where counting tastes delicious
