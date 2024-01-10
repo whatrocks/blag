@@ -2,6 +2,10 @@
 
 charlie's web syte
 
+## run local
+
+syte serve
+
 ## nice commands
 
 Add missing `/img/` to markdown images for a single page
