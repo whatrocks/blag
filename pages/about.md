@@ -6,9 +6,9 @@ image: ""
 description: "About Charlie Harrington"
 ---
 
-Hello! I'm Charlie Harrington, a computer programmer and cub novelist in California.
+I'm a computer programmer working on [Folio](https://folio.co). Previously, I worked at [Cruise](https://getcruise.com).
 
-### Projects
+## Projects
 
 * [The CS Primer Show](https://show.csprimer.com) - a podcast with my friend [Oz Nova](https://twitter.com/oznova_) about computer science and computer science education (watch on [YouTube](https://www.youtube.com/@cs_primer))
 * [Fahrenheit 52](https://f52.charlieharrington.com) - a weekly writing challenge (write one new short story every week for a year) in 2022, inspired by a Ray Bradbury quote
@@ -32,4 +32,4 @@ Hello! I'm Charlie Harrington, a computer programmer and cub novelist in Califor
 * [LinkedIn](https://www.linkedin.com/in/charlieharrington)
 * [Substack](https://whatrocks.substack.com)
 
-Thanks for visiting my site. See you around!
+Thanks for visiting my website!
