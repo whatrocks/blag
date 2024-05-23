@@ -36,7 +36,7 @@ My point here -- and I do have one -- is that I've been thinking about this idea
 
 This is not going to be a *how I, for one, came to love our new AI overlords* post. But I will quickly share my takeaways. 
 
-The most impressive thing about working with ChatGPT was that *I shipped this project*. Period. Something that had been rattling around in my skull for a couple years is now on [GitHub](https://github.com/whatrocks/waybackgif) and even [Replit](https://replit.com/@whatrocks/waybackgif) if you want to give it a try in your browser.
+The most impressive thing about working with ChatGPT was that *I shipped this project*. Period. Something that had been rattling around in my skull for a couple years is [now available for you to try out on GitHub](https://github.com/whatrocks/waybackgif) and even [Replit](https://replit.com/@whatrocks/waybackgif) if you want to give it a try in your browser.
 
 Did ChatGPT get it right the first time? No. But sometimes editing is easier, and it got me started in a direction. I still had to do some documentation digging and even some StackOverflowing, but that was fine, cause I was paired up with a robot buddy. In this sense, ChatGPT felt like [rubber duck debugging](https://en.wikipedia.org/wiki/Rubber_duck_debugging), except with a rubber duck who has some fairly decent ideas of its own.
 
