@@ -7,20 +7,20 @@
     <link rel="icon" href="<%= pathTo("favicon.ico") %>" />
     <link rel="stylesheet"
       href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/default.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/@sakun/system.css" />
     <link href="<%= pathTo("app.css") %>" rel="stylesheet">
   </head>
   <body>
-    <header>
-      <h2 id="siteheadline"><span id="sitelogo">¶</span><a href="<%= pathTo("/") %>">Charlie Harrington</a></h2>
-      <div id="topnav">
+    <div class="window">
+      <div class="title-bar">
+        <button aria-label="Close" class="close"></button>
+        <h1 class="title"><span id="sitelogo">¶&nbsp;</span><a href="<%= pathTo("/") %>">Charlie Harrington</a></h1>
+        <button aria-label="Resize" class="resize"></button>
+      </div>
+      <div class="details-bar">
         <a href="<%= pathTo("about") %>">About</a>
-        <span>•</span>
         <a href="<%= pathTo("library") %>">Library</a>
       </div>
-    </header>
     <div id="contents">
       <%if (title !== "About" && title !== "Charlie Harrington" && title !== "Library" && title !== "Books" && title !== "Walkingman") { %>
         <h1 class="title"><%= title %></h1>
@@ -222,5 +222,6 @@
         });
       </script>
     <% } %>
+    </div>
   </body>
 </html>

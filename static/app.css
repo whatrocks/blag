@@ -1,7 +1,5 @@
 * {
   box-sizing: border-box;
-  background-color: rgb(247, 244, 239);
-  font-family: 'Poppins', sans-serif;
   color: rgb(17, 17, 17);
 }
 
@@ -12,13 +10,13 @@ body {
 }
 
 p {
-  line-height: 27.6px;
-  font-family: 'Inter', sans-serif;
+  line-height: 30px;
+  font-size: 20px;
   margin: 5px 0;
 }
 
 li {
-  font-family: 'Inter', sans-serif;
+  font-size: 20px;
 }
 
 ol > li {
@@ -92,43 +90,11 @@ img {
   margin-top: 1rem;
 }
 
-#sitelogo {
-  font-weight: 800;
-  font-size: 22px;
-  margin-right: .75rem;
-}
-
-#siteheadline {
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  margin-left: -2px;
-  font-size: 22px;
-  font-weight: 600;
-  margin: 0;
-  margin-bottom: .25rem;
-  padding: 0;
-  color: rgb(17, 17, 17) !important;
-}
-
-#siteheadline > a {
-  color: rgb(17, 17, 17) !important;
-}
-
-#siteheadline > a:hover {
-  color: rgb(33, 93, 211);
-  text-decoration: none;
-}
-
-#topnav > a {
-  color: rgb(17, 17, 17) !important;
-}
-
 .title {
   margin: 0;
   text-align: center;
   font-size: 28px;
   font-weight: 700;
-  width: 100%;
 }
 
 .subtitle {
@@ -244,8 +210,6 @@ img {
   margin: 1rem;
   padding: 1rem;
   max-width: 400px;
-  /* min-width: 200px; */
-  /* min-height: 430px; */
 }
 
 #library-button-row {
