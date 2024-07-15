@@ -6,11 +6,12 @@ description: "farcaster social network val.town fling decentralized finger proto
 image: "fling-web.png"
 ---
 
-I've loved and lost websites. A few that come to mind: 
-* Hyrule The Land of Zelda (htloz.com) - an Ocarina of Time forum devoted to finding the Triforce in a Zelda video game wherein you cannot find the Triforce (not with that attitude, at least)
-* My very first website, which Peter Hayward and I hand-crafted on his mom's computer after school, featuring an exclusive variety of our exclusively frog-related drawings and stories
-* Broken Records - my members.aol.com punk rock "record label" that I created in eighth grade where I declared that I was putting together a compilation album, and then someone mailed me a cassette from their band "One-Eyed Trouser Snake" and then I shut down Broken Records
-* [OhLife.com](https://ohlife.com) - a YC journal startup that emailed you once a day with a simple message `Hey, how did your day go?` and you just replied to the email with your thoughts or deeds or worries for the day. The daily email also included a random previous response of yours as inspiration or memory-induction.
+I've loved and lost websites. A few that come to mind:
+
+- Hyrule The Land of Zelda (htloz.com) - an Ocarina of Time forum devoted to finding the Triforce in a Zelda video game wherein you cannot find the Triforce (not with that attitude, at least)
+- My very first website, which Peter Hayward and I hand-crafted on his mom's computer after school, featuring an exclusive variety of our exclusively frog-related drawings and stories
+- Broken Records - my members.aol.com punk rock "record label" that I created in eighth grade where I declared that I was putting together a compilation album, and then someone mailed me a cassette from their band "One-Eyed Trouser Snake" and then I shut down Broken Records
+- [OhLife.com](https://ohlife.com) - a YC journal startup that emailed you once a day with a simple message `Hey, how did your day go?` and you just replied to the email with your thoughts or deeds or worries for the day. The daily email also included a random previous response of yours as inspiration or memory-induction.
 
 I miss them all, and pine for their Frankensteinian-Lazarian-Wayback-Machinian resusitation. That's why I decided to revive one, and make it even weirder. But first, let's make a .plan!
 
@@ -18,7 +19,7 @@ I miss them all, and pine for their Frankensteinian-Lazarian-Wayback-Machinian r
 
 I've got DOOM on the mind these days. I'm halfway through John Romero's recent autobiography [Doom Guy: Life in First Person](https://amzn.to/3ZAEoO9) - and I consider [Masters of Doom](https://amzn.to/380nfUF) an essential reading in any computer history syllabus.
 
-In reading up further about the id crew, I encountered [this excellent blog post about Carmack's daily logs and journals in .plan files](https://garbagecollected.org/2017/10/24/the-carmack-plan/), which were accessible via the Unix [Finger protocol](https://en.wikipedia.org/wiki/Finger_(protocol)) over the Internet.
+In reading up further about the id crew, I encountered [this excellent blog post about Carmack's daily logs and journals in .plan files](https://garbagecollected.org/2017/10/24/the-carmack-plan/), which were accessible via the Unix [Finger protocol](<https://en.wikipedia.org/wiki/Finger_(protocol)>) over the Internet.
 
 Here's his entry for February 2, 1996:
 
@@ -37,7 +38,7 @@ Here's his entry for February 2, 1996:
 + screen flicker crap
 + radius damage sight check
 + crushing issues
-+ bodies stopping in midair 
++ bodies stopping in midair
 
 dimmed out weapons
 follow killer
@@ -46,7 +47,7 @@ spin head inside gib
 
 Don't we all wish our daily work logs had entries that looked like this (e.g. "crushing issues", "follow killer"). The blog post notes that Carmack uses a clear syntax for his updates (`*` indicating work completed, `+` completed on a later day, and so on).
 
-There are many reasons this is such a great little journaling tool. First, it is simple - make your journal easy to update or else you won't remember to do it. Second (and this is pointed out by the great blog post) is its "greppability" -  plaintext files means it is easy to use `grep` and other Unix tools to search and filter notes. Finally for me is its "social availability" - id Software fans could use the Finger protocol to check in on Carmark and id's progress on upcoming games.
+There are many reasons this is such a great little journaling tool. First, it is simple - make your journal easy to update or else you won't remember to do it. Second (and this is pointed out by the great blog post) is its "greppability" - plaintext files means it is easy to use `grep` and other Unix tools to search and filter notes. Finally for me is its "social availability" - id Software fans could use the Finger protocol to check in on Carmark and id's progress on upcoming games.
 
 ## The Finger protocol
 
@@ -107,9 +108,9 @@ Cool!
 
 Now, why aren't we using the finger protocol all the time? Well, couple reasons from what I've gleaned:
 
-* **No encryption**: the Finger protocol uses plaintext - so everyone with Wireshark on the Starbucks wifi can see your .plan and other "finger" information (which I'm guessing would include phone numbers and other potentially sensitive stuff)
-* **No access** Folks don't really know each other's IP addresses and we also don't really make these directly publicly accessible to the Internet anyway, and I've also read that many networks will block port 79 (which Finger uses)
-* **No likes**: We just like our social network karma, okay? Nothing wrong with that.
+- **No encryption**: the Finger protocol uses plaintext - so everyone with Wireshark on the Starbucks wifi can see your .plan and other "finger" information (which I'm guessing would include phone numbers and other potentially sensitive stuff)
+- **No access** Folks don't really know each other's IP addresses and we also don't really make these directly publicly accessible to the Internet anyway, and I've also read that many networks will block port 79 (which Finger uses)
+- **No likes**: We just like our social network karma, okay? Nothing wrong with that.
 
 ## Back to Frankenstein's laboratory
 
@@ -119,7 +120,7 @@ It's time introduce the next protocol in this blog post: the Farcaster protocol.
 
 ## The Farcaster protocol
 
-[Farcaster](https://farcaster.xyz) is a "sufficiently decentralized" social networking protocol, which I interpret as a protocol not owned by a company that offers relatively open access to the social networking data. I've been using Farcaster for almost two years now as a Twitter-like social network using the popular [Warpcast client](https://warpcast.com). 
+[Farcaster](https://farcaster.xyz) is a "sufficiently decentralized" social networking protocol, which I interpret as a protocol not owned by a company that offers relatively open access to the social networking data. I've been using Farcaster for almost two years now as a Twitter-like social network using the popular [Warpcast client](https://warpcast.com).
 
 Now, it's worth noting that there's a connection to Ethereum as a mechanism for registering your username in Farcaster, but that's really it as far as crypto goes (if that's what you want). You don't need to be a "crypto" person to use Farcaster and enjoy it - I'm not, and I'm having a bunch of fun with Farcaster - mostly because Farcaster is set up EXTREMELY well for generalized "hacking."
 
@@ -133,8 +134,8 @@ I think Farcaster will be perfect for my OhLife-Plan Frankenstein, but we're goi
 
 Fling is my idea for how we can use Farcaster to power a "daily notes" app. Recall (not sure if I mentioned it, but recall anyway) that Farcaster calls messages/posts as "casts". Here's the basic constraints for fling (which I [wrote up in a gist](https://gist.github.com/whatrocks/b4b7c306b307c3c707f0d6256fe9afb0)):
 
-* Each day, you may cast at most one cast that begins with "⌆" character. This is your "root" fling cast for the day. (You can, of course, cast as many other unrelated casts as you desire). This singular cast should contain your daily log / message / thoughts / reminders.
-* If you'd like to add more to your day's log, you should reply to the day's root fling cast. Keep these replies as siblings to each other (aka direct children of the root cast), rather than a thread.
+- Each day, you may cast at most one cast that begins with "⌆" character. This is your "root" fling cast for the day. (You can, of course, cast as many other unrelated casts as you desire). This singular cast should contain your daily log / message / thoughts / reminders.
+- If you'd like to add more to your day's log, you should reply to the day's root fling cast. Keep these replies as siblings to each other (aka direct children of the root cast), rather than a thread.
 
 That's it! You don't need a special client to use the Fling pattern. Just follow these rules.
 
@@ -168,31 +169,31 @@ I drew this in Excalidraw - maybe it will help (did I pass the interview?).
 
 Most of this diagram is showing my mental model for how Farcaster works. Let's focus on the blue shaded boxes. There are two val.town vals (that's what they call their widgets) that we need to create:
 
-* daily email sender
-* email replier
+- daily email sender
+- email replier
 
 The "Daily Email Sender" will use a popular Farcaster search tool to search through Farcaster for a random previous "fling" cast I sent, and then `console.email` it to me. We will also configure this val to set a "reply val" to receive (and execute) from any replies.
 
 To grab any "flings", you can use Searchcaster's API:
 
-<iframe src="https://www.val.town/embed/stevekrouse.farcasterFlings" />
+<iframe width="660" height="365" src="https://www.val.town/embed/stevekrouse.farcasterFlings"></iframe>
 
-Remember our constraint - that the first character of a Fling root cast must be `⌆`. 
+Remember our constraint - that the first character of a Fling root cast must be `⌆`.
 
 We can do a lil' more processing of the casts, but the next major thing we have to do is send ourselves a nice HTML email and set the replyTo to the name of the "val" that I want to execute:
 
 ```javascript
 console.email({
-    replyTo: "whatrocks.<name_of_my_reply_val>@valtown.email",
-    html: `
+  replyTo: "whatrocks.<name_of_my_reply_val>@valtown.email",
+  html: `
   <div>
     <p>Just reply to this email with your entry.</p>
     <p>Oh snap, remember this? ${diff_days} days ago you wrote...
     <pre>${flingContents}</pre>
     <p><a href="https://whatrocks.github.io/fling-web/?username=whatrocks" target="_blank">Past flings</a></p>
   </div>`,
-    subject: `It's ${today.toDateString()} - How did your day go?`,
-  });
+  subject: `It's ${today.toDateString()} - How did your day go?`,
+});
 ```
 
 My "replyTo" val has code that looks like this:
@@ -203,7 +204,7 @@ const fling_cast = `⌆\n${email_text}`;
 const did_cast = @me.otherValThatActuallySendsCast(e.from, fling_cast);
 ```
 
-Before it does any of that, it also checks to see if the "sender" of the email matches the email I'm expecting to see (there's no great way to add a password / auth to this process right now). 
+Before it does any of that, it also checks to see if the "sender" of the email matches the email I'm expecting to see (there's no great way to add a password / auth to this process right now).
 
 I'll call yet another Val which actually posts a Farcaster "cast":
 
