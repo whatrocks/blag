@@ -3,6 +3,13 @@
   color: rgb(17, 17, 17);
 }
 
+.window {
+  max-width: 720px;
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
 body {
   margin: 0;
   font-size: 16px;
