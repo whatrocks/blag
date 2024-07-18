@@ -11,6 +11,7 @@
     <link href="<%= pathTo("app.css") %>" rel="stylesheet">
   </head>
   <body>
+    <div class="everything">
     <div class="window">
       <div class="title-bar">
         <button aria-label="Close" class="close"></button>
@@ -63,7 +64,7 @@
     <footer>
       <div>
         <iframe src="https://whatrocks.substack.com/embed" width="340" height="320" style="border:1px solid #EEE; background:white;" frameborder="0" scrolling="no"></iframe>
-        <p class="warning">
+       <p class="warning">
           The almost-never newsletter. I won't spam you, and you can unsubscribe
           anytime.
         </p>
@@ -223,5 +224,35 @@
       </script>
     <% } %>
     </div>
+    <div>
+    <div class="window">
+      <div class="title-bar">
+        <button aria-label="Close" class="close"></button>
+        <h2 class="title">CS Primer Show</h2>
+        <button aria-label="Resize" class="resize"></button>
+      </div>
+      <div class="details-bar">
+        <span>A podcast about computer science and computer science education</span>
+      </div>
+      <div>
+        <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/videoseries?si=xysjPOA0G7Qde94O&amp;list=PL4E4jY21e9ntlbxBV1rUU3b8HWldkUTz2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
+    </div>
+    <div class="window">
+      <div class="title-bar">
+        <button aria-label="Close" class="close"></button>
+        <h2 class="title">Fahrenheit 52</h2>
+        <button aria-label="Resize" class="resize"></button>
+      </div>
+      <div class="details-bar">
+        <a href="https://f52.charlieharrington.com">Read the stories</a>
+        <span>Listen below</span>
+      </div>
+      <div>
+        <iframe allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" frameborder="0" height="450" style="width:100%;max-width:660px;overflow:hidden;border-radius:10px;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src="https://embed.podcasts.apple.com/us/podcast/fahrenheit-52/id1600947555"></iframe>
+      </div>
+    </div>
+  </div>
+  </div>
   </body>
 </html>

@@ -3,9 +3,19 @@
   color: rgb(17, 17, 17);
 }
 
-.window {
-  max-width: 720px;
+.everything {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  width: 100%;
   margin: 0 auto;
+}
+
+.window {
+  /* max-width: 720px; */
+  /* margin: 0 auto; */
   margin-top: 20px;
   margin-bottom: 20px;
 }
