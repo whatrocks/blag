@@ -26,7 +26,7 @@ I am not slop.
 
 Yes, I am sloppy, but that's what makes me *me*. 
 
-I am unique. I am as unique as the snowflake that hides inside each drop of water.
+I am unique. I am the snowflake inside the drop of water.
 
 I grow our ocean.
 
