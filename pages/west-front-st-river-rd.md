@@ -1,6 +1,6 @@
 ---
 date: "2025-09-08"
-title: "West Front St. / River Road"
+title: "West Front St. / River Rd."
 category: "music"
 description: "Two new songs, live from Tess and Michael's wedding in Blairstown, New Jersey"
 image: "ama.png"
