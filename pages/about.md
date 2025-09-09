@@ -28,7 +28,6 @@ I'm a computer programmer working on [Folio](https://folio.co). Previously, I wo
 * [GitHub](https://github.com/whatrocks)
 * [Instagram](https://instagram.com/whatrocks)
 * [Goodreads](https://www.goodreads.com/whatrocks)
-* [Read.cv](https://read.cv/whatrocks)
 * [LinkedIn](https://www.linkedin.com/in/charlieharrington)
 * [Substack](https://whatrocks.substack.com)
 
