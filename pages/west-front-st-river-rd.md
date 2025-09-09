@@ -19,7 +19,7 @@ As of September 2025, Hotdog Johnny & the Shady Oaks remain:
 
 To the continued chagrin of our emcees, I had another song on deck, explicitly not a medley, so as not to violate [Uncle Mike](https://www.tellyouwhatpodcast.com/)'s open mic rules. 
 
-Here's my new song *West Front St. / River Rd.*.
+Here's my new song *West Front St. / River Rd.*:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/Z4vgqJbF2hk?si=yiX2226EDkl5lvQJ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
