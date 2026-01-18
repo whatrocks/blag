@@ -11,16 +11,21 @@
     <link href="<%= pathTo("app.css") %>" rel="stylesheet">
   </head>
   <body>
-    <div class="everything">
+    <ul role="menu-bar">
+      <li role="menu-item"><a href="<%= pathTo("/") %>">¶</a></li>
+      <li role="menu-item"><a href="<%= pathTo("about") %>">About</a></li>
+      <li role="menu-item"><a href="<%= pathTo("library") %>">Library</a></li>
+    </ul>
+    <div class="everything <%if (title === "About" || title === "Library") { %>no-sidepanel<% } %>">
     <div class="window">
       <div class="title-bar">
         <button aria-label="Close" class="close"></button>
-        <h1 class="title"><span id="sitelogo">¶&nbsp;</span><a href="<%= pathTo("/") %>">Charlie Harrington</a></h1>
+        <h1 class="title">
+          <%if (title === "About") { %>About<% } %>
+          <%if (title === "Library") { %>Library<% } %>
+          <%if (title === "Charlie Harrington") { %>Posts<% } %>
+        </h1>
         <button aria-label="Resize" class="resize"></button>
-      </div>
-      <div class="details-bar">
-        <a href="<%= pathTo("about") %>">About</a>
-        <a href="<%= pathTo("library") %>">Library</a>
       </div>
     <div id="contents">
       <%if (title !== "About" && title !== "Charlie Harrington" && title !== "Library" && title !== "Books" && title !== "Walkingman") { %>
@@ -224,6 +229,7 @@
       </script>
     <% } %>
     </div>
+    <%if (title !== "About" && title !== "Library") { %>
     <div class="sidepanel">
       <div class="window">
         <div class="title-bar">
@@ -253,6 +259,7 @@
         </div>
       </div>
     </div>
+    <% } %>
 </div>    
   </div>
   </body>
