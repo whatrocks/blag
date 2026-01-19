@@ -111,6 +111,42 @@
             }
           });
         });
+
+        const resizeButtons = document.querySelectorAll('.resize');
+        resizeButtons.forEach(button => {
+          button.addEventListener('click', function() {
+            const window = this.closest('.window');
+            const everything = document.querySelector('.everything');
+            if (window) {
+              const isWide = window.style.maxWidth === '1440px';
+              if (isWide) {
+                // Make narrow
+                window.style.maxWidth = '720px';
+                const contents = window.querySelector('#contents');
+                if (contents) {
+                  contents.style.maxWidth = '720px';
+                }
+                // Reset flex layout for multiple windows
+                if (everything) {
+                  everything.style.flexDirection = 'row';
+                  everything.classList.remove('no-sidepanel');
+                }
+              } else {
+                // Make wide
+                window.style.maxWidth = '1440px';
+                const contents = window.querySelector('#contents');
+                if (contents) {
+                  contents.style.maxWidth = '1400px';
+                }
+                // Stack windows vertically when one is wide
+                if (everything) {
+                  everything.style.flexDirection = 'column';
+                  everything.classList.add('no-sidepanel');
+                }
+              }
+            }
+          });
+        });
       });
     </script>
     <%if (title === "Library") { %>
