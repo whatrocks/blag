@@ -102,9 +102,40 @@
     <script>hljs.highlightAll();</script>
     <script>
       document.addEventListener("DOMContentLoaded", function() {
+        let draggedWindow = null;
+        let dragOffset = { x: 0, y: 0 };
+        let highestZIndex = 1000;
+        
+        // Check if we're on mobile
+        const isMobile = window.innerWidth <= 768;
+
+        // Initialize window positions (only on desktop)
+        function initializeWindows() {
+          if (isMobile) return;
+          
+          const windows = document.querySelectorAll('.window');
+          windows.forEach((window, index) => {
+            // Set initial random positions
+            const x = Math.random() * (window.parentElement.clientWidth - 720);
+            const y = 50 + (index * 60); // Stagger them vertically
+            window.style.left = Math.max(0, x) + 'px';
+            window.style.top = Math.max(0, y) + 'px';
+            window.style.zIndex = highestZIndex - index;
+          });
+        }
+
+        // Bring window to front
+        function bringToFront(window) {
+          document.querySelectorAll('.window').forEach(w => w.classList.remove('focused'));
+          window.classList.add('focused');
+          window.style.zIndex = ++highestZIndex;
+        }
+
+        // Close button functionality
         const closeButtons = document.querySelectorAll('.close');
         closeButtons.forEach(button => {
-          button.addEventListener('click', function() {
+          button.addEventListener('click', function(e) {
+            e.stopPropagation();
             const window = this.closest('.window');
             if (window) {
               window.remove();
@@ -112,41 +143,81 @@
           });
         });
 
+        // Resize button functionality
         const resizeButtons = document.querySelectorAll('.resize');
         resizeButtons.forEach(button => {
-          button.addEventListener('click', function() {
+          button.addEventListener('click', function(e) {
+            e.stopPropagation();
             const window = this.closest('.window');
-            const everything = document.querySelector('.everything');
             if (window) {
-              const isWide = window.style.maxWidth === '1440px';
+              const currentWidth = parseInt(window.style.maxWidth) || 720;
+              const isWide = currentWidth === 1440;
+              
               if (isWide) {
-                // Make narrow
                 window.style.maxWidth = '720px';
                 const contents = window.querySelector('#contents');
                 if (contents) {
                   contents.style.maxWidth = '720px';
                 }
-                // Reset flex layout for multiple windows
-                if (everything) {
-                  everything.style.flexDirection = 'row';
-                  everything.classList.remove('no-sidepanel');
-                }
               } else {
-                // Make wide
                 window.style.maxWidth = '1440px';
                 const contents = window.querySelector('#contents');
                 if (contents) {
                   contents.style.maxWidth = '1400px';
                 }
-                // Stack windows vertically when one is wide
-                if (everything) {
-                  everything.style.flexDirection = 'column';
-                  everything.classList.add('no-sidepanel');
-                }
               }
             }
           });
         });
+
+        // Drag functionality (only on desktop)
+        if (!isMobile) {
+          const titleBars = document.querySelectorAll('.title-bar');
+          titleBars.forEach(titleBar => {
+            titleBar.addEventListener('mousedown', function(e) {
+              const window = this.closest('.window');
+              if (window && (e.target === this || e.target.closest('.title-bar') === this)) {
+                draggedWindow = window;
+                bringToFront(window);
+                
+                const windowRect = window.getBoundingClientRect();
+                const currentLeft = parseInt(window.style.left) || windowRect.left;
+                const currentTop = parseInt(window.style.top) || windowRect.top;
+                
+                dragOffset.x = e.clientX - currentLeft;
+                dragOffset.y = e.clientY - currentTop;
+                
+                e.preventDefault();
+              }
+            });
+          });
+
+          // Global mouse events for dragging
+          document.addEventListener('mousemove', function(e) {
+            if (draggedWindow) {
+              const x = e.clientX - dragOffset.x;
+              const y = e.clientY - dragOffset.y;
+              
+              draggedWindow.style.left = x + 'px';
+              draggedWindow.style.top = Math.max(0, y) + 'px';
+            }
+          });
+
+          document.addEventListener('mouseup', function() {
+            draggedWindow = null;
+          });
+
+          // Click to focus windows (desktop only)
+          document.addEventListener('click', function(e) {
+            const window = e.target.closest('.window');
+            if (window) {
+              bringToFront(window);
+            }
+          });
+        }
+
+        // Initialize positions
+        initializeWindows();
       });
     </script>
     <%if (title === "Library") { %>
