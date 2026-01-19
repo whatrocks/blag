@@ -100,6 +100,19 @@
     </footer>
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
     <script>hljs.highlightAll();</script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const closeButtons = document.querySelectorAll('.close');
+        closeButtons.forEach(button => {
+          button.addEventListener('click', function() {
+            const window = this.closest('.window');
+            if (window) {
+              window.remove();
+            }
+          });
+        });
+      });
+    </script>
     <%if (title === "Library") { %>
       <script>
         // Charlie's library script
