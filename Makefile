@@ -1,21 +1,41 @@
-.PHONY: post serve build clean
+.PHONY: help install post serve build clean
+
+SYTE := ./node_modules/.bin/syte
+
+help:
+	@printf "Available targets:\n"
+	@printf "  make install  Install project dependencies\n"
+	@printf "  make serve    Start the local dev server\n"
+	@printf "  make build    Build the site\n"
+	@printf "  make post     Create a new post interactively\n"
+	@printf "  make clean    Remove the build output\n"
+
+install:
+	npm install
 
 post:
 	@./scripts/new-post.sh
 
 serve:
-	@if command -v syte >/dev/null 2>&1; then \
-		syte serve; \
+	@if [ -x "$(SYTE)" ]; then \
+		"$(SYTE)" serve; \
 	else \
-		echo "Syte not found. Install with: npm install -g syte@0.0.1-beta.13"; \
+		echo "syte is not installed. Run: make install"; \
+		exit 1; \
 	fi
 
 build:
-	@if command -v syte >/dev/null 2>&1; then \
-		syte build; \
+	@if [ -x "$(SYTE)" ]; then \
+		"$(SYTE)" build; \
 	else \
-		echo "Syte not found. Install with: npm install -g syte@0.0.1-beta.13"; \
+		echo "syte is not installed. Run: make install"; \
+		exit 1; \
 	fi
 
 clean:
-	@if [ -d "dist" ]; then rm -rf dist; echo "✓ Cleaned dist directory"; else echo "No dist directory to clean"; fi
+	@if [ -d "dist" ]; then \
+		rm -rf dist; \
+		echo "Cleaned dist/"; \
+	else \
+		echo "dist/ does not exist"; \
+	fi

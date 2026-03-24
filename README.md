@@ -1,21 +1,47 @@
 # blag
 
-charlie's web syte
+charlie's site, built with `syte`.
 
-## run local
+## Setup
 
-syte serve
+```bash
+make install
+```
 
-## nice commands
+## Local development
 
-Add missing `/img/` to markdown images for a single page
+```bash
+make serve
+```
+
+## Build
+
+```bash
+make build
+```
+
+## Create a post
+
+```bash
+make post
+```
+
+This creates a new markdown file in `pages/`.
+
+## Handy commands
+
+Add missing `/img/` to markdown image paths for one page:
 
 ```bash
 sed 's/!\[\(.*\)](/![\1](\/img\//g' afternoon-with-arduino.md
 ```
 
-Same thing, but for all md files:
+Add missing `/img/` to all markdown files in the current directory:
 
 ```bash
 sed -i -- 's/!\[\(.*\)](/![\1](\/img\//g' *.md
 ```
+
+## Make targets
+
+Run `make help` to see the available shortcuts.
