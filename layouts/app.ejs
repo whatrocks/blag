@@ -248,6 +248,7 @@
 
           conn = await db.connect();
           await conn.query("CREATE TABLE library AS SELECT * FROM read_csv_auto('library.csv')");
+          await conn.query("SET access_mode = 'read_only'");
         }
 
         async function runQuery(sql) {
@@ -303,7 +304,7 @@
                 break;
               case 'amazon_link':
                 const href = book.amazon_link;
-                if (!href) break;
+                if (!href || !href.startsWith('http')) break;
                 const a = document.createElement("a");
                 a.href = href;
                 a.innerText = 'Buy on Amazon';
@@ -329,7 +330,10 @@
             const rows = await runQuery(query);
             printBooks(rows);
           } catch (e) {
-            booklist.innerHTML = `<p>That didn't work: ${e.message}</p>`;
+            booklist.textContent = '';
+            const p = document.createElement("p");
+            p.textContent = `That didn't work: ${e.message}`;
+            booklist.appendChild(p);
           }
         }
 
@@ -384,7 +388,10 @@
             const rows = await runQuery("DESCRIBE library");
             printSchema(rows);
           } catch (e) {
-            booklist.innerHTML = `<p>That didn't work: ${e.message}</p>`;
+            booklist.textContent = '';
+            const p = document.createElement("p");
+            p.textContent = `That didn't work: ${e.message}`;
+            booklist.appendChild(p);
           }
         });
       </script>
