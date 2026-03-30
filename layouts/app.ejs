@@ -16,343 +16,101 @@
       <li role="menu-item"><a href="<%= pathTo("about") %>">About</a></li>
       <li role="menu-item"><a href="<%= pathTo("library") %>">Library</a></li>
     </ul>
-    <div class="everything <%if (title === "About" || title === "Library") { %>no-sidepanel<% } %>">
-    <div class="window">
-      <div class="title-bar">
-        <button aria-label="Close" class="close"></button>
-        <h1 class="title">
-          <%if (title === "About") { %>About<% } %>
-          <%if (title === "Library") { %>Library<% } %>
-          <%if (title === "Charlie Harrington") { %>Posts<% } %>
-        </h1>
-        <button aria-label="Resize" class="resize"></button>
+    <div class="everything">
+      <!-- Desktop icons -->
+      <div class="desktop-icons">
+        <div class="desktop-icon" data-url="<%= pathTo("about") %>">
+          <div class="icon-shape icon-doc"></div>
+          <span class="icon-label">About</span>
+        </div>
+        <div class="desktop-icon" data-url="<%= pathTo("library") %>">
+          <div class="icon-shape icon-folder"></div>
+          <span class="icon-label">Library</span>
+        </div>
       </div>
-    <div id="contents">
-      <%if (title !== "About" && title !== "Charlie Harrington" && title !== "Library" && title !== "Books" && title !== "Walkingman") { %>
-        <h1 class="title"><%= title %></h1>
-        <h3 class="subtitle"><%= date %></h3>
-        <div class="borderLine"></div>
-      <% } %>
-      <%if (title === "Library") { %>
-        <div id="the-library">
-          <div id="library-instructions">
-            <h3 id="library-title">Enter a SQL query to search my book list:</h3>
-            <span id="library-schema">&nbsp;&nbsp;Show schema</span>
-          </div>
-          <div id="library-form">
-            <p
-              contentEditable
-              id="library-input"
-              class="librarySelect"
-            >
-            select author, title, cover_url, amazon_link from library where genre in ('Science Fiction', 'Fantasy') order by year_read desc;
+
+      <!-- Main content window -->
+      <div class="window main-window<% if (title === "About" || title === "Library") { %> wide-window<% } %>">
+        <div class="title-bar">
+          <button aria-label="Close" class="close"></button>
+          <h1 class="title"><% if (title === "Charlie Harrington") { %>Posts<% } else { %><%= title %><% } %></h1>
+          <button aria-label="Resize" class="resize"></button>
+        </div>
+        <div class="window-contents<% if (title === "About" || title === "Library") { %> wide-contents<% } %>">
+          <% if (title !== "About" && title !== "Charlie Harrington" && title !== "Library" && title !== "Books" && title !== "Walkingman") { %>
+            <h3 class="subtitle"><%= date %></h3>
+            <div class="borderLine"></div>
+          <% } %>
+          <% if (title === "Library") { %>
+            <div id="the-library">
+              <div id="library-instructions">
+                <h3 id="library-title">Enter a SQL query to search my book list:</h3>
+                <span id="library-schema">&nbsp;&nbsp;Show schema</span>
+              </div>
+              <div id="library-form">
+                <p
+                  contentEditable
+                  id="library-input"
+                  class="librarySelect"
+                >
+                select author, title, cover_url, amazon_link from library where genre in ('Science Fiction', 'Fantasy') order by year_read desc;
+                </p>
+                <div id="library-button-row">
+                  <div class="btn" id="library-button">Book Search</div>
+                  <div class="btn" id="library-lazy">I'm Feeling Lazy</div>
+                </div>
+              </div>
+              <div id="booklist"></div>
+              <p>
+                This list of books I love (because I basically love every book I read)
+            uses affiliate links to Amazon. If you purchase an item through one of
+            these links here or elsewhere on my site, I receive a small kickback
+            (often around 4-5%). Here's the full deal: Charlie Harrington is a
+            participant in the Amazon Services LLC Associates Program, an affiliate
+            advertising program designed to provide a means for sites to earn
+            advertising fees by advertising and linking to Amazon.com.
+              </p>
+            </div>
+          <% } %>
+          <%- body %>
+        </div>
+        <footer>
+          <div>
+            <iframe src="https://whatrocks.substack.com/embed" width="340" height="320" style="border:1px solid #EEE; background:white;" frameborder="0" scrolling="no"></iframe>
+           <p class="warning">
+              The almost-never newsletter. I won't spam you, and you can unsubscribe
+              anytime.
             </p>
-            <div id="library-button-row">
-              <div class="btn" id="library-button">Book Search</div>
-              <div class="btn" id="library-lazy">I'm Feeling Lazy</div>
-            </div>            
+            <div class="copyright">
+              <span>© 2026</span>
+              <span> | </span>
+              <span>
+                <a
+                  href="https://www.charlieharrington.com/rss.xml"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  RSS feed
+                </a>
+              </span>
+              <span> | </span>
+              <span>
+                <a
+                  href="https://warpcast.com/whatrocks"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Follow @whatrocks on Farcaster
+                </a>
+              </span>
+            </div>
           </div>
-          <div id="booklist"></div>
-          <p>
-            This list of books I love (because I basically love every book I read)
-        uses affiliate links to Amazon. If you purchase an item through one of
-        these links here or elsewhere on my site, I receive a small kickback
-        (often around 4-5%). Here's the full deal: Charlie Harrington is a
-        participant in the Amazon Services LLC Associates Program, an affiliate
-        advertising program designed to provide a means for sites to earn
-        advertising fees by advertising and linking to Amazon.com.
-          </p>
-        </div>
-      <% } %>
-      <%- body %>
-    </div>
-    <footer>
-      <div>
-        <iframe src="https://whatrocks.substack.com/embed" width="340" height="320" style="border:1px solid #EEE; background:white;" frameborder="0" scrolling="no"></iframe>
-       <p class="warning">
-          The almost-never newsletter. I won't spam you, and you can unsubscribe
-          anytime.
-        </p>
-        <div class="copyright">
-          <span>© 2026</span>
-          <span> | </span>
-          <span>
-            <a
-              href="https://www.charlieharrington.com/rss.xml"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              RSS feed
-            </a>
-          </span>
-          <span> | </span>
-          <span>
-            <a
-              href="https://warpcast.com/whatrocks"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Follow @whatrocks on Farcaster
-            </a>
-          </span>
-        </div>
+        </footer>
       </div>
-    </footer>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
-    <script>hljs.highlightAll();</script>
-    <script>
-      document.addEventListener("DOMContentLoaded", function() {
-        let draggedWindow = null;
-        let dragOffset = { x: 0, y: 0 };
-        let highestZIndex = 1000;
-        
-        // Check if we're on mobile
-        const isMobile = window.innerWidth <= 768;
 
-        // Initialize window positions (only on desktop)
-        function initializeWindows() {
-          if (isMobile) return;
-          
-          const windows = document.querySelectorAll('.window');
-          windows.forEach((window, index) => {
-            // Set initial random positions
-            const x = Math.random() * (window.parentElement.clientWidth - 720);
-            const y = 50 + (index * 60); // Stagger them vertically
-            window.style.left = Math.max(0, x) + 'px';
-            window.style.top = Math.max(0, y) + 'px';
-            window.style.zIndex = highestZIndex - index;
-          });
-        }
-
-        // Bring window to front
-        function bringToFront(window) {
-          document.querySelectorAll('.window').forEach(w => w.classList.remove('focused'));
-          window.classList.add('focused');
-          window.style.zIndex = ++highestZIndex;
-        }
-
-        // Close button functionality
-        const closeButtons = document.querySelectorAll('.close');
-        closeButtons.forEach(button => {
-          button.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const window = this.closest('.window');
-            if (window) {
-              window.remove();
-            }
-          });
-        });
-
-        // Resize button functionality
-        const resizeButtons = document.querySelectorAll('.resize');
-        resizeButtons.forEach(button => {
-          button.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const window = this.closest('.window');
-            if (window) {
-              const currentWidth = parseInt(window.style.maxWidth) || 720;
-              const isWide = currentWidth === 1440;
-              
-              if (isWide) {
-                window.style.maxWidth = '720px';
-                const contents = window.querySelector('#contents');
-                if (contents) {
-                  contents.style.maxWidth = '720px';
-                }
-              } else {
-                window.style.maxWidth = '1440px';
-                const contents = window.querySelector('#contents');
-                if (contents) {
-                  contents.style.maxWidth = '1400px';
-                }
-              }
-            }
-          });
-        });
-
-        // Drag functionality (only on desktop)
-        if (!isMobile) {
-          const titleBars = document.querySelectorAll('.title-bar');
-          titleBars.forEach(titleBar => {
-            titleBar.addEventListener('mousedown', function(e) {
-              const window = this.closest('.window');
-              if (window && (e.target === this || e.target.closest('.title-bar') === this)) {
-                draggedWindow = window;
-                bringToFront(window);
-                
-                const windowRect = window.getBoundingClientRect();
-                const currentLeft = parseInt(window.style.left) || windowRect.left;
-                const currentTop = parseInt(window.style.top) || windowRect.top;
-                
-                dragOffset.x = e.clientX - currentLeft;
-                dragOffset.y = e.clientY - currentTop;
-                
-                e.preventDefault();
-              }
-            });
-          });
-
-          // Global mouse events for dragging
-          document.addEventListener('mousemove', function(e) {
-            if (draggedWindow) {
-              const x = e.clientX - dragOffset.x;
-              const y = e.clientY - dragOffset.y;
-              
-              draggedWindow.style.left = x + 'px';
-              draggedWindow.style.top = Math.max(0, y) + 'px';
-            }
-          });
-
-          document.addEventListener('mouseup', function() {
-            draggedWindow = null;
-          });
-
-          // Click to focus windows (desktop only)
-          document.addEventListener('click', function(e) {
-            const window = e.target.closest('.window');
-            if (window) {
-              bringToFront(window);
-            }
-          });
-        }
-
-        // Initialize positions
-        initializeWindows();
-      });
-    </script>
-    <%if (title === "Library") { %>
-      <script type="module">
-        // Charlie's library script — powered by DuckDB-WASM
-        import * as duckdb from 'https://cdn.jsdelivr.net/npm/@duckdb/duckdb-wasm@1.29.0/+esm';
-
-        const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSHICT36VDqxUCKkbUCJOIHIurDE3KbKwgKhyWk5rMUfISThVYZalOQ67xH_0QPwSB7-AJSh_nbFGU9/pub?gid=774696021&single=true&output=csv';
-
-        let db = null;
-        let conn = null;
-
-        async function initDuckDB() {
-          const allBundles = await duckdb.getJsDelivrBundles();
-          const bundle = await duckdb.selectBundle(allBundles);
-          const workerUrl = URL.createObjectURL(
-            new Blob([`importScripts("${bundle.mainWorker}");`], { type: 'text/javascript' })
-          );
-          const worker = new Worker(workerUrl);
-          const logger = new duckdb.ConsoleLogger();
-          db = new duckdb.AsyncDuckDB(logger, worker);
-          await db.instantiate(bundle.mainModule);
-
-          // Fetch CSV and load into DuckDB
-          const resp = await fetch(CSV_URL);
-          const csvText = await resp.text();
-          await db.registerFileText('library.csv', csvText);
-
-          conn = await db.connect();
-          await conn.query("CREATE TABLE library AS SELECT * FROM read_csv_auto('library.csv')");
-        }
-
-        async function query(sql) {
-          const result = await conn.query(sql);
-          const columns = result.schema.fields.map(f => f.name);
-          return Array.from({ length: result.numRows }, (_, i) =>
-            Object.fromEntries(columns.map(col => [col, result.getChild(col).get(i)]))
-          );
-        }
-
-        function renderError(message) {
-          booklist.innerHTML = `<p>That didn't work: ${message}</p>`;
-        }
-
-        function renderSchema(rows) {
-          booklist.innerHTML = rows.map(row =>
-            `<div class="card"><p>${row.column_name}: ${row.column_type}</p></div>`
-          ).join('');
-        }
-
-        function renderBookField(book, key) {
-          if (key === 'cover_url') {
-            return `<img alt="${book.title}" src="${book.cover_url}" height="250" width="165">`;
-          }
-          if (key === 'amazon_link') {
-            const href = book.amazon_link;
-            if (!href || !href.startsWith('http')) return '';
-            return `<a href="${href}" target="_blank">Buy on Amazon</a>`;
-          }
-          const label = key.startsWith('count') ? 'Count' : key;
-          return `<p>${label}: ${book[key]}</p>`;
-        }
-
-        function renderBooks(books) {
-          booklist.innerHTML = books.map(book =>
-            `<div class="card">${Object.keys(book).map(key => renderBookField(book, key)).join('')}</div>`
-          ).join('');
-        }
-
-        async function search(sql) {
-          try {
-            renderBooks(await query(sql));
-          } catch (e) {
-            renderError(e.message);
-          }
-        }
-
-        function getInputQuery() {
-          return document.getElementById("library-input").innerText.trim();
-        }
-
-        function setInputQuery(sql) {
-          document.getElementById("library-input").innerText = sql;
-        }
-
-        function updateUrl(sql) {
-          const params = new URLSearchParams();
-          params.set("sql", sql);
-          window.history.replaceState({}, '', `${location.pathname}?${params}`);
-        }
-
-        const SAMPLE_QUERIES = [
-          "select * from library where is_favorite = true order by year_read desc;",
-          "select author, title, cover_url, amazon_link, review from library where genre = 'Middle Grade' order by year_read desc;",
-          "select count(*), year_read from library group by 2;",
-          "select title, author, cover_url, amazon_link from library where topic = 'Ancient Rome'",
-        ];
-
-        const booklist = document.getElementById("booklist");
-        booklist.innerHTML = '<p>Loading books...</p>';
-
-        await initDuckDB();
-
-        const initialSql = new URLSearchParams(window.location.search).get('sql');
-        if (initialSql) setInputQuery(initialSql);
-        await search(getInputQuery());
-
-        document.getElementById("library-button").addEventListener('click', async (e) => {
-          e.preventDefault();
-          const sql = getInputQuery();
-          updateUrl(sql);
-          await search(sql);
-        });
-
-        document.getElementById("library-lazy").addEventListener('click', async (e) => {
-          e.preventDefault();
-          const sql = SAMPLE_QUERIES[Math.floor(Math.random() * SAMPLE_QUERIES.length)];
-          setInputQuery(sql);
-          updateUrl(sql);
-          await search(sql);
-        });
-
-        document.getElementById("library-schema").addEventListener('click', async () => {
-          try {
-            renderSchema(await query("DESCRIBE library"));
-          } catch (e) {
-            renderError(e.message);
-          }
-        });
-      </script>
-    <% } %>
-    </div>
-    <%if (title !== "About" && title !== "Library") { %>
-    <div class="sidepanel">
-      <div class="window">
+      <!-- Sidepanel windows -->
+      <% if (title !== "About" && title !== "Library") { %>
+      <div class="window sidepanel-window">
         <div class="title-bar">
           <button aria-label="Close" class="close"></button>
           <h2 class="title">CS Primer Show</h2>
@@ -365,7 +123,7 @@
           <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/videoseries?si=xysjPOA0G7Qde94O&amp;list=PL4E4jY21e9ntlbxBV1rUU3b8HWldkUTz2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
       </div>
-      <div class="window">
+      <div class="window sidepanel-window">
         <div class="title-bar">
           <button aria-label="Close" class="close"></button>
           <h2 class="title">Fahrenheit 52</h2>
@@ -379,9 +137,485 @@
           <iframe allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" frameborder="0" height="450" style="width:100%;max-width:660px;overflow:hidden;border-radius:10px;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src="https://embed.podcasts.apple.com/us/podcast/fahrenheit-52/id1600947555"></iframe>
         </div>
       </div>
+      <% } %>
     </div>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
+    <% if (title === "Library") { %>
+    <script type="module">
+      // Charlie's library script — powered by DuckDB-WASM
+      import * as duckdb from 'https://cdn.jsdelivr.net/npm/@duckdb/duckdb-wasm@1.29.0/+esm';
+
+      const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSHICT36VDqxUCKkbUCJOIHIurDE3KbKwgKhyWk5rMUfISThVYZalOQ67xH_0QPwSB7-AJSh_nbFGU9/pub?gid=774696021&single=true&output=csv';
+
+      let db = null;
+      let conn = null;
+
+      async function initDuckDB() {
+        const allBundles = await duckdb.getJsDelivrBundles();
+        const bundle = await duckdb.selectBundle(allBundles);
+        const workerUrl = URL.createObjectURL(
+          new Blob([`importScripts("${bundle.mainWorker}");`], { type: 'text/javascript' })
+        );
+        const worker = new Worker(workerUrl);
+        const logger = new duckdb.ConsoleLogger();
+        db = new duckdb.AsyncDuckDB(logger, worker);
+        await db.instantiate(bundle.mainModule);
+
+        // Fetch CSV and load into DuckDB
+        const resp = await fetch(CSV_URL);
+        const csvText = await resp.text();
+        await db.registerFileText('library.csv', csvText);
+
+        conn = await db.connect();
+        await conn.query("CREATE TABLE library AS SELECT * FROM read_csv_auto('library.csv')");
+      }
+
+      async function query(sql) {
+        const result = await conn.query(sql);
+        const columns = result.schema.fields.map(f => f.name);
+        return Array.from({ length: result.numRows }, (_, i) =>
+          Object.fromEntries(columns.map(col => [col, result.getChild(col).get(i)]))
+        );
+      }
+
+      function renderError(message) {
+        booklist.innerHTML = `<p>That didn't work: ${message}</p>`;
+      }
+
+      function renderSchema(rows) {
+        booklist.innerHTML = rows.map(row =>
+          `<div class="card"><p>${row.column_name}: ${row.column_type}</p></div>`
+        ).join('');
+      }
+
+      function renderBookField(book, key) {
+        if (key === 'cover_url') {
+          return `<img alt="${book.title}" src="${book.cover_url}" height="250" width="165">`;
+        }
+        if (key === 'amazon_link') {
+          const href = book.amazon_link;
+          if (!href || !href.startsWith('http')) return '';
+          return `<a href="${href}" target="_blank">Buy on Amazon</a>`;
+        }
+        const label = key.startsWith('count') ? 'Count' : key;
+        return `<p>${label}: ${book[key]}</p>`;
+      }
+
+      function renderBooks(books) {
+        booklist.innerHTML = books.map(book =>
+          `<div class="card">${Object.keys(book).map(key => renderBookField(book, key)).join('')}</div>`
+        ).join('');
+      }
+
+      async function search(sql) {
+        try {
+          renderBooks(await query(sql));
+        } catch (e) {
+          renderError(e.message);
+        }
+      }
+
+      function getInputQuery() {
+        return document.getElementById("library-input").innerText.trim();
+      }
+
+      function setInputQuery(sql) {
+        document.getElementById("library-input").innerText = sql;
+      }
+
+      function updateUrl(sql) {
+        const params = new URLSearchParams();
+        params.set("sql", sql);
+        window.history.replaceState({}, '', `${location.pathname}?${params}`);
+      }
+
+      const SAMPLE_QUERIES = [
+        "select * from library where is_favorite = true order by year_read desc;",
+        "select author, title, cover_url, amazon_link, review from library where genre = 'Middle Grade' order by year_read desc;",
+        "select count(*), year_read from library group by 2;",
+        "select title, author, cover_url, amazon_link from library where topic = 'Ancient Rome'",
+      ];
+
+      const booklist = document.getElementById("booklist");
+      booklist.innerHTML = '<p>Loading books...</p>';
+
+      await initDuckDB();
+
+      const initialSql = new URLSearchParams(window.location.search).get('sql');
+      if (initialSql) setInputQuery(initialSql);
+      await search(getInputQuery());
+
+      document.getElementById("library-button").addEventListener('click', async (e) => {
+        e.preventDefault();
+        const sql = getInputQuery();
+        updateUrl(sql);
+        await search(sql);
+      });
+
+      document.getElementById("library-lazy").addEventListener('click', async (e) => {
+        e.preventDefault();
+        const sql = SAMPLE_QUERIES[Math.floor(Math.random() * SAMPLE_QUERIES.length)];
+        setInputQuery(sql);
+        updateUrl(sql);
+        await search(sql);
+      });
+
+      document.getElementById("library-schema").addEventListener('click', async () => {
+        try {
+          renderSchema(await query("DESCRIBE library"));
+        } catch (e) {
+          renderError(e.message);
+        }
+      });
+    </script>
     <% } %>
-</div>    
-  </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const isMobile = window.innerWidth <= 768;
+        let highestZIndex = 1000;
+        let draggedWindow = null;
+        let dragOffset = { x: 0, y: 0 };
+        let windowCount = 0;
+        let currentFocusedUrl = null;
+        let suppressPushState = false;
+
+        // Normalize URL for comparison
+        function normalizeUrl(url) {
+          // Handle relative URLs
+          try {
+            const u = new URL(url, window.location.origin);
+            url = u.pathname;
+          } catch(e) {}
+          return url.replace(/\/index\.html$/, '/').replace(/\/$/, '') || '/';
+        }
+
+        // Track open windows by URL
+        const windowsByUrl = {};
+
+        // Register the initial main window
+        const mainWindow = document.querySelector('.window.main-window');
+        if (mainWindow) {
+          const url = normalizeUrl(window.location.pathname);
+          mainWindow.dataset.url = url;
+          windowsByUrl[url] = mainWindow;
+          currentFocusedUrl = url;
+        }
+
+        // Bring window to front and optionally update URL
+        function bringToFront(win) {
+          document.querySelectorAll('.window').forEach(function(w) { w.classList.remove('focused'); });
+          win.classList.add('focused');
+          win.style.zIndex = ++highestZIndex;
+
+          if (!isMobile && win.dataset.url && !suppressPushState) {
+            var url = win.dataset.url;
+            if (currentFocusedUrl !== url) {
+              var pushUrl = url === '/' ? '/' : url;
+              history.pushState({ url: url }, '', pushUrl);
+              currentFocusedUrl = url;
+              document.title = win.dataset.title || document.title;
+            }
+          }
+        }
+
+        // Setup drag on a title bar element
+        function setupDrag(titleBar) {
+          if (isMobile) return;
+          titleBar.addEventListener('mousedown', function(e) {
+            var win = this.closest('.window');
+            if (!win) return;
+            if (e.target.closest('button')) return;
+            draggedWindow = win;
+            bringToFront(win);
+            var rect = win.getBoundingClientRect();
+            dragOffset.x = e.clientX - (parseInt(win.style.left) || rect.left);
+            dragOffset.y = e.clientY - (parseInt(win.style.top) || rect.top);
+            e.preventDefault();
+          });
+        }
+
+        // Setup close button
+        function setupCloseButton(btn) {
+          btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            var win = this.closest('.window');
+            if (!win) return;
+
+            var url = win.dataset.url;
+            if (url) delete windowsByUrl[url];
+            win.remove();
+
+            // If this was the focused window, focus another
+            if (url && url === currentFocusedUrl) {
+              var remaining = Object.keys(windowsByUrl);
+              if (remaining.length > 0) {
+                bringToFront(windowsByUrl[remaining[remaining.length - 1]]);
+              } else {
+                history.pushState({ url: '/' }, '', '/');
+                currentFocusedUrl = '/';
+              }
+            }
+          });
+        }
+
+        // Setup resize button
+        function setupResizeButton(btn) {
+          btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            var win = this.closest('.window');
+            if (!win) return;
+            win.classList.toggle('wide-window');
+            var contents = win.querySelector('.window-contents');
+            if (contents) contents.classList.toggle('wide-contents');
+          });
+        }
+
+        // Setup all interactive elements on a window
+        function setupWindow(win) {
+          var titleBar = win.querySelector('.title-bar');
+          if (titleBar) setupDrag(titleBar);
+          var closeBtn = win.querySelector('.close');
+          if (closeBtn) setupCloseButton(closeBtn);
+          var resizeBtn = win.querySelector('.resize');
+          if (resizeBtn) setupResizeButton(resizeBtn);
+        }
+
+        // Create a new window element
+        function createWindow(title, contentHtml, url, options) {
+          options = options || {};
+          windowCount++;
+
+          var win = document.createElement('div');
+          win.className = 'window' + (options.wide ? ' wide-window' : '');
+          if (url) win.dataset.url = url;
+          win.dataset.title = title;
+
+          var contentsClass = 'window-contents' + (options.wide ? ' wide-contents' : '');
+
+          win.innerHTML =
+            '<div class="title-bar">' +
+              '<button aria-label="Close" class="close"></button>' +
+              '<h1 class="title">' + title + '</h1>' +
+              '<button aria-label="Resize" class="resize"></button>' +
+            '</div>' +
+            '<div class="' + contentsClass + '">' +
+              contentHtml +
+            '</div>';
+
+          // Cascade position
+          if (!isMobile) {
+            var offset = (windowCount % 8) * 30;
+            win.style.left = (120 + offset) + 'px';
+            win.style.top = (60 + offset) + 'px';
+          }
+
+          document.querySelector('.everything').appendChild(win);
+          setupWindow(win);
+          bringToFront(win);
+
+          if (url) windowsByUrl[url] = win;
+
+          return win;
+        }
+
+        // Fetch a page and extract its content
+        function fetchPage(url) {
+          return fetch(url).then(function(resp) {
+            return resp.text();
+          }).then(function(html) {
+            var doc = new DOMParser().parseFromString(html, 'text/html');
+
+            // Get title from title bar
+            var titleEl = doc.querySelector('.title-bar .title');
+            var title = titleEl ? titleEl.textContent.trim() : (doc.title || 'Untitled');
+
+            // Get content
+            var contentsEl = doc.querySelector('.window-contents');
+            var contentHtml = contentsEl ? contentsEl.innerHTML : '';
+
+            // Check if wide
+            var pageTitle = doc.querySelector('title');
+            var pageTitleText = pageTitle ? pageTitle.textContent : '';
+            var isWide = pageTitleText === 'About' || pageTitleText === 'Library';
+
+            // Extract module scripts (for Library DuckDB etc)
+            var moduleScripts = [];
+            doc.querySelectorAll('script[type="module"]').forEach(function(s) {
+              moduleScripts.push(s.textContent);
+            });
+
+            return {
+              title: title,
+              contentHtml: contentHtml,
+              isWide: isWide,
+              moduleScripts: moduleScripts
+            };
+          });
+        }
+
+        // SPA navigation - fetch page and open in new window
+        function spaNavigate(url) {
+          var normalized = normalizeUrl(url);
+
+          // If window already exists, just bring it to front
+          if (windowsByUrl[normalized]) {
+            bringToFront(windowsByUrl[normalized]);
+            return;
+          }
+
+          fetchPage(url).then(function(page) {
+            var win = createWindow(page.title, page.contentHtml, normalized, { wide: page.isWide });
+
+            // Execute any module scripts from the fetched page
+            page.moduleScripts.forEach(function(src) {
+              var script = document.createElement('script');
+              script.type = 'module';
+              script.textContent = src;
+              document.body.appendChild(script);
+            });
+
+            // Run highlight.js on new content
+            win.querySelectorAll('pre code').forEach(function(block) {
+              hljs.highlightElement(block);
+            });
+
+            // Intercept links inside new window content (handled by global listener)
+          }).catch(function(err) {
+            // Fall back to normal navigation on error
+            window.location.href = url;
+          });
+        }
+
+        // Initialize existing windows
+        document.querySelectorAll('.window').forEach(function(win) {
+          setupWindow(win);
+        });
+
+        // Position windows on desktop
+        if (!isMobile) {
+          var allWindows = document.querySelectorAll('.window');
+          allWindows.forEach(function(win, i) {
+            if (win.classList.contains('sidepanel-window')) {
+              var desktopWidth = win.parentElement.clientWidth;
+              win.style.left = Math.max(0, desktopWidth - 620) + 'px';
+              win.style.top = (40 + i * 400) + 'px';
+              win.style.zIndex = highestZIndex - i;
+            } else {
+              var x = Math.random() * Math.max(0, win.parentElement.clientWidth - 720);
+              win.style.left = Math.max(0, x) + 'px';
+              win.style.top = (40 + i * 50) + 'px';
+              win.style.zIndex = highestZIndex - i;
+            }
+          });
+
+          // Bring main window to front last
+          if (mainWindow) bringToFront(mainWindow);
+        }
+
+        // Global mouse events for dragging
+        if (!isMobile) {
+          document.addEventListener('mousemove', function(e) {
+            if (draggedWindow) {
+              draggedWindow.style.left = (e.clientX - dragOffset.x) + 'px';
+              draggedWindow.style.top = Math.max(0, e.clientY - dragOffset.y) + 'px';
+            }
+          });
+
+          document.addEventListener('mouseup', function() {
+            draggedWindow = null;
+          });
+
+          // Click to focus windows
+          document.addEventListener('mousedown', function(e) {
+            var win = e.target.closest('.window');
+            if (win) bringToFront(win);
+          });
+        }
+
+        // Desktop icon double-click
+        document.querySelectorAll('.desktop-icon').forEach(function(icon) {
+          // Track clicks for double-click detection
+          var clickTimeout = null;
+          var clickCount = 0;
+
+          icon.addEventListener('click', function(e) {
+            e.preventDefault();
+            clickCount++;
+            if (clickCount === 1) {
+              // Single click - select the icon
+              document.querySelectorAll('.desktop-icon').forEach(function(i) { i.classList.remove('selected'); });
+              icon.classList.add('selected');
+              clickTimeout = setTimeout(function() { clickCount = 0; }, 400);
+            } else if (clickCount === 2) {
+              // Double click - open window
+              clearTimeout(clickTimeout);
+              clickCount = 0;
+              icon.classList.remove('selected');
+              var url = icon.dataset.url;
+              if (url) spaNavigate(url);
+            }
+          });
+        });
+
+        // Click on desktop background deselects icons
+        document.querySelector('.everything').addEventListener('click', function(e) {
+          if (e.target === this) {
+            document.querySelectorAll('.desktop-icon').forEach(function(i) { i.classList.remove('selected'); });
+          }
+        });
+
+        // Intercept all internal link clicks for SPA navigation (desktop only)
+        if (!isMobile) {
+          document.addEventListener('click', function(e) {
+            var link = e.target.closest('a[href]');
+            if (!link) return;
+
+            // Don't intercept external links or target=_blank
+            if (link.target === '_blank') return;
+
+            var href = link.getAttribute('href');
+            if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('javascript:')) return;
+
+            // Check if same origin
+            try {
+              var url = new URL(href, window.location.origin);
+              if (url.origin !== window.location.origin) return;
+            } catch(err) {
+              return;
+            }
+
+            // Don't intercept RSS links
+            if (href.includes('.xml')) return;
+
+            e.preventDefault();
+            spaNavigate(href);
+          });
+        }
+
+        // Handle browser back/forward
+        window.addEventListener('popstate', function(e) {
+          if (isMobile) return;
+          var url = (e.state && e.state.url) ? e.state.url : normalizeUrl(window.location.pathname);
+
+          // Suppress pushState when handling popstate
+          suppressPushState = true;
+
+          if (windowsByUrl[url]) {
+            bringToFront(windowsByUrl[url]);
+          } else {
+            spaNavigate(url);
+          }
+
+          suppressPushState = false;
+        });
+
+        // Set initial history state
+        history.replaceState({ url: currentFocusedUrl }, '', window.location.href);
+      });
+    </script>
   </body>
 </html>

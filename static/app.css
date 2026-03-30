@@ -26,8 +26,9 @@ ul[role="menu-bar"] li[role="menu-item"] a {
 .everything {
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: calc(100vh - 28px);
   margin: 0 auto;
+  overflow: hidden;
 }
 
 .window {
@@ -37,6 +38,11 @@ ul[role="menu-bar"] li[role="menu-item"] a {
   border: 1px solid #000;
   box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
   z-index: 1;
+  overflow: hidden;
+}
+
+.window.wide-window {
+  max-width: 1440px;
 }
 
 .window.focused {
@@ -48,22 +54,133 @@ ul[role="menu-bar"] li[role="menu-item"] a {
   user-select: none;
 }
 
-.everything.no-sidepanel #contents {
+/* Desktop icons */
+.desktop-icons {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  z-index: 0;
+}
+
+.desktop-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: default;
+  user-select: none;
+  width: 80px;
+  text-align: center;
+  padding: 4px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+}
+
+.desktop-icon.selected {
+  border-color: #000;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.desktop-icon.selected .icon-label {
+  background: #000;
+  color: #fff;
+}
+
+.icon-label {
+  font-size: 12px;
+  font-family: Geneva, Verdana, sans-serif;
+  margin-top: 4px;
+  padding: 1px 4px;
+  line-height: 1.3;
+}
+
+.icon-shape {
+  image-rendering: pixelated;
+}
+
+/* Document icon (About) */
+.icon-doc {
+  width: 38px;
+  height: 46px;
+  background: #fff;
+  border: 2px solid #000;
+  position: relative;
+}
+
+.icon-doc::after {
+  content: '';
+  position: absolute;
+  top: 14px;
+  left: 6px;
+  width: 20px;
+  height: 2px;
+  background: #000;
+  box-shadow: 0 6px 0 #000, 0 12px 0 #000, 0 18px 0 #000;
+}
+
+/* Folder icon (Library) */
+.icon-folder {
+  width: 48px;
+  height: 34px;
+  background: #fff;
+  border: 2px solid #000;
+  position: relative;
+  margin-top: 12px;
+}
+
+.icon-folder::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: -2px;
+  width: 22px;
+  height: 12px;
+  background: #fff;
+  border: 2px solid #000;
+  border-bottom: none;
+}
+
+/* Window contents */
+.window-contents {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  margin-top: 1rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: calc(100vh - 200px);
+}
+
+.window-contents.wide-contents {
   max-width: 1400px;
 }
 
 @media (max-width: 768px) {
-  .sidepanel {
-      display: none;
+  .desktop-icons {
+    display: none;
   }
-  
+
+  .sidepanel-window {
+    display: none;
+  }
+
   .everything {
     display: flex;
     flex-direction: column;
     align-items: center;
     height: auto;
+    overflow: visible;
   }
-  
+
   .window {
     position: relative;
     max-width: calc(100vw - 20px);
@@ -71,9 +188,14 @@ ul[role="menu-bar"] li[role="menu-item"] a {
     left: auto !important;
     top: auto !important;
   }
-  
+
   .title-bar {
     cursor: default;
+  }
+
+  .window-contents {
+    max-height: none;
+    overflow-y: visible;
   }
 }
 
@@ -122,6 +244,8 @@ blockquote {
 
 pre {
   width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 code[class*="language-"] {
@@ -145,23 +269,6 @@ footer {
 
 img {
   max-width: 100%;
-}
-
-#contents {
-  padding-left: 1rem;
-  padding-right: 1rem;
-  margin-left: auto;
-  margin-right: auto;
-  padding-bottom: 1rem;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: flex-start;
-  width: 100%;
-  max-width: 720px;
-  margin: 0 auto;
-  margin-top: 1rem;
 }
 
 .title {
