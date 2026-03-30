@@ -248,7 +248,6 @@
 
           conn = await db.connect();
           await conn.query("CREATE TABLE library AS SELECT * FROM read_csv_auto('library.csv')");
-          await conn.query("SET access_mode = 'read_only'");
         }
 
         async function query(sql) {
