@@ -221,129 +221,130 @@
       });
     </script>
     <%if (title === "Library") { %>
-      <script>
-        // Charlie's library script
-        document.addEventListener("DOMContentLoaded", function() {
+      <script type="module">
+        // Charlie's library script — powered by DuckDB-WASM
+        import * as duckdb from 'https://cdn.jsdelivr.net/npm/@duckdb/duckdb-wasm@1.29.0/+esm';
 
-          const BASE_URL = 'https://blag-library.onrender.com/api/';
+        const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSHICT36VDqxUCKkbUCJOIHIurDE3KbKwgKhyWk5rMUfISThVYZalOQ67xH_0QPwSB7-AJSh_nbFGU9/pub?gid=774696021&single=true&output=csv';
 
-          function printBooks(books) {
-            const booklist = document.getElementById("booklist");
-            booklist.innerHTML = ''
-            if (Array.isArray(books)) {
-              for (let book of books) {
-                prettyPrintBook(book);
-              }
-            } else {
-              for (let field of books.library.fields) {
-                printSchema(field)
-              }             
-            }
-          }
-          function printSchema(field) {
-            const booklist = document.getElementById("booklist");
-            const bookElement = document.createElement("div");
-            bookElement.classList = ["card"];
-            const p = document.createElement("p");
-            p.innerText = `${field.name}: ${field.data_type}`;
-            bookElement.appendChild(p);
-            booklist.appendChild(bookElement);
-          }
+        let db = null;
+        let conn = null;
 
-          function prettyPrintBook(book) {
-            const booklist = document.getElementById("booklist");
-            const bookElement = document.createElement("div");
-            bookElement.classList = ["card"];
-            Object.keys(book).forEach(key=> {
-              switch(key) {
-                case 'cover_url':
-                  const cover = document.createElement("img");
-                  cover.alt = `${book.title}`
-                  cover.src = `${book.cover_url}`;
-                  cover.height = "250"
-                  cover.width = "165";
-                  bookElement.appendChild(cover);
-                  break;
-                case 'amazon_link':
-                  const href = book.amazon_link;
-                  if (!href) break;
-                  const a = document.createElement("a");
-                  a.href = href;
-                  a.innerText = 'Buy on Amazon';
-                  a.target = "_blank";
-                  bookElement.appendChild(a);
-                  break;
-                default:
-                  const p = document.createElement("p");
-                  if (key.startsWith("COUNT")) {
-                    p.innerText = `Count: ${book[key]}`
-                  } else {
-                    p.innerText = `${key}: ${book[key]}`;
-                  }
-                  bookElement.appendChild(p);              
-              }            
-            });
-            booklist.appendChild(bookElement);
+        async function initDuckDB() {
+          const allBundles = await duckdb.getJsDelivrBundles();
+          const bundle = await duckdb.selectBundle(allBundles);
+          const workerUrl = URL.createObjectURL(
+            new Blob([`importScripts("${bundle.mainWorker}");`], { type: 'text/javascript' })
+          );
+          const worker = new Worker(workerUrl);
+          const logger = new duckdb.ConsoleLogger();
+          db = new duckdb.AsyncDuckDB(logger, worker);
+          await db.instantiate(bundle.mainModule);
+
+          // Fetch CSV and load into DuckDB
+          const resp = await fetch(CSV_URL);
+          const csvText = await resp.text();
+          await db.registerFileText('library.csv', csvText);
+
+          conn = await db.connect();
+          await conn.query("CREATE TABLE library AS SELECT * FROM read_csv_auto('library.csv')");
+        }
+
+        async function query(sql) {
+          const result = await conn.query(sql);
+          const columns = result.schema.fields.map(f => f.name);
+          return Array.from({ length: result.numRows }, (_, i) =>
+            Object.fromEntries(columns.map(col => [col, result.getChild(col).get(i)]))
+          );
+        }
+
+        function renderError(message) {
+          booklist.innerHTML = `<p>That didn't work: ${message}</p>`;
+        }
+
+        function renderSchema(rows) {
+          booklist.innerHTML = rows.map(row =>
+            `<div class="card"><p>${row.column_name}: ${row.column_type}</p></div>`
+          ).join('');
+        }
+
+        function renderBookField(book, key) {
+          if (key === 'cover_url') {
+            return `<img alt="${book.title}" src="${book.cover_url}" height="250" width="165">`;
           }
-          function fetchBooks(query, cb, query_type = 'sql') {
-            const xmlhttp = new XMLHttpRequest();
-            xmlhttp.onload = function() {
-              if (xmlhttp.status >= 200 && xmlhttp.status < 400) {
-                const results = JSON.parse(xmlhttp.responseText);
-                cb(results);
-              } else {
-                const booklist = document.getElementById("booklist");
-                booklist.innerHTML = "That didn't work";
-              }
-            };
-            const http_verb = query_type === "sql" ? 'POST' : 'GET';
-            xmlhttp.open(http_verb, `${BASE_URL}${query_type}`, true);
-            xmlhttp.send(query);
+          if (key === 'amazon_link') {
+            const href = book.amazon_link;
+            if (!href || !href.startsWith('http')) return '';
+            return `<a href="${href}" target="_blank">Buy on Amazon</a>`;
           }
-          // Only do stuff on the library page!
-          const library = document.getElementById("the-library");
-          const QUERIES = [
-            "select * from library where is_favorite = true order by year_read desc;",
-            "select author, title, cover_url, amazon_link, review from library where genre = 'Middle Grade' order by year_read desc;",
-            "select count(*), year_read from library group by 2;",
-            "select title, author, cover_url, amazon_link from library where topic = 'Ancient Rome'",
-          ]
-          if (library) {
-            // get existing query
-            const params = new Proxy(new URLSearchParams(window.location.search), {
-              get: (searchParams, prop) => searchParams.get(prop),
-            });
-            if (params.sql) {
-              fetchBooks(params.sql, printBooks);
-            }
-            
-            // to set new query 
-            const newParams = new URLSearchParams();
-            
-            const libraryButton = document.getElementById("library-button");
-            libraryButton.addEventListener('click', e => {
-              e.preventDefault();
-              const queryInput = document.getElementById("library-input");
-              const query = queryInput.innerText.trim();
-              newParams.set("sql", query)
-              window.history.replaceState({}, '', `${location.pathname}?${newParams}`)
-              fetchBooks(query, printBooks);
-            });
-            const lazyButton = document.getElementById("library-lazy");
-            lazyButton.addEventListener('click', e => {
-              e.preventDefault();
-              const queryInput = document.getElementById("library-input");
-              const randomIdx = Math.floor(Math.random() * QUERIES.length);
-              queryInput.innerText = QUERIES[randomIdx];
-              const query = queryInput.innerText.trim();
-              newParams.set("sql", query)
-              window.history.replaceState({}, '', `${location.pathname}?${newParams}`)
-              fetchBooks(query, printBooks);
-            });
-            const schemaButton = document.getElementById("library-schema");
-            schemaButton.addEventListener('click', e => { 
-              fetchBooks('', printBooks, 'schema');
-            });
+          const label = key.startsWith('count') ? 'Count' : key;
+          return `<p>${label}: ${book[key]}</p>`;
+        }
+
+        function renderBooks(books) {
+          booklist.innerHTML = books.map(book =>
+            `<div class="card">${Object.keys(book).map(key => renderBookField(book, key)).join('')}</div>`
+          ).join('');
+        }
+
+        async function search(sql) {
+          try {
+            renderBooks(await query(sql));
+          } catch (e) {
+            renderError(e.message);
+          }
+        }
+
+        function getInputQuery() {
+          return document.getElementById("library-input").innerText.trim();
+        }
+
+        function setInputQuery(sql) {
+          document.getElementById("library-input").innerText = sql;
+        }
+
+        function updateUrl(sql) {
+          const params = new URLSearchParams();
+          params.set("sql", sql);
+          window.history.replaceState({}, '', `${location.pathname}?${params}`);
+        }
+
+        const SAMPLE_QUERIES = [
+          "select * from library where is_favorite = true order by year_read desc;",
+          "select author, title, cover_url, amazon_link, review from library where genre = 'Middle Grade' order by year_read desc;",
+          "select count(*), year_read from library group by 2;",
+          "select title, author, cover_url, amazon_link from library where topic = 'Ancient Rome'",
+        ];
+
+        const booklist = document.getElementById("booklist");
+        booklist.innerHTML = '<p>Loading books...</p>';
+
+        await initDuckDB();
+
+        const initialSql = new URLSearchParams(window.location.search).get('sql');
+        if (initialSql) setInputQuery(initialSql);
+        await search(getInputQuery());
+
+        document.getElementById("library-button").addEventListener('click', async (e) => {
+          e.preventDefault();
+          const sql = getInputQuery();
+          updateUrl(sql);
+          await search(sql);
+        });
+
+        document.getElementById("library-lazy").addEventListener('click', async (e) => {
+          e.preventDefault();
+          const sql = SAMPLE_QUERIES[Math.floor(Math.random() * SAMPLE_QUERIES.length)];
+          setInputQuery(sql);
+          updateUrl(sql);
+          await search(sql);
+        });
+
+        document.getElementById("library-schema").addEventListener('click', async () => {
+          try {
+            renderSchema(await query("DESCRIBE library"));
+          } catch (e) {
+            renderError(e.message);
           }
         });
       </script>
