@@ -251,147 +251,101 @@
           await conn.query("SET access_mode = 'read_only'");
         }
 
-        async function runQuery(sql) {
+        async function query(sql) {
           const result = await conn.query(sql);
-          // Convert Arrow table to array of objects
-          const rows = [];
-          const schema = result.schema.fields.map(f => f.name);
-          for (let i = 0; i < result.numRows; i++) {
-            const row = {};
-            for (const col of schema) {
-              const val = result.getChild(col).get(i);
-              row[col] = val;
-            }
-            rows.push(row);
+          const columns = result.schema.fields.map(f => f.name);
+          return Array.from({ length: result.numRows }, (_, i) =>
+            Object.fromEntries(columns.map(col => [col, result.getChild(col).get(i)]))
+          );
+        }
+
+        function renderError(message) {
+          booklist.innerHTML = `<p>That didn't work: ${message}</p>`;
+        }
+
+        function renderSchema(rows) {
+          booklist.innerHTML = rows.map(row =>
+            `<div class="card"><p>${row.column_name}: ${row.column_type}</p></div>`
+          ).join('');
+        }
+
+        function renderBookField(book, key) {
+          if (key === 'cover_url') {
+            return `<img alt="${book.title}" src="${book.cover_url}" height="250" width="165">`;
           }
-          return rows;
-        }
-
-        function printBooks(books) {
-          const booklist = document.getElementById("booklist");
-          booklist.innerHTML = '';
-          for (const book of books) {
-            prettyPrintBook(book);
+          if (key === 'amazon_link') {
+            const href = book.amazon_link;
+            if (!href || !href.startsWith('http')) return '';
+            return `<a href="${href}" target="_blank">Buy on Amazon</a>`;
           }
+          const label = key.startsWith('count') ? 'Count' : key;
+          return `<p>${label}: ${book[key]}</p>`;
         }
 
-        function printSchema(rows) {
-          const booklist = document.getElementById("booklist");
-          booklist.innerHTML = '';
-          for (const row of rows) {
-            const el = document.createElement("div");
-            el.classList = ["card"];
-            const p = document.createElement("p");
-            p.innerText = `${row.column_name}: ${row.column_type}`;
-            el.appendChild(p);
-            booklist.appendChild(el);
-          }
+        function renderBooks(books) {
+          booklist.innerHTML = books.map(book =>
+            `<div class="card">${Object.keys(book).map(key => renderBookField(book, key)).join('')}</div>`
+          ).join('');
         }
 
-        function prettyPrintBook(book) {
-          const booklist = document.getElementById("booklist");
-          const bookElement = document.createElement("div");
-          bookElement.classList = ["card"];
-          Object.keys(book).forEach(key => {
-            switch(key) {
-              case 'cover_url':
-                const cover = document.createElement("img");
-                cover.alt = `${book.title}`;
-                cover.src = `${book.cover_url}`;
-                cover.height = "250";
-                cover.width = "165";
-                bookElement.appendChild(cover);
-                break;
-              case 'amazon_link':
-                const href = book.amazon_link;
-                if (!href || !href.startsWith('http')) break;
-                const a = document.createElement("a");
-                a.href = href;
-                a.innerText = 'Buy on Amazon';
-                a.target = "_blank";
-                bookElement.appendChild(a);
-                break;
-              default:
-                const p = document.createElement("p");
-                if (key.startsWith("count")) {
-                  p.innerText = `Count: ${book[key]}`;
-                } else {
-                  p.innerText = `${key}: ${book[key]}`;
-                }
-                bookElement.appendChild(p);
-            }
-          });
-          booklist.appendChild(bookElement);
-        }
-
-        async function executeQuery(query) {
-          const booklist = document.getElementById("booklist");
+        async function search(sql) {
           try {
-            const rows = await runQuery(query);
-            printBooks(rows);
+            renderBooks(await query(sql));
           } catch (e) {
-            booklist.textContent = '';
-            const p = document.createElement("p");
-            p.textContent = `That didn't work: ${e.message}`;
-            booklist.appendChild(p);
+            renderError(e.message);
           }
         }
 
-        const QUERIES = [
+        function getInputQuery() {
+          return document.getElementById("library-input").innerText.trim();
+        }
+
+        function setInputQuery(sql) {
+          document.getElementById("library-input").innerText = sql;
+        }
+
+        function updateUrl(sql) {
+          const params = new URLSearchParams();
+          params.set("sql", sql);
+          window.history.replaceState({}, '', `${location.pathname}?${params}`);
+        }
+
+        const SAMPLE_QUERIES = [
           "select * from library where is_favorite = true order by year_read desc;",
           "select author, title, cover_url, amazon_link, review from library where genre = 'Middle Grade' order by year_read desc;",
           "select count(*), year_read from library group by 2;",
           "select title, author, cover_url, amazon_link from library where topic = 'Ancient Rome'",
         ];
 
-        // Initialize and run default query
         const booklist = document.getElementById("booklist");
         booklist.innerHTML = '<p>Loading books...</p>';
 
         await initDuckDB();
 
-        // Check for URL query param
-        const params = new URLSearchParams(window.location.search);
-        if (params.get('sql')) {
-          const sql = params.get('sql');
-          document.getElementById("library-input").innerText = sql;
-          await executeQuery(sql);
-        } else {
-          // Run the default query shown in the input
-          const defaultQuery = document.getElementById("library-input").innerText.trim();
-          await executeQuery(defaultQuery);
-        }
-
-        const newParams = new URLSearchParams();
+        const initialSql = new URLSearchParams(window.location.search).get('sql');
+        if (initialSql) setInputQuery(initialSql);
+        await search(getInputQuery());
 
         document.getElementById("library-button").addEventListener('click', async (e) => {
           e.preventDefault();
-          const query = document.getElementById("library-input").innerText.trim();
-          newParams.set("sql", query);
-          window.history.replaceState({}, '', `${location.pathname}?${newParams}`);
-          await executeQuery(query);
+          const sql = getInputQuery();
+          updateUrl(sql);
+          await search(sql);
         });
 
         document.getElementById("library-lazy").addEventListener('click', async (e) => {
           e.preventDefault();
-          const queryInput = document.getElementById("library-input");
-          const randomIdx = Math.floor(Math.random() * QUERIES.length);
-          queryInput.innerText = QUERIES[randomIdx];
-          const query = queryInput.innerText.trim();
-          newParams.set("sql", query);
-          window.history.replaceState({}, '', `${location.pathname}?${newParams}`);
-          await executeQuery(query);
+          const sql = SAMPLE_QUERIES[Math.floor(Math.random() * SAMPLE_QUERIES.length)];
+          setInputQuery(sql);
+          updateUrl(sql);
+          await search(sql);
         });
 
         document.getElementById("library-schema").addEventListener('click', async () => {
           try {
-            const rows = await runQuery("DESCRIBE library");
-            printSchema(rows);
+            renderSchema(await query("DESCRIBE library"));
           } catch (e) {
-            booklist.textContent = '';
-            const p = document.createElement("p");
-            p.textContent = `That didn't work: ${e.message}`;
-            booklist.appendChild(p);
+            renderError(e.message);
           }
         });
       </script>
