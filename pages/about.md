@@ -10,7 +10,7 @@ I'm a computer programmer working on [Folio](https://folio.co). Previously, I wo
 
 ## Projects
 
-* [Money Back Guarantee*](https://www.mbgstar.com) - a band of dads from Marin County and the East Bay playing originals and covers, after bedtime
+* [Money Back Guarantee*](https://mbgstar.com) - a band of dads from Marin County and the East Bay playing originals and covers, after bedtime
 * [The CS Primer Show](https://show.csprimer.com) - a podcast with my friend [Oz Nova](https://twitter.com/oznova_) about computer science and computer science education (watch on [YouTube](https://www.youtube.com/@cs_primer))
 * [Fahrenheit 52](https://f52.charlieharrington.com) - a weekly writing challenge (write one new short story every week for a year) in 2022, inspired by a Ray Bradbury quote
 * [Writes With](https://writeswith.com) - nerdy interviews with writers about their writing tools
