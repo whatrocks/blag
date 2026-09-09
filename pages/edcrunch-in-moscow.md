@@ -2,7 +2,7 @@
 date: "2014-10-18"
 title: "edCrunch in Moscow"
 category: "talks"
-description: "edcrunch moscow talk"
+description: "Video of my talk at the edCrunch conference in Moscow"
 image: "edcrunch.jpg"
 ---
 

@@ -2,7 +2,7 @@
 date: "2013-01-21"
 title: "Cape Seafood Logo"
 category: "design"
-description: "cape seafood logo design"
+description: "A logo I designed for my friend Luke's new company, Cape Seafood"
 image: "capeseafood.png"
 ---
 

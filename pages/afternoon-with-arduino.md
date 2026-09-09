@@ -2,8 +2,8 @@
 date: "2019-03-28"
 title: "An Afternoon with Arduino"
 category: "computers"
+description: "What I learned in one afternoon of tinkering with an Arduino Uno, LEDs, and basic electronics"
 image: "uno.jpg"
-description: "afternoon with arduino"
 ---
 
 For the last eight years or so, I've been carrying around an [Arduino](https://www.arduino.cc/) (not literally on my person, but, you know, amongst my treasures), waiting for just the right time to start tinkering with it.

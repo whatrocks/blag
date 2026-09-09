@@ -2,7 +2,7 @@
 date: "2018-04-28"
 title: "The Long Hour"
 category: "music"
-description: "terminal man the long hour"
+description: "The Long Hour, a Terminal Man track of arpeggiator magic from Logic's on-screen keyboard"
 image: ""
 ---
 

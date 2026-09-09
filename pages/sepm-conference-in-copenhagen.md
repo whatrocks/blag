@@ -2,7 +2,7 @@
 date: "2013-11-21"
 title: "SEPM Conference in Copenhagen"
 category: "talks"
-description: "sepm conference in copenhagen"
+description: "My talk at the SEPM conference in Copenhagen, held in a planetarium"
 image: "sepm.png"
 ---
 

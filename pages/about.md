@@ -1,9 +1,9 @@
 ---
 date: "2000-01-01"
 title: "About"
-category: "About"
-image: ""
+category: ""
 description: "About Charlie Harrington"
+image: ""
 ---
 
 I'm a computer programmer working on [Folio](https://folio.co). Previously, I worked at [Cruise](https://getcruise.com).

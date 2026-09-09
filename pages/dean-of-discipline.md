@@ -2,8 +2,8 @@
 date: "2020-03-01"
 title: "Dean of Discipline"
 category: "learning"
-image: "cool.jpg"
-description: "dean of discipline"
+description: "A tribute to my uncle Dennis Harrington, Dean of Discipline at Red Bank Catholic High School"
+image: ""
 ---
 
 When I first got to Red Bank Catholic High School, I’d hear some manner of the following all the time:

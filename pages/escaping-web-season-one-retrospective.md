@@ -2,8 +2,8 @@
 date: "2020-03-29"
 title: "'Escaping Web' Season One Retrospective"
 category: "computers"
+description: "Lessons from starting the Escaping Web podcast with Oz Nova, plus links to all six Season One episodes"
 image: "ew.jpg"
-description: "escaping web podcast"
 ---
 
 My friend [Oz Nova](https://twitter.com/oznova_) and I started a podcast last year called [Escaping Web](https://escapingweb.github.io). With a million and one podcasts out there, you might be wondering about our catchy tagline? Our special hook? Our unique... perspective?

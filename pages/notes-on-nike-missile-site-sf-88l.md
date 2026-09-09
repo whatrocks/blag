@@ -2,8 +2,8 @@
 date: "2020-04-07"
 title: "Notes on Nike Missile Site SF-88L"
 category: "learning"
+description: "Notes from a veteran-led tour of Nike Missile Site SF-88L in the Marin Headlands"
 image: "controls.jpeg"
-description: "nike missile"
 ---
 
 Many, many days ago, when humans could still roam the Earth for non-essential activities, our little crew visited Nike Missile Site SF-88L as another destination in our [sixth grade class-trip](/notes-on-map-and-compass-navigation) whistle-stop tour of nerdy places in the Bay Area.

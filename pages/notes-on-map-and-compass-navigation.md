@@ -2,8 +2,8 @@
 date: "2020-03-27"
 title: "Notes on Map and Compass Navigation"
 category: "outdoors"
+description: "Notes from an REI course on map and compass navigation"
 image: "p5.jpg"
-description: "map compass navigation"
 ---
 
 Prior to the shelter-in-place quarantine, my friend Jason and I had been going on what I like to call "sixth grade classtrips" to various nerdy sites of interest in the Bay Area. First on our list was the Nike Missile site, which is right over the Golden Gate Bridge in Marin. I'll share my notes on that one soon. Our next big classtrip was scheduled to be the Stanford Linear Particle Accelerator Center in Menlo Park (maybe you've seen the signs for this on the highway and wondered...), but that's first on our list once everything's safe again.

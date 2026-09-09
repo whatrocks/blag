@@ -2,7 +2,7 @@
 date: "2022-05-10"
 title: "Surfing the Gopherspace"
 category: "computers"
-description: "gopherspace gopher gopherhole pygopherd protocol www http internet"
+description: "Learning about the Gopher protocol and running my own gopherhole with pygopherd on Replit and a Raspberry Pi"
 image: "gopher/caddyshack.jpg"
 ---
 

@@ -2,7 +2,7 @@
 date: "2003-12-18"
 title: "Four Track"
 category: "music"
-description: "four-track recording"
+description: "The first song I wrote and recorded on my Fostex four-track"
 image: "link.jpg"
 ---
 

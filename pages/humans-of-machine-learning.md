@@ -2,7 +2,7 @@
 date: "2018-07-30"
 title: "Humans of Machine Learning"
 category: "computers"
-description: "humans of machine learning"
+description: "Introducing Humans of Machine Learning, my interview series on the FloydHub blog"
 image: ""
 ---
 

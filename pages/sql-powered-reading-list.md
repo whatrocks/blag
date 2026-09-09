@@ -2,7 +2,7 @@
 date: "2022-03-08"
 title: "SQL-Powered Reading List"
 category: "computers"
-description: "roapi replit book recommendations reading list"
+description: "Making my reading list queryable with SQL using ROAPI, a Google Sheet, and Replit"
 image: "sql-reading-list/booklist.png"
 ---
 

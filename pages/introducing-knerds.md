@@ -2,7 +2,7 @@
 date: "2015-05-02"
 title: "Introducing Knerds"
 category: "computers"
-description: "knerds game ios"
+description: "Knerds is an iOS game that helps you learn your co-workers' names, built in Objective-C at a Knewton hack day"
 image: "gang-close.png"
 ---
 

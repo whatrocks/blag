@@ -1,5 +1,5 @@
 ---
-date: "2000-00-00"
+date: "2000-01-01"
 title: "Books"
 category: ""
 description: "Books by Charlie Harrington"

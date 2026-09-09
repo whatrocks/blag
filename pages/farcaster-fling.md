@@ -2,8 +2,8 @@
 date: "2023-10-01"
 title: "Using Farcaster protocol for .plan-style daily notes"
 category: "computers"
-description: "farcaster social network val.town fling decentralized finger protocol val.town"
-image: "fling-web.png"
+description: "Reviving the spirit of .plan files and the Finger protocol as daily notes on Farcaster, with a little help from val.town"
+image: "fling/fling-web.png"
 ---
 
 I've loved and lost websites. A few that come to mind:

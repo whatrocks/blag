@@ -2,7 +2,7 @@
 date: "2015-06-09"
 title: "NOAH Conference in Berlin"
 category: "talks"
-description: "noah conference berlin talk"
+description: "My talk at the NOAH Conference in Berlin"
 image: "noah.jpg"
 ---
 

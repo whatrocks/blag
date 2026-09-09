@@ -2,7 +2,7 @@
 date: "2016-12-28"
 title: "Critters"
 category: "design"
-description: "design"
+description: "Mascots I co-designed for some internal tools at work"
 image: "cubicle.png"
 ---
 

@@ -2,7 +2,7 @@
 date: "2022-04-14"
 title: "iPad Terminal Setup"
 category: "computers"
-description: "iSH iPad terminal shell linux unix bash"
+description: "Setting up a Linux terminal on the iPad with iSH, plus SSH and dotfiles for coding on the go"
 image: "ipad-terminal/ipad.png"
 ---
 

@@ -1,8 +1,8 @@
 ---
 date: "2018-07-24"
 title: "Penpals"
-description: "terminal man penpals"
 category: "music"
+description: "Penpals, a new Terminal Man track inspired by too much Stranger Things"
 image: ""
 ---
 

@@ -2,7 +2,7 @@
 date: "2019-01-13"
 title: "Borrowing Library Books for Your Kindle"
 category: "learning"
-description: "borrowing library books kindle"
+description: "A step-by-step guide to borrowing free library ebooks and audiobooks on your Kindle with Overdrive and Libby"
 image: "overdrive.png"
 ---
 

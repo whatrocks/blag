@@ -2,7 +2,7 @@
 date: "2022-06-10"
 title: "This Song Also Wrote Itself"
 category: "music"
-description: "self-driving autonomous vehicle cruise guitar songwriter"
+description: "Playing guitar and singing in the back of a Cruise self-driving car, again"
 image: "studio.jpeg"
 ---
 

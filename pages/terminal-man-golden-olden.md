@@ -2,7 +2,7 @@
 date: "2015-08-04"
 title: "Golden Olden"
 category: "music"
-description: "terminal man golden olden"
+description: "Golden Olden, a Terminal Man track"
 image: "forest.jpg"
 ---
 

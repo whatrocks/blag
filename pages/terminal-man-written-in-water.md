@@ -1,8 +1,8 @@
 ---
 date: "2017-06-29"
 title: "Written in Water"
-description: "terminal man written in water"
 category: "music"
+description: "Written in Water, a Terminal Man track"
 image: "waverace.jpg"
 ---
 

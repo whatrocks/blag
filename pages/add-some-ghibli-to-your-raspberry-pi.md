@@ -2,7 +2,7 @@
 date: "2020-09-25"
 title: "Add Some Ghibli to Your Raspberry Pi"
 category: "computers"
-description: "ghibli raspberry pi cron crontab wget shell"
+description: "Downloading Studio Ghibli's public domain film stills with wget and rotating them as a Raspberry Pi desktop background with cron"
 image: "marnie004.jpg"
 ---
 
