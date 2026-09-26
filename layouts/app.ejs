@@ -1,22 +1,33 @@
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="<%= description %>"/>
     <title><%= title %></title>
     <link rel="icon" href="<%= pathTo("favicon.ico") %>" />
     <link rel="stylesheet"
       href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/default.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/@sakun/system.css" />
     <link href="<%= pathTo("app.css") %>" rel="stylesheet">
   </head>
   <body>
-    <ul role="menu-bar">
-      <li role="menu-item"><a href="<%= pathTo("/") %>">¶</a></li>
-      <li role="menu-item"><a href="<%= pathTo("about") %>">About</a></li>
-      <li role="menu-item"><a href="<%= pathTo("library") %>">Library</a></li>
-    </ul>
     <div class="everything">
+      <!-- BeOS-style Deskbar -->
+      <nav class="deskbar" aria-label="Deskbar">
+        <a class="deskbar-logo" href="<%= pathTo("/") %>" title="Home">
+          <span class="deskbar-logo-mark">¶</span><span class="deskbar-logo-text">Charlie</span>
+        </a>
+        <div class="deskbar-tray">
+          <span class="tray-led" aria-hidden="true"></span>
+          <span class="deskbar-clock" id="deskbar-clock"></span>
+        </div>
+        <ul class="deskbar-teams">
+          <li><a href="<%= pathTo("/") %>"><span class="team-icon team-icon-posts" aria-hidden="true"></span>Posts</a></li>
+          <li><a href="<%= pathTo("about") %>"><span class="team-icon team-icon-doc" aria-hidden="true"></span>About</a></li>
+          <li><a href="<%= pathTo("library") %>"><span class="team-icon team-icon-folder" aria-hidden="true"></span>Library</a></li>
+        </ul>
+      </nav>
+
       <!-- Desktop icons -->
       <div class="desktop-icons">
         <div class="desktop-icon" data-url="<%= pathTo("about") %>">
@@ -36,6 +47,7 @@
           <h1 class="title"><% if (title === "Charlie Harrington") { %>Posts<% } else { %><%= title %><% } %></h1>
           <button aria-label="Resize" class="resize"></button>
         </div>
+        <div class="window-frame">
         <div class="window-contents<% if (title === "About" || title === "Library") { %> wide-contents<% } %>">
           <% if (title !== "About" && title !== "Charlie Harrington" && title !== "Library" && title !== "Books" && title !== "Walkingman") { %>
             <h3 class="subtitle"><%= date %></h3>
@@ -106,6 +118,7 @@
             </div>
           </div>
         </footer>
+        </div>
       </div>
 
       <!-- Sidepanel windows -->
@@ -116,11 +129,13 @@
           <h2 class="title">CS Primer Show</h2>
           <button aria-label="Resize" class="resize"></button>
         </div>
+        <div class="window-frame">
         <div class="details-bar">
           <span>A podcast about computer science and computer science education</span>
         </div>
         <div>
           <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/videoseries?si=xysjPOA0G7Qde94O&amp;list=PL4E4jY21e9ntlbxBV1rUU3b8HWldkUTz2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
         </div>
       </div>
       <div class="window sidepanel-window">
@@ -129,12 +144,14 @@
           <h2 class="title">Fahrenheit 52</h2>
           <button aria-label="Resize" class="resize"></button>
         </div>
+        <div class="window-frame">
         <div class="details-bar">
           <a href="https://f52.charlieharrington.com">Read the stories</a>
           <span>Listen below</span>
         </div>
         <div>
           <iframe allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" frameborder="0" height="450" style="width:100%;max-width:660px;overflow:hidden;border-radius:10px;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src="https://embed.podcasts.apple.com/us/podcast/fahrenheit-52/id1600947555"></iframe>
+        </div>
         </div>
       </div>
       <% } %>
@@ -275,6 +292,15 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", function() {
+        // Deskbar clock
+        var clock = document.getElementById('deskbar-clock');
+        function tick() {
+          if (!clock) return;
+          clock.textContent = new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+        }
+        tick();
+        setInterval(tick, 10000);
+
         const isMobile = window.innerWidth <= 768;
         let highestZIndex = 1000;
         let draggedWindow = null;
@@ -402,8 +428,10 @@
               '<h1 class="title">' + title + '</h1>' +
               '<button aria-label="Resize" class="resize"></button>' +
             '</div>' +
-            '<div class="' + contentsClass + '">' +
-              contentHtml +
+            '<div class="window-frame">' +
+              '<div class="' + contentsClass + '">' +
+                contentHtml +
+              '</div>' +
             '</div>';
 
           // Cascade position
