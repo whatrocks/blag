@@ -2,8 +2,8 @@
 date: "2022-08-01"
 title: "Run Linux on Electric Objects EO1 Wall Computer"
 category: "computers"
-image: "eo.jpg"
 description: "Run Linux on your Electrics Objects EO1 computer"
+image: "eo/eo.jpg"
 ---
 
 ## Riddle in the dark

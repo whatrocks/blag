@@ -2,7 +2,7 @@
 date: "2016-12-06"
 title: "One Day Lord Shardik Will Return"
 category: "music"
-description: "terminal man lord shardik book music"
+description: "A musical book review of Richard Adams' Shardik, as a Terminal Man track"
 image: "bear.jpg"
 ---
 

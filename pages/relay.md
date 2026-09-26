@@ -2,8 +2,8 @@
 date: "2019-04-02"
 title: "Relay"
 category: "music"
+description: "Relay, a Terminal Man track with a bouncing ball animation made in p5.js"
 image: ""
-description: "terminal man relay"
 ---
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/TAogrz_UZV0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

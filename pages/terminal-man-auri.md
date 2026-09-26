@@ -2,7 +2,7 @@
 date: "2017-12-12"
 title: "Auri"
 category: "music"
-description: "terminal man auri"
+description: "Auri, a Terminal Man track"
 image: "willow.jpg"
 ---
 

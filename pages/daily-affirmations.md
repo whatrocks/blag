@@ -1,7 +1,7 @@
 ---
 date: "2025-04-06"
 title: "Daily Affirmations"
-category: "writings"
+category: "writing"
 description: "Daily affirmations of your new best friend."
 image: "ocean.png"
 ---

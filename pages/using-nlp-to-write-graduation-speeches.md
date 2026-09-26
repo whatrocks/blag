@@ -2,7 +2,7 @@
 date: "2018-07-23"
 title: "Using NLP to Write Graduation Speeches"
 category: "computers"
-description: "nlp graduation speeches"
+description: "Generating commencement speeches with Markov chains and a dataset of 300 famous graduation addresses"
 image: ""
 ---
 

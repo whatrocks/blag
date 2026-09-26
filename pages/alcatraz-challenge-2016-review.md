@@ -2,7 +2,7 @@
 date: "2016-12-16"
 title: "Alcatraz Challenge 2016 - Review"
 category: "outdoors"
-description: "alcatraz challenge race run swim"
+description: "Race report from the Alcatraz Challenge, a 1.5 mile swim from Alcatraz Island followed by a 7 mile run over the Golden Gate Bridge"
 image: "connery.png"
 ---
 

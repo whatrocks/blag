@@ -2,8 +2,8 @@
 date: "2024-07-14"
 title: "Career Advice from the Outer Rim"
 category: "learning"
-image: "swbook.png"
 description: "How Star Wars can prepare us for the next phase of our careers"
+image: "outer-rim/han.jpg"
 ---
 
 ![han](/img/outer-rim/han.jpg)

@@ -2,8 +2,8 @@
 date: "2020-05-12"
 title: "My New Old Apple IIe Computer"
 category: "computers"
+description: "How I found a vintage Apple IIe computer on the sidewalk and brought it back to life"
 image: "80col.jpeg"
-description: "apple appleiie appleii apple2 vintage computer"
 ---
 
 That Monday morning in February began like any other Monday: I opened my phone immediately upon waking up, browsed Twitter, checked Instagram, and ignored my email, all from bed, making no pretense of daily gratitude journaling. I got up to make the coffee, and then opened eBay to look at old computers.

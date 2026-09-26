@@ -2,7 +2,7 @@
 date: "2014-04-28"
 title: "ELTJam Sesh in London"
 category: "talks"
-description: "eltjam talk in london"
+description: "Video of my five minute pitch at ELTJam in London"
 image: "elt.png"
 ---
 

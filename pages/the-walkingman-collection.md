@@ -2,7 +2,7 @@
 date: "2019-01-10"
 title: "The Walkingman Collection"
 category: "design"
-description: "walkingman instagram"
+description: "Collecting photos of walking man pedestrian signs from around the world"
 image: "walkingman.png"
 ---
 

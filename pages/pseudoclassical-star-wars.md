@@ -2,7 +2,7 @@
 date: "2015-10-26"
 title: "Pseudoclassical Star Wars"
 category: "computers"
-description: "star wars javascript"
+description: "Using pseudoclassical subclassing in JavaScript to build a Star Wars inspired browser game"
 image: ""
 ---
 

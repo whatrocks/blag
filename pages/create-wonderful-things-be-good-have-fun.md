@@ -2,7 +2,7 @@
 date: "2020-06-24"
 title: "Create wonderful things, be good, have fun"
 category: "writing"
-description: "writing klutz books stanford john cassidy juggling table top football"
+description: "Why Klutz Press books like Juggling for the Complete Klutz are the best books for learning stuff"
 image: "juggling.png"
 ---
 

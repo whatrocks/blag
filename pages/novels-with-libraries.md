@@ -2,8 +2,8 @@
 date: "2019-01-23"
 title: "Novels with Giant Possibly Magical Libraries"
 category: "writing"
-image: "lirael.jpg"
 description: "List of novels with magical libraries"
+image: "lirael.jpg"
 ---
 
 I'm currently reading a fantastic novel where the protaganist - who is in her teens and lives in a sort-of convent for sightseers in the middle of a glacier - is asked by the elders to choose a role for part-time work. Our hero considers two options:

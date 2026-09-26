@@ -2,7 +2,7 @@
 date: "2020-08-24"
 title: "Robots I Love"
 category: "computers"
-description: "robots droid treadwell johnny-5 r.o.b."
+description: "A review of my favorite robots, from R.O.B. and Johnny 5 to Wall-E and Mega Man X, by a kid who loves them"
 image: "wed-techie.jpg"
 ---
 

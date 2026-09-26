@@ -2,7 +2,7 @@
 date: "2014-08-04"
 title: "Over Water, Under You"
 category: "music"
-description: "terminal man music over water, under you"
+description: "Over Water, Under You, a Terminal Man track"
 image: "water.jpg"
 ---
 

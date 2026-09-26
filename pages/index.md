@@ -1,7 +1,7 @@
 ---
-title: Charlie Harrington
 date: "2000-01-01"
-description: Charlie Harrington - Software Engineer and Writer
+title: "Charlie Harrington"
+description: "Charlie Harrington - Software Engineer and Writer"
 ---
 
 <% pages.sort((c,d) => {

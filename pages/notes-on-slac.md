@@ -2,8 +2,8 @@
 date: "2023-05-27"
 title: "Notes on Stanford Linear Accelerator Center"
 category: "learning"
-image: "slac/selfie.jpg"
 description: "Notes from Stanford Linear Accelerator SLAC public tour"
+image: "slac/selfie.jpg"
 ---
 
 The latest of my "sixth grade class trip" adventures found me (and some co-workers) at SLAC - the Stanford Linear Accelerator Center. 

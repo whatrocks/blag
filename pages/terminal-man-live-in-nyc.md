@@ -2,7 +2,7 @@
 date: "2015-04-07"
 title: "Terminal Man - Live in Concert"
 category: "music"
-description: "terminal man live in concert"
+description: "How I brought Terminal Man to life for its first show, streamed live from London to the Knewton Talent Show in New York City"
 image: "skull.png"
 ---
 

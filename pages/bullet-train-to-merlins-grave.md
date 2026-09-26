@@ -2,8 +2,8 @@
 date: "2019-11-08"
 title: "Bullet Train to Merlin's Grave"
 category: "music"
-image: "cool.jpg"
-description: "bullet train merlin grave hotdog johnny"
+description: "Hotdog Johnny and the Shady Oaks perform Merlin's Grave and Bullet Train at POPESTOCK, a family wedding music festival"
+image: ""
 ---
 
 > If this is the future, why are you the same?

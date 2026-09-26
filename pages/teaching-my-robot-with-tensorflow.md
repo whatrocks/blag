@@ -2,7 +2,7 @@
 date: "2018-01-06"
 title: "Teaching My Robot With TensorFlow"
 category: "computers"
-description: "robot tensorflow cozmo"
+description: "Teaching my Cozmo robot to recognize objects with TensorFlow transfer learning on FloydHub"
 image: "cozmo-paparazzi.gif"
 ---
 

@@ -2,8 +2,8 @@
 date: "2022-03-02"
 title: "My New Old Apple Macintosh SE/30 Computer"
 category: "computers"
+description: "Acquiring and tricking out a 1989 Apple Macintosh SE/30, the greatest Mac of all time"
 image: "macse30/mac.jpg"
-description: "apple mac macintosh se/30 se vintage computer"
 ---
 
 I just finished reading [The Order of Time](https://amzn.to/3Caempq) by Carlo Rovelli last night. It's a lovely little book about quantum gravity and the nature of time that I barely understood. But one thing I took away was that time -- and, by extension, the true meaning in our lives -- is driven by our memory, our nostalgia.

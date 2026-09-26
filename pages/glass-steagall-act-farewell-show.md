@@ -2,7 +2,7 @@
 date: "2016-01-22"
 title: "Glass-Steagall Act Farewell Show"
 category: "music"
-description: "beatles glass steagall act"
+description: "Video of the acoustic Beatles medley I played as my farewell show at Morgan Stanley"
 image: "band.jpg"
 ---
 

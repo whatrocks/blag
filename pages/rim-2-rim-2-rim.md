@@ -1,8 +1,8 @@
 ---
 date: "2017-05-07"
 title: "Rim 2 Rim 2 Rim"
-description: "running rim2rim2rim"
 category: "outdoors"
+description: "Running the Grand Canyon Rim to Rim to Rim, and only getting lost once"
 image: "canyon.png"
 ---
 

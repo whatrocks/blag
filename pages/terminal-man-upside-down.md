@@ -2,7 +2,7 @@
 date: "2017-02-11"
 title: "Upside Down"
 category: "music"
-description: "terminal man upside down"
+description: "Upside Down, a Terminal Man track and unsolicited submission for the Stranger Things Season 2 soundtrack"
 image: "troll.jpg"
 ---
 

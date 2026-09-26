@@ -2,7 +2,7 @@
 date: "2021-06-24"
 title: "Writes With"
 category: "writing"
-description: "interview site with writers about software and hardware for writing"
+description: "Announcing Writes With, an interview site about the tools writers use, and why my blog is moving from Gatsby to Syte"
 image: "writeswith.png"
 ---
 

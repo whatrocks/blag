@@ -2,8 +2,8 @@
 date: "2020-05-26"
 title: "The Six Levels of Interaction with a System"
 category: "learning"
+description: "A framework for the six levels of understanding you can have with any system, from cars to computers"
 image: "people.png"
-description: "systems computers interaction"
 ---
 
 We recently borrowed our friends' car, because they're awesome. Along with the keys, they gave us *a few, uh, provisos, a, a couple of quid pro quos:*<sup>1</sup>

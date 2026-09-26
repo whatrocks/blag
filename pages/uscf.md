@@ -1,8 +1,8 @@
 ---
 date: "2025-09-01"
 title: "What is the UCSF Cancer Survivorship program?"
-category: "health"
-description: "Link to UCSF Cancer Survivorship program explainer "
+category: "life"
+description: "Link to UCSF Cancer Survivorship program explainer"
 image: "charlie-ucsf.png"
 ---
 

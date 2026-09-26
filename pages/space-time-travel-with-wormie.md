@@ -2,7 +2,7 @@
 date: "2016-01-02"
 title: "Space Time Travel with Wormie"
 category: "computers"
-description: "wormie app space time travel"
+description: "Wormie is an iOS app that connects you with people who can live stream the places you want to see"
 image: "WormieLive.gif"
 ---
 

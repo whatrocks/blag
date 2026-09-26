@@ -2,7 +2,7 @@
 date: "2015-03-05"
 title: "Merlin's Advice"
 category: "learning"
-description: "merlin advice"
+description: "Merlin's advice on the best cure for being sad, from T.H. White's The Once and Future King"
 image: "ma.jpg"
 ---
 

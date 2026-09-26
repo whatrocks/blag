@@ -2,7 +2,7 @@
 date: "2018-01-05"
 title: "Ghost2"
 category: "music"
-description: "terminal man ghost2"
+description: "Ghost2, a Terminal Man track made almost entirely with arpeggiators and Logic's on-screen keyboard"
 image: "crab.jpg"
 ---
 

@@ -2,7 +2,7 @@
 date: "2019-09-10"
 title: "Summer Wind"
 category: "design"
-description: "summer wind photography"
+description: "A film photo of a kite armada over Newport, Rhode Island"
 image: "summerwind.jpg"
 ---
 

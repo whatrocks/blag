@@ -2,8 +2,8 @@
 date: "2020-04-26"
 title: "Writer's Bane"
 category: "writing"
+description: "A running list of books and other resources on writing advice that I have found useful"
 image: "durin.jpg"
-description: "writing advice amwriting amediting author books"
 ---
 
 That's right, it's a post about writing advice.
