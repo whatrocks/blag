@@ -54,6 +54,7 @@
         <div class="window-frame">
         <div class="window-contents<% if (title === "About" || title === "Library") { %> wide-contents<% } %>">
           <% if (title !== "About" && title !== "Charlie Harrington" && title !== "Library" && title !== "Books" && title !== "Walkingman") { %>
+            <h1 class="post-title"><%= title %></h1>
             <h3 class="subtitle"><%= date %></h3>
             <div class="borderLine"></div>
           <% } %>
@@ -392,15 +393,14 @@
           });
         }
 
-        // Setup resize button
+        // Setup zoom button: toggle between the window's normal size and full screen
         function setupResizeButton(btn) {
           btn.addEventListener('click', function(e) {
             e.stopPropagation();
             var win = this.closest('.window');
             if (!win) return;
-            win.classList.toggle('wide-window');
-            var contents = win.querySelector('.window-contents');
-            if (contents) contents.classList.toggle('wide-contents');
+            bringToFront(win);
+            win.classList.toggle('maximized');
           });
         }
 

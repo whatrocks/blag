@@ -243,6 +243,37 @@ body {
   background: linear-gradient(135deg, #e0ae00, var(--tab) 40%, #fffbe6);
 }
 
+/* Zoomed window: fills the whole desktop */
+@media (min-width: 769px) {
+  .window.maximized {
+    left: 0 !important;
+    top: 0 !important;
+    width: 100%;
+    max-width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Keep the tab tab-sized instead of stretching it across the screen */
+  .window.maximized .title-bar {
+    align-self: flex-start;
+  }
+
+  /* The whole frame scrolls so the footer still trails the contents */
+  .window.maximized .window-frame {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+  }
+
+  .window.maximized .window-contents {
+    max-width: 1400px;
+    max-height: none;
+    overflow-y: visible;
+  }
+}
+
 /* Unfocused windows get a gray tab (desktop only; mobile has no focus) */
 @media (min-width: 769px) {
   .window:not(.focused) .title-bar {
@@ -354,16 +385,41 @@ body {
   max-width: 1400px;
 }
 
+/* Flex items shrink along the column axis, which flattens embeds and images */
+.window-contents > * {
+  flex-shrink: 0;
+  max-width: 100%;
+}
+
+.window-contents iframe {
+  max-width: 100%;
+}
+
+.window-contents iframe[src*="youtube"],
+.window-contents iframe[src*="vimeo"] {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+}
+
 /* BeOS-ish scrollbars */
+.window-frame,
+.window-contents {
+  scrollbar-color: var(--chrome) #b8b8b8;
+}
+
+.window-frame::-webkit-scrollbar,
 .window-contents::-webkit-scrollbar {
   width: 14px;
 }
 
+.window-frame::-webkit-scrollbar-track,
 .window-contents::-webkit-scrollbar-track {
   background: #b8b8b8;
   border-left: 1px solid var(--chrome-shadow);
 }
 
+.window-frame::-webkit-scrollbar-thumb,
 .window-contents::-webkit-scrollbar-thumb {
   background: var(--chrome);
   border: 1px solid var(--chrome-dark);
@@ -530,6 +586,15 @@ img {
   font-weight: 700;
 }
 
+
+.post-title {
+  width: 100%;
+  margin: 0;
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.25;
+}
 
 .subtitle {
   text-align: center;
