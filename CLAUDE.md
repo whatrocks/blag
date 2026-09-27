@@ -19,6 +19,7 @@ This is a personal blog built with Syte static site generator that uses a BeOS-i
 - Each window is `.title-bar` (the tab, with close + zoom buttons) followed by a `.window-frame` wrapper; `createWindow()` in the template JS builds the same structure
 - Deskbar (`nav.deskbar`) in the top-right corner: ¶ Charlie (links home), tray clock, and Posts/About/Library entries; becomes a horizontal bar on mobile
 - Colors are CSS variables on `:root` in `/static/app.css`
+- Icons are isometric BeOS/Haiku-style SVGs in `/static/icons/` (posts, document, books), used on the desktop and in the Deskbar
 - Sidepanel with CS Primer Show and Fahrenheit 52 widgets
 
 ## Page Layout Logic

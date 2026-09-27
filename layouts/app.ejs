@@ -22,20 +22,24 @@
           <span class="deskbar-clock" id="deskbar-clock"></span>
         </div>
         <ul class="deskbar-teams">
-          <li><a href="<%= pathTo("/") %>"><span class="team-icon team-icon-posts" aria-hidden="true"></span>Posts</a></li>
-          <li><a href="<%= pathTo("about") %>"><span class="team-icon team-icon-doc" aria-hidden="true"></span>About</a></li>
-          <li><a href="<%= pathTo("library") %>"><span class="team-icon team-icon-folder" aria-hidden="true"></span>Library</a></li>
+          <li><a href="<%= pathTo("/") %>"><img class="team-icon" src="<%= pathTo("icons/posts.svg") %>" alt="" width="22" height="22">Posts</a></li>
+          <li><a href="<%= pathTo("about") %>"><img class="team-icon" src="<%= pathTo("icons/document.svg") %>" alt="" width="22" height="22">About</a></li>
+          <li><a href="<%= pathTo("library") %>"><img class="team-icon" src="<%= pathTo("icons/books.svg") %>" alt="" width="22" height="22">Library</a></li>
         </ul>
       </nav>
 
       <!-- Desktop icons -->
       <div class="desktop-icons">
+        <div class="desktop-icon" data-url="<%= pathTo("/") %>">
+          <img class="icon-shape" src="<%= pathTo("icons/posts.svg") %>" alt="" width="64" height="64">
+          <span class="icon-label">Posts</span>
+        </div>
         <div class="desktop-icon" data-url="<%= pathTo("about") %>">
-          <div class="icon-shape icon-doc"></div>
+          <img class="icon-shape" src="<%= pathTo("icons/document.svg") %>" alt="" width="64" height="64">
           <span class="icon-label">About</span>
         </div>
         <div class="desktop-icon" data-url="<%= pathTo("library") %>">
-          <div class="icon-shape icon-folder"></div>
+          <img class="icon-shape" src="<%= pathTo("icons/books.svg") %>" alt="" width="64" height="64">
           <span class="icon-label">Library</span>
         </div>
       </div>
@@ -50,6 +54,7 @@
         <div class="window-frame">
         <div class="window-contents<% if (title === "About" || title === "Library") { %> wide-contents<% } %>">
           <% if (title !== "About" && title !== "Charlie Harrington" && title !== "Library" && title !== "Books" && title !== "Walkingman") { %>
+            <h1 class="post-title"><%= title %></h1>
             <h3 class="subtitle"><%= date %></h3>
             <div class="borderLine"></div>
           <% } %>
@@ -388,15 +393,14 @@
           });
         }
 
-        // Setup resize button
+        // Setup zoom button: toggle between the window's normal size and full screen
         function setupResizeButton(btn) {
           btn.addEventListener('click', function(e) {
             e.stopPropagation();
             var win = this.closest('.window');
             if (!win) return;
-            win.classList.toggle('wide-window');
-            var contents = win.querySelector('.window-contents');
-            if (contents) contents.classList.toggle('wide-contents');
+            bringToFront(win);
+            win.classList.toggle('maximized');
           });
         }
 
