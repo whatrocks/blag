@@ -145,6 +145,74 @@ body {
   margin: -4px 0;
 }
 
+/* Open windows in the Deskbar */
+.deskbar-windows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+  border-top: 2px solid var(--chrome-dark);
+}
+
+.deskbar-windows:empty {
+  display: none;
+}
+
+.deskbar-windows li {
+  margin: 0;
+}
+
+.deskbar-window {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 5px 10px;
+  background: var(--chrome);
+  border: none;
+  border-top: 1px solid var(--chrome-light);
+  border-bottom: 1px solid var(--chrome-shadow);
+  font-family: var(--ui-font);
+  font-size: 12px;
+  line-height: 1;
+  text-align: left;
+  cursor: default;
+}
+
+.deskbar-window:hover {
+  background: #c8c8c8;
+}
+
+/* Focused window looks pressed in */
+.deskbar-window.focused {
+  background: #c0c0c0;
+  border-top-color: var(--chrome-shadow);
+  border-bottom-color: var(--chrome-light);
+  font-weight: 700;
+}
+
+.deskbar-window.minimized .deskbar-window-label {
+  color: var(--chrome-dark);
+  font-style: italic;
+}
+
+.deskbar-window.minimized .team-icon {
+  opacity: 0.5;
+}
+
+.deskbar-window-label {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@media (min-width: 769px) {
+  .window.minimized {
+    display: none;
+  }
+}
+
 /* Windows */
 .window {
   position: absolute;
@@ -461,6 +529,10 @@ body {
   .deskbar-teams {
     display: flex;
     flex: 1;
+  }
+
+  .deskbar-windows {
+    display: none;
   }
 
   .deskbar-teams a {

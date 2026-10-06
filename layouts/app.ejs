@@ -26,6 +26,11 @@
           <li><a href="<%= pathTo("about") %>"><img class="team-icon" src="<%= pathTo("icons/document.svg") %>" alt="" width="22" height="22">About</a></li>
           <li><a href="<%= pathTo("library") %>"><img class="team-icon" src="<%= pathTo("icons/books.svg") %>" alt="" width="22" height="22">Library</a></li>
         </ul>
+        <!-- Open windows, filled in by the template JS -->
+        <ul class="deskbar-windows" id="deskbar-windows" aria-label="Open windows"
+          data-icon-posts="<%= pathTo("icons/posts.svg") %>"
+          data-icon-books="<%= pathTo("icons/books.svg") %>"
+          data-icon-document="<%= pathTo("icons/document.svg") %>"></ul>
       </nav>
 
       <!-- Desktop icons -->
@@ -340,9 +345,154 @@
           currentFocusedUrl = url;
         }
 
+        // Sidepanels have no URL, so key them by title
+        document.querySelectorAll('.sidepanel-window').forEach(function(win) {
+          win.dataset.key = 'panel:' + windowLabel(win);
+        });
+
+        // Desktop persistence: window positions, stacking order, minimized and
+        // zoomed state, and which page windows are open, kept in localStorage
+        // so the desktop looks the same on the next visit. Desktop only.
+        var STORAGE_KEY = 'beos-desktop-v1';
+        var MAX_RESTORED_WINDOWS = 8;
+        var restoring = true; // no saving until the saved desktop is restored
+
+        function windowKey(win) {
+          if (win.dataset.key) return win.dataset.key;
+          return win.dataset.url ? 'page:' + win.dataset.url : null;
+        }
+
+        function windowLabel(win) {
+          var titleEl = win.querySelector('.title-bar .title');
+          return titleEl ? titleEl.textContent.trim() : 'Untitled';
+        }
+
+        function zOf(win) {
+          return parseInt(win.style.zIndex) || 0;
+        }
+
+        function loadDesktop() {
+          try {
+            var state = JSON.parse(localStorage.getItem(STORAGE_KEY));
+            return state && Array.isArray(state.windows) ? state : null;
+          } catch (e) {
+            return null;
+          }
+        }
+
+        function saveDesktop() {
+          if (restoring || isMobile()) return;
+          var wins = Array.prototype.slice.call(document.querySelectorAll('.window')).filter(windowKey);
+          var stacked = wins.slice().sort(function(a, b) { return zOf(a) - zOf(b); });
+          var entries = wins.map(function(win) {
+            return {
+              key: windowKey(win),
+              url: win.dataset.url || null,
+              left: parseInt(win.style.left) || 0,
+              top: parseInt(win.style.top) || 0,
+              z: stacked.indexOf(win),
+              minimized: win.classList.contains('minimized'),
+              maximized: win.classList.contains('maximized')
+            };
+          });
+          // Pages without sidepanels (About, Library) keep the panels' saved layout
+          var prev = loadDesktop();
+          if (prev && !document.querySelector('.sidepanel-window')) {
+            prev.windows.forEach(function(entry) {
+              if (entry.key && entry.key.indexOf('panel:') === 0) entries.push(entry);
+            });
+          }
+          try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify({ windows: entries }));
+          } catch (e) {}
+        }
+
+        // Put a window where it was saved, kept on screen if the browser shrank
+        function applySavedLayout(win, entry) {
+          var desk = win.parentElement;
+          var maxLeft = Math.max(0, desk.clientWidth - 120);
+          var maxTop = Math.max(0, desk.clientHeight - 40);
+          win.style.left = Math.min(Math.max(0, entry.left || 0), maxLeft) + 'px';
+          win.style.top = Math.min(Math.max(0, entry.top || 0), maxTop) + 'px';
+          win.classList.toggle('minimized', !!entry.minimized);
+          win.classList.toggle('maximized', !!entry.maximized);
+        }
+
+        // Deskbar list of open windows. Clicking an entry restores a minimized
+        // window, minimizes the focused one, or focuses any other.
+        var windowList = document.getElementById('deskbar-windows');
+
+        function windowIcon(win) {
+          var url = win.dataset.url || '';
+          if (url === '/') return windowList.dataset.iconPosts;
+          if (/\/library$/.test(url)) return windowList.dataset.iconBooks;
+          return windowList.dataset.iconDocument;
+        }
+
+        function renderDeskbarWindows() {
+          if (!windowList) return;
+          windowList.innerHTML = '';
+          document.querySelectorAll('.window').forEach(function(win) {
+            var minimized = win.classList.contains('minimized');
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'deskbar-window' +
+              (win.classList.contains('focused') ? ' focused' : '') +
+              (minimized ? ' minimized' : '');
+            btn.title = minimized ? 'Restore window' : 'Focus window';
+
+            var icon = document.createElement('img');
+            icon.className = 'team-icon';
+            icon.src = windowIcon(win);
+            icon.alt = '';
+            var label = document.createElement('span');
+            label.className = 'deskbar-window-label';
+            label.textContent = windowLabel(win);
+            btn.appendChild(icon);
+            btn.appendChild(label);
+
+            btn.addEventListener('click', function() {
+              if (!minimized && win.classList.contains('focused')) {
+                minimizeWindow(win);
+              } else {
+                bringToFront(win);
+              }
+            });
+
+            var li = document.createElement('li');
+            li.appendChild(btn);
+            windowList.appendChild(li);
+          });
+        }
+
+        function desktopChanged() {
+          renderDeskbarWindows();
+          saveDesktop();
+        }
+
+        // Focus the topmost visible window, preferring page windows so the URL
+        // follows. Returns false when no page window is left on screen.
+        function focusTopWindow() {
+          var visible = Array.prototype.slice.call(document.querySelectorAll('.window:not(.minimized)'));
+          visible.sort(function(a, b) { return zOf(a) - zOf(b); });
+          var pages = visible.filter(function(w) { return w.dataset.url; });
+          var next = pages.length ? pages[pages.length - 1] : visible[visible.length - 1];
+          if (next) bringToFront(next);
+          return pages.length > 0;
+        }
+
+        function minimizeWindow(win) {
+          var wasFocused = win.classList.contains('focused');
+          win.classList.add('minimized');
+          win.classList.remove('focused');
+          if (wasFocused) focusTopWindow();
+          desktopChanged();
+        }
+
         // Bring window to front and optionally update URL
         function bringToFront(win) {
           document.querySelectorAll('.window').forEach(function(w) { w.classList.remove('focused'); });
+          win.classList.remove('minimized');
           win.classList.add('focused');
           win.style.zIndex = ++highestZIndex;
 
@@ -355,10 +505,16 @@
               document.title = win.dataset.title || document.title;
             }
           }
+          desktopChanged();
         }
 
-        // Setup drag on a title bar element
+        // Setup drag on a title bar element; double-clicking the tab minimizes
         function setupDrag(titleBar) {
+          titleBar.addEventListener('dblclick', function(e) {
+            if (isMobile() || e.target.closest('button')) return;
+            var win = this.closest('.window');
+            if (win) minimizeWindow(win);
+          });
           titleBar.addEventListener('mousedown', function(e) {
             if (isMobile()) return;
             var win = this.closest('.window');
@@ -381,19 +537,18 @@
             if (!win) return;
 
             var url = win.dataset.url;
+            var wasFocused = win.classList.contains('focused');
             if (url) delete windowsByUrl[url];
             win.remove();
 
             // If this was the focused window, focus another
-            if (url && url === currentFocusedUrl) {
-              var remaining = Object.keys(windowsByUrl);
-              if (remaining.length > 0) {
-                bringToFront(windowsByUrl[remaining[remaining.length - 1]]);
-              } else {
+            if (wasFocused || (url && url === currentFocusedUrl)) {
+              if (!focusTopWindow() && url && url === currentFocusedUrl) {
                 history.pushState({ url: '/' }, '', '/');
                 currentFocusedUrl = '/';
               }
             }
+            desktopChanged();
           });
         }
 
@@ -405,6 +560,7 @@
             if (!win) return;
             bringToFront(win);
             win.classList.toggle('maximized');
+            desktopChanged();
           });
         }
 
@@ -460,10 +616,14 @@
             desktop.appendChild(win);
           }
           setupWindow(win);
-          bringToFront(win);
-          if (isMobile()) window.scrollTo(0, 0);
-
           if (url) windowsByUrl[url] = win;
+          if (options.background) {
+            win.style.zIndex = ++highestZIndex;
+            desktopChanged();
+          } else {
+            bringToFront(win);
+            if (isMobile()) window.scrollTo(0, 0);
+          }
 
           return win;
         }
@@ -514,26 +674,34 @@
           }
 
           fetchPage(url).then(function(page) {
-            var win = createWindow(page.title, page.contentHtml, normalized, { wide: page.isWide });
-
-            // Execute any module scripts from the fetched page
-            page.moduleScripts.forEach(function(src) {
-              var script = document.createElement('script');
-              script.type = 'module';
-              script.textContent = src;
-              document.body.appendChild(script);
-            });
-
-            // Run highlight.js on new content
-            win.querySelectorAll('pre code').forEach(function(block) {
-              hljs.highlightElement(block);
-            });
-
+            openPageWindow(page, normalized);
             // Intercept links inside new window content (handled by global listener)
           }).catch(function(err) {
             // Fall back to normal navigation on error
             window.location.href = url;
           });
+        }
+
+        // Open a window for a fetched page
+        function openPageWindow(page, url, background) {
+          var win = createWindow(page.title, page.contentHtml, url, { wide: page.isWide, background: background });
+
+          // Execute any module scripts from the fetched page
+          page.moduleScripts.forEach(function(src) {
+            var script = document.createElement('script');
+            script.type = 'module';
+            script.textContent = src;
+            document.body.appendChild(script);
+          });
+
+          // Run highlight.js on new content
+          if (window.hljs) {
+            win.querySelectorAll('pre code').forEach(function(block) {
+              hljs.highlightElement(block);
+            });
+          }
+
+          return win;
         }
 
         // Initialize existing windows
@@ -562,6 +730,53 @@
           if (mainWindow) bringToFront(mainWindow);
         }
 
+        // Restore the saved desktop: move windows back where they were and
+        // reopen page windows from last time, then restack them in saved order
+        // with this page's window on top.
+        var saved = isMobile() ? null : loadDesktop();
+        if (!saved) {
+          restoring = false;
+          desktopChanged();
+        } else {
+          var savedByKey = {};
+          saved.windows.forEach(function(entry) {
+            if (entry && entry.key) savedByKey[entry.key] = entry;
+          });
+          document.querySelectorAll('.window').forEach(function(win) {
+            var entry = savedByKey[windowKey(win)];
+            if (entry) applySavedLayout(win, entry);
+          });
+          if (mainWindow) mainWindow.classList.remove('minimized');
+
+          var toReopen = saved.windows
+            .filter(function(entry) { return entry && entry.url && !windowsByUrl[entry.url]; })
+            .sort(function(a, b) { return b.z - a.z; })
+            .slice(0, MAX_RESTORED_WINDOWS);
+
+          Promise.all(toReopen.map(function(entry) {
+            return fetchPage(entry.url).then(function(page) {
+              if (windowsByUrl[entry.url]) return; // opened by a click meanwhile
+              applySavedLayout(openPageWindow(page, entry.url, true), entry);
+            }).catch(function() {});
+          })).then(function() {
+            function rank(win) {
+              var entry = savedByKey[windowKey(win)];
+              return entry ? entry.z : -1;
+            }
+            Array.prototype.slice.call(document.querySelectorAll('.window'))
+              .sort(function(a, b) { return (rank(a) - rank(b)) || (zOf(a) - zOf(b)); })
+              .forEach(function(win) { win.style.zIndex = ++highestZIndex; });
+            restoring = false;
+            if (mainWindow && mainWindow.isConnected) {
+              suppressPushState = true;
+              bringToFront(mainWindow);
+              suppressPushState = false;
+            } else {
+              desktopChanged();
+            }
+          });
+        }
+
         // Global mouse events for dragging
         document.addEventListener('mousemove', function(e) {
           if (draggedWindow && !isMobile()) {
@@ -571,8 +786,11 @@
         });
 
         document.addEventListener('mouseup', function() {
+          if (draggedWindow) desktopChanged();
           draggedWindow = null;
         });
+
+        window.addEventListener('pagehide', saveDesktop);
 
         // Click to focus windows
         document.addEventListener('mousedown', function(e) {
