@@ -1,4 +1,8 @@
 {
+    "scripts": {
+        "build": "syte build",
+        "serve": "syte serve"
+    },
     "dependencies": {
         "syte": "^0.0.1-beta.13"
     }
