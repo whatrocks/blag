@@ -1,9 +1,16 @@
 {
     "scripts": {
-        "build": "syte build",
-        "serve": "syte serve"
+        "dev": "astro dev",
+        "build": "astro build",
+        "preview": "astro preview",
+        "check": "astro check"
     },
     "dependencies": {
-        "syte": "^0.0.1-beta.13"
+        "@astrojs/rss": "^4.0.14",
+        "astro": "^5.18.2"
+    },
+    "devDependencies": {
+        "@astrojs/check": "^0.9.6",
+        "typescript": "^5.9.3"
     }
 }

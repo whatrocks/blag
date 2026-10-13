@@ -1,6 +1,6 @@
 # blag
 
-charlie's site, built with `syte`.
+charlie's site, built with [Astro](https://astro.build).
 
 ## Setup
 
@@ -20,13 +20,22 @@ make serve
 make build
 ```
 
+Output goes to `build/`.
+
 ## Create a post
 
 ```bash
 make post
 ```
 
-This creates a new markdown file in `pages/`.
+This creates a new markdown file in `src/content/posts/`.
+
+## Layout
+
+- `src/content/posts/` - posts and standalone pages, one markdown file each
+- `src/pages/` - routes: the homepage, the `[slug]` page route, and the RSS feed
+- `src/layouts/App.astro` - the BeOS desktop window chrome every page shares
+- `static/` - files served from the site root (`app.css`, `desktop.js`, images, icons)
 
 ## Handy commands
 

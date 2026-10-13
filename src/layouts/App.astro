@@ -1,0 +1,167 @@
+---
+// Ported from the syte EJS template. The page-type rules used to be title
+// string matches; they key off the slug now, with the same results.
+export interface Props {
+  title: string;
+  description?: string;
+  date?: string;
+  slug?: string;
+}
+
+const { title, description = '', date, slug } = Astro.props;
+
+const isHome = slug === undefined;
+const WIDE_PAGES = ['about', 'library'];
+const UNTITLED_PAGES = ['about', 'library', 'books', 'walkingman'];
+
+const wide = slug !== undefined && WIDE_PAGES.includes(slug);
+const showSidepanels = !wide;
+const showPostHeader = !isHome && slug !== undefined && !UNTITLED_PAGES.includes(slug);
+const barTitle = isHome ? 'Posts' : title;
+---
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content={description}/>
+    <title>{title}</title>
+    <link rel="icon" href="/favicon.ico" />
+    <link href="/app.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="everything">
+      <!-- BeOS-style Deskbar -->
+      <nav class="deskbar" aria-label="Deskbar">
+        <a class="deskbar-logo" href="/" title="Home">
+          <span class="deskbar-logo-mark">¶</span><span class="deskbar-logo-text">Charlie</span>
+        </a>
+        <div class="deskbar-tray">
+          <span class="tray-led" aria-hidden="true"></span>
+          <span class="deskbar-clock" id="deskbar-clock"></span>
+        </div>
+        <ul class="deskbar-teams">
+          <li><a href="/"><img class="team-icon" src="/icons/posts.svg" alt="" width="22" height="22">Posts</a></li>
+          <li><a href="/about"><img class="team-icon" src="/icons/document.svg" alt="" width="22" height="22">About</a></li>
+          <li><a href="/library"><img class="team-icon" src="/icons/books.svg" alt="" width="22" height="22">Library</a></li>
+        </ul>
+        <!-- Open windows, filled in by the template JS -->
+        <ul class="deskbar-windows" id="deskbar-windows" aria-label="Open windows"
+          data-icon-posts="/icons/posts.svg"
+          data-icon-books="/icons/books.svg"
+          data-icon-document="/icons/document.svg"></ul>
+      </nav>
+
+      <!-- Desktop icons -->
+      <div class="desktop-icons">
+        <div class="desktop-icon" data-url="/">
+          <img class="icon-shape" src="/icons/posts.svg" alt="" width="64" height="64">
+          <span class="icon-label">Posts</span>
+        </div>
+        <div class="desktop-icon" data-url="/about">
+          <img class="icon-shape" src="/icons/document.svg" alt="" width="64" height="64">
+          <span class="icon-label">About</span>
+        </div>
+        <div class="desktop-icon" data-url="/library">
+          <img class="icon-shape" src="/icons/books.svg" alt="" width="64" height="64">
+          <span class="icon-label">Library</span>
+        </div>
+      </div>
+
+      <!-- Main content window -->
+      <div class:list={['window', 'main-window', { 'wide-window': wide }]}>
+        <div class="title-bar">
+          <button aria-label="Close" class="close"></button>
+          <h1 class="title">{barTitle}</h1>
+          <button aria-label="Resize" class="resize"></button>
+        </div>
+        <div class="window-frame">
+        <div class:list={['window-contents', { 'wide-contents': wide }]}>
+          {showPostHeader && (
+            <>
+              <h1 class="post-title">{title}</h1>
+              <h3 class="subtitle">{date}</h3>
+              <div class="borderLine"></div>
+            </>
+          )}
+          <slot />
+        </div>
+        <footer>
+          <div>
+            <iframe src="https://whatrocks.substack.com/embed" width="340" height="320" style="border:1px solid #EEE; background:white;" frameborder="0" scrolling="no"></iframe>
+           <p class="warning">
+              The almost-never newsletter. I won't spam you, and you can unsubscribe
+              anytime.
+            </p>
+            <div class="copyright">
+              <span>© 2026</span>
+              <span> | </span>
+              <span>
+                <a
+                  href="https://www.charlieharrington.com/rss.xml"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  RSS feed
+                </a>
+              </span>
+              <span> | </span>
+              <span>
+                <a
+                  href="https://twitter.com/whatrocks"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Follow @whatrocks on Twitter
+                </a>
+              </span>
+            </div>
+          </div>
+        </footer>
+        </div>
+      </div>
+
+      <!-- Sidepanel windows -->
+      {showSidepanels && (
+      <>
+      <div class="window sidepanel-window">
+        <div class="title-bar">
+          <button aria-label="Close" class="close"></button>
+          <h2 class="title">CS Primer Show</h2>
+          <button aria-label="Resize" class="resize"></button>
+        </div>
+        <div class="window-frame">
+        <div class="details-bar">
+          <span>A podcast about computer science and computer science education</span>
+        </div>
+        <div>
+          <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/videoseries?si=xysjPOA0G7Qde94O&list=PL4E4jY21e9ntlbxBV1rUU3b8HWldkUTz2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        </div>
+      </div>
+      <div class="window sidepanel-window">
+        <div class="title-bar">
+          <button aria-label="Close" class="close"></button>
+          <h2 class="title">Fahrenheit 52</h2>
+          <button aria-label="Resize" class="resize"></button>
+        </div>
+        <div class="window-frame">
+        <div class="details-bar">
+          <a href="https://f52.charlieharrington.com">Read the stories</a>
+          <span>Listen below</span>
+        </div>
+        <div>
+          <iframe allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" frameborder="0" height="450" style="width:100%;max-width:660px;overflow:hidden;border-radius:10px;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src="https://embed.podcasts.apple.com/us/podcast/fahrenheit-52/id1600947555"></iframe>
+        </div>
+        </div>
+      </div>
+      </>
+      )}
+    </div>
+
+    <slot name="page-scripts" />
+
+    <script is:inline src="/desktop.js"></script>
+  </body>
+</html>
