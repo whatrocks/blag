@@ -3,7 +3,8 @@
         "dev": "astro dev",
         "build": "astro build",
         "preview": "astro preview",
-        "check": "astro check"
+        "check": "astro check",
+        "deploy": "astro build && wrangler deploy"
     },
     "dependencies": {
         "@astrojs/rss": "^4.0.14",
@@ -11,6 +12,10 @@
     },
     "devDependencies": {
         "@astrojs/check": "^0.9.6",
-        "typescript": "^5.9.3"
+        "typescript": "^5.9.3",
+        "wrangler": "^4.150.0"
+    },
+    "allowScripts": {
+        "workerd@1.20261006.1": true
     }
 }

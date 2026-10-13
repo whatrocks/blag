@@ -9,11 +9,6 @@ export default defineConfig({
   // syte linked pages without a trailing slash and the feed's guids follow
   // suit, so both spellings are left to resolve to the same built page.
   trailingSlash: 'ignore',
-  // The apostrophe dropped out of the slug when the post was renamed, so the
-  // old URL keeps working for anything already linking to it.
-  redirects: {
-    "/writer's-bane": '/writers-bane',
-  },
   markdown: {
     // Code blocks are highlighted at build time, so no highlighter ships to
     // the browser. syte left quotes and dashes alone, so smartypants stays off.

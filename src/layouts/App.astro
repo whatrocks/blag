@@ -12,7 +12,8 @@ const { title, description = '', date, slug } = Astro.props;
 
 const isHome = slug === undefined;
 const WIDE_PAGES = ['about', 'library'];
-const UNTITLED_PAGES = ['about', 'library', 'books', 'walkingman'];
+// Pages that supply their own heading, so the layout skips the post header.
+const UNTITLED_PAGES = ['about', 'library', 'books', 'walkingman', '404'];
 
 const wide = slug !== undefined && WIDE_PAGES.includes(slug);
 const showSidepanels = !wide;

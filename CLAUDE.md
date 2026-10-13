@@ -18,12 +18,22 @@ This is a personal blog built with Astro that uses a BeOS-inspired desktop inter
 - `/src/lib/posts.ts` - Slug, filtering and sorting helpers shared by the routes and feed
 - `/static/app.css` - Custom styles
 - `/static/desktop.js` - Window manager (dragging, stacking, SPA navigation, persistence)
+- `/src/pages/404.astro` - Not-found page, served by the Worker for unmatched paths
 - `/src/content/posts/` - Blog posts and content pages
 
 ## Build
 - `make serve` for the dev server, `make build` to build, `make check` to type-check
-- Output goes to `build/` (set via `outDir` so the host's publish directory is unchanged)
+- Output goes to `build/` (set via `outDir`)
 - `static/` is the `publicDir`, so its files are served from the site root
+
+## Deploy
+- Hosted on Cloudflare Workers (static assets, no Worker script), configured in `/wrangler.jsonc`
+- Pushing to `main` builds and deploys via Cloudflare Workers Builds; `make deploy` deploys by hand
+- `html_handling: "drop-trailing-slash"` means `/about/` redirects to `/about`
+- `not_found_handling: "404-page"` serves `build/404.html` from `/src/pages/404.astro`
+- Redirects go in `/static/_redirects` (served from the site root, real 301s)
+- `/static/.assetsignore` keeps junk like `.DS_Store` out of the uploaded assets
+- `wrangler dev` serves the built site with these rules applied, which is the way to test routing changes
 
 ## Design System
 - BeOS look: blue desktop (`--desktop`), yellow title tabs on the focused window (gray when unfocused), gray beveled `.window-frame` around contents
@@ -49,6 +59,7 @@ This is a personal blog built with Astro that uses a BeOS-inspired desktop inter
 
 ## URLs
 - Pages are linked and built without trailing slashes (`/about`), as `build/about/index.html`
+- The Worker redirects the trailing-slash spelling to the canonical one
 - RSS links and guids match that spelling; changing them would resurface every post as new for subscribers
 
 ## Special Features

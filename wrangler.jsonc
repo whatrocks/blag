@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "blag",
+  "compatibility_date": "2026-10-13",
+  // Static site: no Worker script, just the built assets.
+  "assets": {
+    "directory": "./build",
+    // Pages used to redirect /about to /about/; links and feed guids here have
+    // no trailing slash, so requests are normalized the other way.
+    "html_handling": "drop-trailing-slash",
+    // Unmatched paths get build/404.html with a real 404 status.
+    "not_found_handling": "404-page"
+  }
+}
