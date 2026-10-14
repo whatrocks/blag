@@ -1,12 +1,15 @@
-.PHONY: help install post serve build clean
+.PHONY: help install post serve build preview check deploy clean
 
-SYTE := ./node_modules/.bin/syte
+ASTRO := ./node_modules/.bin/astro
 
 help:
 	@printf "Available targets:\n"
 	@printf "  make install  Install project dependencies\n"
 	@printf "  make serve    Start the local dev server\n"
 	@printf "  make build    Build the site\n"
+	@printf "  make preview  Serve the built site\n"
+	@printf "  make check    Type-check the site\n"
+	@printf "  make deploy   Build and deploy to Cloudflare Workers\n"
 	@printf "  make post     Create a new post interactively\n"
 	@printf "  make clean    Remove the build output\n"
 
@@ -16,26 +19,31 @@ install:
 post:
 	@./scripts/new-post.sh
 
-serve:
-	@if [ -x "$(SYTE)" ]; then \
-		"$(SYTE)" serve; \
-	else \
-		echo "syte is not installed. Run: make install"; \
-		exit 1; \
-	fi
+serve: guard
+	@"$(ASTRO)" dev
 
-build:
-	@if [ -x "$(SYTE)" ]; then \
-		"$(SYTE)" build; \
-	else \
-		echo "syte is not installed. Run: make install"; \
+build: guard
+	@"$(ASTRO)" build
+
+preview: guard
+	@"$(ASTRO)" preview
+
+check: guard
+	@"$(ASTRO)" check
+
+deploy: guard
+	@npm run deploy
+
+guard:
+	@if [ ! -x "$(ASTRO)" ]; then \
+		echo "astro is not installed. Run: make install"; \
 		exit 1; \
 	fi
 
 clean:
-	@if [ -d "dist" ]; then \
-		rm -rf dist; \
-		echo "Cleaned dist/"; \
+	@if [ -d "build" ]; then \
+		rm -rf build; \
+		echo "Cleaned build/"; \
 	else \
-		echo "dist/ does not exist"; \
+		echo "build/ does not exist"; \
 	fi

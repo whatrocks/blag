@@ -1,0 +1,29 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import App from '../layouts/App.astro';
+import Library from '../components/Library.astro';
+import LibraryScript from '../components/LibraryScript.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map((entry: CollectionEntry<'posts'>) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<'posts'>;
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const slug = entry.id;
+const isLibrary = slug === 'library';
+---
+
+<App title={entry.data.title} description={entry.data.description} date={entry.data.date} slug={slug}>
+  {isLibrary && <Library />}
+  <Content />
+  {isLibrary && <LibraryScript slot="page-scripts" />}
+</App>

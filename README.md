@@ -1,6 +1,6 @@
 # blag
 
-charlie's site, built with `syte`.
+charlie's site, built with [Astro](https://astro.build).
 
 ## Setup
 
@@ -20,13 +20,41 @@ make serve
 make build
 ```
 
+Output goes to `build/`.
+
+## Deploy
+
+Pushing to `main` builds and deploys through the `Deploy` GitHub Actions
+workflow, which needs two repository secrets:
+
+- `CLOUDFLARE_API_TOKEN` - a token with the "Edit Cloudflare Workers" permissions
+- `CLOUDFLARE_ACCOUNT_ID` - the account ID from the Cloudflare dashboard
+
+To deploy by hand:
+
+```bash
+make deploy
+```
+
+The Worker serves `build/` as static assets. `wrangler.jsonc` holds the
+routing rules: URLs have no trailing slash, and unmatched paths get
+`404.html`. Redirects live in `static/_redirects`.
+
 ## Create a post
 
 ```bash
 make post
 ```
 
-This creates a new markdown file in `pages/`.
+This creates a new markdown file in `src/content/posts/`.
+
+## Layout
+
+- `src/content/posts/` - posts and standalone pages, one markdown file each
+- `src/pages/` - routes: the homepage, the `[slug]` page route, and the RSS feed
+- `src/layouts/App.astro` - the BeOS desktop window chrome every page shares
+- `static/` - files served from the site root (`app.css`, `desktop.js`, images, icons, `_redirects`)
+- `wrangler.jsonc` - Cloudflare Workers config for serving the built site
 
 ## Handy commands
 

@@ -1,0 +1,30 @@
+<!-- SQL book search, rendered above the Library page content -->
+<div id="the-library">
+  <div id="library-instructions">
+    <h3 id="library-title">Enter a SQL query to search my book list:</h3>
+    <span id="library-schema">&nbsp;&nbsp;Show schema</span>
+  </div>
+  <div id="library-form">
+    <p
+      contenteditable
+      id="library-input"
+      class="librarySelect"
+    >
+    select author, title, cover_url, amazon_link from library where genre in ('Science Fiction', 'Fantasy') order by year_read desc;
+    </p>
+    <div id="library-button-row">
+      <div class="btn" id="library-button">Book Search</div>
+      <div class="btn" id="library-lazy">I'm Feeling Lazy</div>
+    </div>
+  </div>
+  <div id="booklist"></div>
+  <p>
+    This list of books I love (because I basically love every book I read)
+uses affiliate links to Amazon. If you purchase an item through one of
+these links here or elsewhere on my site, I receive a small kickback
+(often around 4-5%). Here's the full deal: Charlie Harrington is a
+participant in the Amazon Services LLC Associates Program, an affiliate
+advertising program designed to provide a means for sites to earn
+advertising fees by advertising and linking to Amazon.com.
+  </p>
+</div>

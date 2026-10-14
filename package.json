@@ -1,9 +1,21 @@
 {
     "scripts": {
-        "build": "syte build",
-        "serve": "syte serve"
+        "dev": "astro dev",
+        "build": "astro build",
+        "preview": "astro preview",
+        "check": "astro check",
+        "deploy": "astro build && wrangler deploy"
     },
     "dependencies": {
-        "syte": "^0.0.1-beta.13"
+        "@astrojs/rss": "^4.0.14",
+        "astro": "^5.18.2"
+    },
+    "devDependencies": {
+        "@astrojs/check": "^0.9.6",
+        "typescript": "^5.9.3",
+        "wrangler": "^4.150.0"
+    },
+    "allowScripts": {
+        "workerd@1.20261006.1": true
     }
 }

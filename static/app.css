@@ -14,6 +14,7 @@
   --tab-shadow: #c79c00;
   --tab-inactive: #e8e8e8;
   --link: rgb(33, 93, 211);
+  --code-bg: #f3f3f3;
   --ui-font: "Swis721 BT", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
@@ -621,8 +622,10 @@ pre {
   overflow-x: auto;
 }
 
-code[class*="language-"] {
-  white-space: pre-wrap;
+/* Shiki writes its theme background inline, so this has to outweigh it. */
+pre.astro-code {
+  background-color: var(--code-bg) !important;
+  padding: 1em;
 }
 
 header {

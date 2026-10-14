@@ -23,7 +23,7 @@ read image
 
 # Generate filename from title
 filename=$(echo "$title" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/--*/-/g' | sed 's/^-\|-$//g')
-filepath="pages/$filename.md"
+filepath="src/content/posts/$filename.md"
 
 # Create the post file
 cat > "$filepath" << EOF
