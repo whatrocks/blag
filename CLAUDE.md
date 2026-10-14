@@ -28,7 +28,7 @@ This is a personal blog built with Astro that uses a BeOS-inspired desktop inter
 
 ## Deploy
 - Hosted on Cloudflare Workers (static assets, no Worker script), configured in `/wrangler.jsonc`
-- Pushing to `main` builds and deploys via Cloudflare Workers Builds; `make deploy` deploys by hand
+- Pushing to `main` builds and deploys via `.github/workflows/deploy.yml`, which runs the repo's pinned wrangler with the `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` repository secrets; `make deploy` deploys by hand
 - `html_handling: "drop-trailing-slash"` means `/about/` redirects to `/about`
 - `not_found_handling: "404-page"` serves `build/404.html` from `/src/pages/404.astro`
 - Redirects go in `/static/_redirects` (served from the site root, real 301s)

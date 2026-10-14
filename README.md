@@ -24,8 +24,13 @@ Output goes to `build/`.
 
 ## Deploy
 
-Pushing to `main` builds and deploys through Cloudflare Workers Builds. To
-deploy by hand:
+Pushing to `main` builds and deploys through the `Deploy` GitHub Actions
+workflow, which needs two repository secrets:
+
+- `CLOUDFLARE_API_TOKEN` - a token with the "Edit Cloudflare Workers" permissions
+- `CLOUDFLARE_ACCOUNT_ID` - the account ID from the Cloudflare dashboard
+
+To deploy by hand:
 
 ```bash
 make deploy
