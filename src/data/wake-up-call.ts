@@ -1,5 +1,5 @@
 /**
- * Wake Up Call, as the clay band plays it: the song's real layout, one
+ * Wake-Up Call, as the clay band plays it: the song's real layout, one
  * chord per bar, and the vocal melody transcribed from the V3 demo
  * (10-14-26). Melodies are flat lists of [start, length, MIDI note]
  * triples in sixteenth notes from the start of the section; a negative

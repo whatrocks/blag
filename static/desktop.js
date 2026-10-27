@@ -358,7 +358,7 @@ document.addEventListener("DOMContentLoaded", function() {
       var pageTitleText = pageTitle ? pageTitle.textContent : '';
       var isWide = pageTitleText === 'About' || pageTitleText === 'Library';
 
-      // Component styles Astro puts in the page's head (Wake Up Call etc)
+      // Component styles Astro puts in the page's head (Wake-Up Call etc)
       var styles = Array.prototype.slice.call(doc.querySelectorAll('head link[rel="stylesheet"], head style'));
 
       return {

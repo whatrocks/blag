@@ -16,7 +16,7 @@ This is a personal blog built with Astro that uses a BeOS-inspired desktop inter
 - `/src/pages/rss.xml.js` - RSS feed
 - `/src/components/Library.astro` + `LibraryScript.astro` - SQL book search widget and its DuckDB script
 - `/src/pages/extras.astro` - Extras folder window, an icon view of odds and ends
-- `/src/pages/wake-up-call.astro` + `/src/components/BuildABand.astro` - Build-a-Bandmate: the clay Money Back Guarantee* band jamming through Wake Up Call (song chart in `/src/data/wake-up-call.ts`), moved here from mbgstar.com
+- `/src/pages/wake-up-call.astro` + `/src/components/BuildABand.astro` - Build-a-Bandmate: the clay Money Back Guarantee* band jamming through Wake-Up Call (song chart in `/src/data/wake-up-call.ts`), moved here from mbgstar.com
 - `/src/lib/posts.ts` - Slug, filtering and sorting helpers shared by the routes and feed
 - `/static/app.css` - Custom styles
 - `/static/desktop.js` - Window manager (dragging, stacking, SPA navigation, persistence)
@@ -43,7 +43,7 @@ This is a personal blog built with Astro that uses a BeOS-inspired desktop inter
 - Deskbar (`nav.deskbar`) in the top-right corner: ¶ Charlie (links home), tray clock, and Posts/About/Library/Extras entries; becomes a horizontal bar on mobile
 - Desktop only: double-clicking a tab minimizes the window; the Deskbar's `#deskbar-windows` list shows open windows (click to restore/focus, click the focused one to minimize). Window positions, stacking, minimized/zoomed state and open page windows persist in `localStorage` (`beos-desktop-v1`)
 - Colors are CSS variables on `:root` in `/static/app.css`
-- Icons are isometric BeOS/Haiku-style SVGs in `/static/icons/` (posts, document, books, folder), plus the clay bandmate for Wake Up Call, used on the desktop, in the Deskbar and in folder windows
+- Icons are isometric BeOS/Haiku-style SVGs in `/static/icons/` (posts, document, books, folder), plus the clay bandmate for Wake-Up Call, used on the desktop, in the Deskbar and in folder windows
 - Sidepanel with CS Primer Show and Fahrenheit 52 widgets
 
 ## Page Layout Logic
@@ -52,7 +52,7 @@ This is a personal blog built with Astro that uses a BeOS-inspired desktop inter
 - **About page** (`about`): Shows "About" in title, NO sidepanel, 2x width
 - **Library page** (`library`): Shows "Library" in title, NO sidepanel, 2x width
 - **Blog posts**: Individual titles, includes sidepanel
-- **Extras** (`extras`) and **Wake Up Call** (`wake-up-call`): standalone pages in `/src/pages/`, not in the posts collection
+- **Extras** (`extras`) and **Wake-Up Call** (`wake-up-call`): standalone pages in `/src/pages/`, not in the posts collection
 - `about`, `library`, `books`, `walkingman`, `extras` and `wake-up-call` skip the post title/date header; `about`, `books`, `library` and `walkingman` are also left out of the homepage listing and the RSS feed (see `PAGE_SLUGS` in `/src/lib/posts.ts`)
 
 ## Width Rules
