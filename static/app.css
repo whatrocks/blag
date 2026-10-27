@@ -431,6 +431,45 @@ body {
   color: #fff;
 }
 
+/* Folder windows (Extras): Tracker-style icon view */
+.folder-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.folder-icons > li {
+  margin: 0;
+}
+
+.folder-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 96px;
+  padding: 4px;
+  text-align: center;
+}
+
+.folder-icon:hover {
+  text-decoration: none;
+}
+
+.folder-icon-label {
+  font-size: 12px;
+  line-height: 1.3;
+  padding: 1px 4px;
+}
+
+.folder-icon:hover .folder-icon-label,
+.folder-icon:focus-visible .folder-icon-label {
+  background: #000;
+  color: #fff;
+}
+
 /* Window contents */
 .window-contents {
   padding-left: 1rem;

@@ -1,0 +1,2235 @@
+---
+/*
+ * Build-a-Bandmate: clay versions of the band. Hand each one an instrument,
+ * hit Play, and they jam through Wake Up Call on a little Web Audio band
+ * that only plays the parts somebody is holding. Mics sing the tune, and
+ * more mics sing harmonies. Moved here from the Money Back Guarantee* site,
+ * so it brings that site's clay palette and surfaces along with it.
+ */
+
+type Top = 'round' | 'slant' | 'peak' | 'flat' | 'cap';
+
+interface Member {
+  name: string;
+  /** Gumby-style: one lump of clay, head to toe. */
+  clay: string;
+  top: Top;
+  /** Crown and brim colors, for top 'cap'. */
+  cap?: [string, string];
+}
+
+const members: Member[] = [
+  { name: 'Andy', clay: '#d9440d', top: 'peak' },
+  { name: 'Ben', clay: '#ffd23f', top: 'cap', cap: ['#f2e4cc', '#0b7a72'] },
+  { name: 'Charlie', clay: '#0b9a8f', top: 'round' },
+  { name: 'John', clay: '#e8202a', top: 'flat' },
+  { name: 'Zach', clay: '#3b4cca', top: 'slant' },
+];
+
+const instruments = [
+  { id: 'piano', label: 'Piano', icon: '-84 -16 168 112' },
+  { id: 'bass', label: 'Bass', icon: '-40 -34 172 68' },
+  { id: 'electric', label: 'Electric guitar', icon: '-40 -34 154 68' },
+  { id: 'acoustic', label: 'Acoustic guitar', icon: '-40 -30 152 60' },
+  { id: 'banjo', label: 'Banjo', icon: '-30 -30 152 60' },
+  { id: 'drums', label: 'Drums', icon: '-92 -96 184 140' },
+  { id: 'mic', label: 'Mic', icon: '104 116 46 50' },
+  { id: 'harmonica', label: 'Harmonica', icon: '78 98 44 28' },
+  { id: 'sax', label: 'Saxophone', icon: '62 104 66 146' },
+  { id: 'trumpet', label: 'Trumpet', icon: '96 62 120 80' },
+  { id: 'tambourine', label: 'Tambourine', icon: '-26 -26 52 52' },
+  { id: 'clap', label: 'Clapping', icon: '-30 -32 60 54' },
+  { id: 'xylophone', label: 'Xylophone', icon: '-86 -24 172 124' },
+  { id: 'cajon', label: 'Cajón', icon: '-40 -52 80 104' },
+  { id: 'mandolin', label: 'Mandolin', icon: '-26 -22 100 44' },
+  { id: 'upright', label: 'Upright bass', icon: '10 44 92 200' },
+  { id: 'theremin', label: 'Theremin', icon: '16 86 132 150' },
+  { id: 'viola', label: 'Viola', icon: '92 108 100 88' },
+  { id: 'pedalsteel', label: 'Pedal steel', icon: '-90 -16 180 116' },
+];
+
+/** Darker shade of a clay color, for outlines and the clay's "side". */
+function deep(hex: string, amount = 0.32): string {
+  const n = parseInt(hex.slice(1), 16);
+  const ch = (shift: number) => Math.round(((n >> shift) & 255) * (1 - amount));
+  return `#${((ch(16) << 16) | (ch(8) << 8) | ch(0)).toString(16).padStart(6, '0')}`;
+}
+
+/** Xylophone bars: C major from C5 up, rainbow-colored like Mario Paint. */
+const XYLO_COLORS = ['#e8202a', '#f5821f', '#ffd23f', '#7cc242', '#0b9a8f', '#2f9be0', '#3b4cca', '#9b4dca', '#ff7aa8', '#e8202a'];
+const xyloBars = XYLO_COLORS.map((fill, i) => {
+  const h = 36 - i * 1.5;
+  return { x: -78 + i * 15.8, y: 2 - h / 2, h, fill };
+});
+
+// Little cymbals round the tambourine's rim.
+const jingles = [30, 102, 174, 246, 318].map((a) => ({
+  x: +(18 * Math.cos((a * Math.PI) / 180)).toFixed(1),
+  y: +(18 * Math.sin((a * Math.PI) / 180)).toFixed(1),
+  a,
+}));
+
+/** Head to feet in one piece: big head, no neck to speak of, stubby legs that flare into feet. */
+const blobPath =
+  'M100 40 C124 40 142 56 142 84 C142 106 132 120 122 127 C128 132 132 140 134 150 L140 234 ' +
+  'C142 256 144 276 150 288 C155 300 146 306 130 304 L112 302 C108 300 106 290 106 278 ' +
+  'C105 262 102 252 100 250 C98 252 95 262 94 278 C94 290 92 300 88 302 L70 304 ' +
+  'C54 306 45 300 50 288 C56 276 58 256 60 234 L66 150 C68 140 72 132 78 127 C68 120 58 106 58 84 C58 56 76 40 100 40 Z';
+
+/** Shapes pressed onto the top of the head, same clay as the body. */
+const tops: Partial<Record<Top, string>> = {
+  slant: 'M60 74 C58 44 74 28 94 25 C110 22 122 14 133 7 C142 2 147 11 145 22 C143 44 142 60 142 76 Z',
+  peak: 'M58 76 C56 44 64 22 78 14 C88 9 94 19 102 27 C122 30 140 46 142 72 Z',
+  flat: 'M60 70 C60 48 62 34 70 32 L130 32 C138 34 140 48 140 70 Z',
+};
+
+// 18 white keys; black keys sit after these white keys in each octave.
+const whiteKeys = Array.from({ length: 18 }, (_, i) => -74 + i * (148 / 18));
+const blackKeys = whiteKeys.slice(0, -1).filter((_, i) => [0, 1, 3, 4, 5].includes(i % 7));
+
+/*
+ * Clay: the shape's own alpha, blurred, becomes a soft rounded height map
+ * with a little lumpy noise pressed in. Lit from the top left, so every part
+ * reads as a squished lump with a highlight on its shoulder.
+ */
+const clay = `
+  <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur" />
+  <feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="2" seed="7" result="noise" />
+  <feComposite in="blur" in2="noise" operator="arithmetic" k2="1" k3="0.2" result="height" />
+  <feDiffuseLighting in="height" surfaceScale="4" diffuseConstant="1" lighting-color="#fff" result="diffuse">
+    <feDistantLight azimuth="225" elevation="55" />
+  </feDiffuseLighting>
+  <feComposite in="SourceGraphic" in2="diffuse" operator="arithmetic" k1="1.18" result="shaded" />
+  <feSpecularLighting in="height" surfaceScale="4" specularConstant="0.5" specularExponent="18" lighting-color="#fff" result="spec">
+    <feDistantLight azimuth="225" elevation="50" />
+  </feSpecularLighting>
+  <feComposite in="spec" in2="SourceAlpha" operator="in" result="specIn" />
+  <feComposite in="shaded" in2="specIn" operator="arithmetic" k2="1" k3="0.45" result="lit" />
+  <feComposite in="lit" in2="SourceAlpha" operator="in" />
+`;
+
+const F = 'url(#clay)';
+---
+
+<section class="bab" aria-label="Build-a-Bandmate">
+  <svg class="bab-defs" width="0" height="0" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="clay" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB" set:html={clay} />
+      <!--
+        Bounding boxes leave out stroke width, so the noodle arms (thick
+        strokes) get a fixed region covering everywhere a hand can reach.
+      -->
+      <filter id="clay-arm" filterUnits="userSpaceOnUse" x="10" y="120" width="180" height="130" color-interpolation-filters="sRGB" set:html={clay} />
+
+      <!-- Instruments are drawn around their own origin; see PLACEMENTS in the script. -->
+      <g id="inst-electric">
+        <path filter={F} d="M-34 -4 C-38 -22 -22 -28 -10 -20 C-2 -15 6 -16 12 -24 C20 -32 32 -24 26 -12 C22 -6 22 6 26 12 C32 24 20 32 12 24 C6 16 -2 15 -10 20 C-22 28 -38 22 -34 4 Z" fill="#e8202a" stroke="#9e1018" stroke-width="2" />
+        <path d="M-24 -10 C-14 -16 4 -12 14 -14 L16 10 C4 12 -14 16 -24 10 Z" fill="#f2e4cc" />
+        <rect x="-22" y="-6" width="4" height="12" rx="1" fill="#8c8c8c" />
+        <rect x="-10" y="-6" width="4" height="12" rx="1" fill="#2e1f16" />
+        <rect x="2" y="-6" width="4" height="12" rx="1" fill="#2e1f16" />
+        <path filter={F} d="M16 -3.5 L92 -3 L92 3 L16 3.5 Z" fill="#c98a5a" stroke="#7a4a2a" stroke-width="1.2" />
+        <path filter={F} d="M90 -4 C96 -9 106 -10 112 -6 C114 -2 110 1 106 0 L104 4 L90 4 Z" fill="#c98a5a" stroke="#7a4a2a" stroke-width="1.2" />
+        <g stroke="#f2e4cc" stroke-width="0.8">{[30, 42, 53, 63, 72, 80, 87].map((x) => <line x1={x} y1="-3" x2={x} y2="3" />)}</g>
+        <g stroke="#fff" stroke-width="0.5" opacity="0.75">{[-2, -0.7, 0.7, 2].map((y) => <line x1="-20" y1={y} x2="104" y2={y} />)}</g>
+      </g>
+
+      <g id="inst-bass">
+        <path filter={F} d="M-34 -4 C-38 -24 -22 -30 -8 -22 C0 -17 8 -18 16 -28 C26 -36 36 -26 28 -12 C24 -6 24 6 28 12 C34 24 20 32 12 24 C6 16 -2 17 -10 22 C-22 30 -38 22 -34 4 Z" fill="#0b7a72" stroke="#04524c" stroke-width="2" />
+        <path d="M-22 -12 C-12 -18 2 -14 10 -16 L12 12 C2 14 -12 18 -22 12 Z" fill="#f2e4cc" />
+        <rect x="-24" y="-6" width="5" height="12" rx="1" fill="#8c8c8c" />
+        <rect x="-6" y="-7" width="5" height="14" rx="1" fill="#2e1f16" />
+        <path filter={F} d="M18 -4 L112 -3.5 L112 3.5 L18 4 Z" fill="#c98a5a" stroke="#7a4a2a" stroke-width="1.2" />
+        <path filter={F} d="M110 -5 L128 -7 C132 -6 132 -1 128 0 L124 5 L110 5 Z" fill="#c98a5a" stroke="#7a4a2a" stroke-width="1.2" />
+        <g fill="#c8c8c8">{[114, 118, 122, 126].map((x) => <circle cx={x} cy="-8" r="1.8" />)}</g>
+        <g stroke="#f2e4cc" stroke-width="0.8">{[34, 49, 62, 74, 85, 95, 104].map((x) => <line x1={x} y1="-3.5" x2={x} y2="3.5" />)}</g>
+        <g stroke="#fff" stroke-width="0.7" opacity="0.75">{[-2.4, -0.8, 0.8, 2.4].map((y) => <line x1="-22" y1={y} x2="122" y2={y} />)}</g>
+      </g>
+
+      <g id="inst-acoustic">
+        <path filter={F} d="M-36 0 C-36 -26 -12 -28 0 -18 C6 -24 28 -24 28 0 C28 24 6 24 0 18 C-12 28 -36 26 -36 0 Z" fill="#e8b46a" stroke="#a8743a" stroke-width="2" />
+        <circle cx="8" cy="0" r="8.5" fill="none" stroke="#a8743a" stroke-width="1.5" />
+        <circle cx="8" cy="0" r="6.5" fill="#2e1f16" />
+        <rect x="-26" y="-7" width="5" height="14" rx="1.5" fill="#7a4a2a" />
+        <path filter={F} d="M24 -3.5 L92 -3 L92 3 L24 3.5 Z" fill="#7a4a2a" stroke="#4a2a14" stroke-width="1.2" />
+        <path filter={F} d="M90 -4.5 L108 -6 C111 -6 111 6 108 6 L90 4.5 Z" fill="#7a4a2a" stroke="#4a2a14" stroke-width="1.2" />
+        <g stroke="#f2e4cc" stroke-width="0.8">{[36, 47, 57, 66, 74, 81, 87].map((x) => <line x1={x} y1="-3" x2={x} y2="3" />)}</g>
+        <g stroke="#fff" stroke-width="0.5" opacity="0.8">{[-2.2, -1.3, -0.4, 0.4, 1.3, 2.2].map((y) => <line x1="-24" y1={y} x2="104" y2={y} />)}</g>
+      </g>
+
+      <g id="inst-banjo">
+        <circle filter={F} cx="0" cy="0" r="27" fill="#7a4a2a" stroke="#4a2a14" stroke-width="2" />
+        <circle cx="0" cy="0" r="23" fill="none" stroke="#c8c8c8" stroke-width="3.5" />
+        <circle filter={F} cx="0" cy="0" r="20.5" fill="#f6efe2" />
+        <path d="M-20 -2 L-8 -2 L-8 2 L-20 2 Z" fill="#8c8c8c" />
+        <rect x="2" y="-4" width="2.5" height="8" fill="#7a4a2a" />
+        <path filter={F} d="M22 -3 L106 -2.5 L106 2.5 L22 3 Z" fill="#7a4a2a" stroke="#4a2a14" stroke-width="1.2" />
+        <path filter={F} d="M104 -4 L118 -6 C121 -5 121 5 118 6 L104 4 Z" fill="#7a4a2a" stroke="#4a2a14" stroke-width="1.2" />
+        <circle cx="56" cy="-5" r="2" fill="#f2e4cc" />
+        <g stroke="#f2e4cc" stroke-width="0.8">{[34, 45, 55, 64, 72, 80, 87, 93].map((x) => <line x1={x} y1="-2.5" x2={x} y2="2.5" />)}</g>
+        <g stroke="#fff" stroke-width="0.45" opacity="0.8">{[-1.8, -0.9, 0, 0.9, 1.8].map((y) => <line x1="-14" y1={y} x2="110" y2={y} />)}</g>
+      </g>
+
+      <g id="inst-piano">
+        <g stroke="#2e1f16" stroke-width="6" stroke-linecap="round" filter={F}>
+          <line x1="-50" y1="14" x2="50" y2="92" />
+          <line x1="50" y1="14" x2="-50" y2="92" />
+        </g>
+        <rect filter={F} x="-81" y="-13" width="162" height="28" rx="7" fill="#4a4a4a" stroke="#2e1f16" stroke-width="2" />
+        <rect x="-74" y="-6" width="148" height="16" rx="2" fill="#fffaf0" />
+        <g stroke="#c9ad85" stroke-width="0.8">{whiteKeys.slice(1).map((x) => <line x1={x} y1="-6" x2={x} y2="10" />)}</g>
+        <g fill="#2e1f16">{blackKeys.map((x) => <rect x={x + 148 / 18 - 2.5} y="-6" width="5" height="9.5" rx="1" />)}</g>
+        <circle cx="-74" cy="-9.5" r="1.6" fill="#ffd23f" />
+        <circle cx="-68" cy="-9.5" r="1.6" fill="#e8202a" />
+      </g>
+
+      <g id="inst-drums">
+        <g stroke="#8c8c8c" stroke-width="3" stroke-linecap="round">
+          <line x1="64" y1="-80" x2="72" y2="40" />
+          <line x1="-68" y1="-56" x2="-70" y2="40" />
+        </g>
+        <ellipse filter={F} cx="64" cy="-82" rx="25" ry="5" transform="rotate(-12 64 -82)" fill="#ffd23f" stroke="#c99a1a" stroke-width="1.5" />
+        <ellipse filter={F} cx="-68" cy="-54" rx="19" ry="4" fill="#ffd23f" stroke="#c99a1a" stroke-width="1.5" />
+        <ellipse filter={F} cx="-68" cy="-59" rx="19" ry="4" fill="#ffd23f" stroke="#c99a1a" stroke-width="1.5" />
+        <circle filter={F} cx="0" cy="0" r="40" fill="#e8202a" stroke="#9e1018" stroke-width="3" />
+        <circle filter={F} cx="0" cy="0" r="33" fill="#f2e4cc" />
+        <text x="0" y="7" text-anchor="middle" font-family="Fredoka, 'Arial Rounded MT Bold', sans-serif" font-weight="700" font-size="20" fill="#d9440d">MBG*</text>
+        <g filter={F}>
+          <rect x="-24" y="-52" width="32" height="15" rx="3" fill="#e8202a" stroke="#9e1018" stroke-width="1.5" />
+          <ellipse cx="-8" cy="-52" rx="16" ry="5" fill="#fffaf0" stroke="#c8c8c8" stroke-width="1.5" />
+        </g>
+        <g filter={F}>
+          <rect x="30" y="-38" width="34" height="14" rx="3" fill="#c8c8c8" stroke="#8c8c8c" stroke-width="1.5" />
+          <ellipse cx="47" cy="-38" rx="17" ry="5" fill="#fffaf0" stroke="#c8c8c8" stroke-width="1.5" />
+        </g>
+      </g>
+
+      <!-- Drawn where they sit on a bandmate, not around an origin. -->
+      <g id="inst-mic">
+        <ellipse cx="138" cy="301" rx="24" ry="5" fill="#2e1f16" />
+        <line x1="138" y1="160" x2="138" y2="300" stroke="#4a4a4a" stroke-width="4" stroke-linecap="round" />
+        <rect x="133" y="154" width="10" height="9" rx="2" fill="#2e1f16" />
+        <line filter={F} x1="126" y1="140" x2="137" y2="157" stroke="#2e1f16" stroke-width="8" stroke-linecap="round" />
+        <circle filter={F} cx="121" cy="131" r="10.5" fill="#c8c8c8" stroke="#8c8c8c" stroke-width="1.5" />
+        <path d="M113 127 L129 127 M112 132 L130 132 M114 137 L128 137 M117 122 L117 140 M121 121 L121 141 M125 122 L125 140" stroke="#8c8c8c" stroke-width="0.9" />
+      </g>
+
+      <g id="inst-sax">
+        <path filter={F} d="M100 113 Q90 120 86 136" fill="none" stroke="#e0b030" stroke-width="8" stroke-linecap="round" />
+        <line x1="99" y1="114" x2="105" y2="109" stroke="#1e1410" stroke-width="6" stroke-linecap="round" />
+        <path filter={F} d="M86 134 L78 214 Q76 244 98 242 Q114 240 114 218" fill="none" stroke="#e0b030" stroke-width="18" stroke-linecap="round" />
+        <ellipse filter={F} cx="114" cy="210" rx="15" ry="7" fill="#e0b030" />
+        <ellipse cx="114" cy="209" rx="10" ry="4" fill="#7a5410" />
+        <g filter={F} fill="#f6e6b0">{[[86, 152], [84, 166], [83, 180], [81, 194], [80, 208]].map(([cx, cy]) => <circle cx={cx} cy={cy} r="4" />)}</g>
+      </g>
+
+      <g id="inst-trumpet" transform="rotate(-12 102 110) translate(102 110) scale(1.25) translate(-102 -110)">
+        <rect filter={F} x="112" y="112" width="44" height="13" rx="6.5" fill="none" stroke="#e0b030" stroke-width="4" />
+        <line filter={F} x1="104" y1="110" x2="160" y2="110" stroke="#e0b030" stroke-width="6" stroke-linecap="round" />
+        <path filter={F} d="M156 106 C166 105 175 99 186 93 L186 127 C175 121 166 115 156 114 Z" fill="#e0b030" />
+        <ellipse cx="186" cy="110" rx="3" ry="17" fill="#b8860b" />
+        <g filter={F} fill="#e0b030">{[125, 133, 141].map((x) => <rect x={x} y="98" width="5" height="14" rx="1.5" />)}</g>
+        <g fill="#f6e6b0">{[127.5, 135.5, 143.5].map((cx) => <circle cx={cx} cy="97" r="3.2" />)}</g>
+        <rect x="99" y="107" width="7" height="6" rx="2" fill="#b8860b" />
+      </g>
+
+      <!-- Drawn around its middle: it goes wherever the hand holding it goes. -->
+      <g id="inst-tambourine">
+        <circle filter={F} r="17" fill="#f6efe2" />
+        <circle filter={F} r="18" fill="none" stroke="#d9a066" stroke-width="6" />
+        <g filter={F} fill="#e8b830">{jingles.map((j) => <ellipse cx={j.x} cy={j.y} rx="4.5" ry="3" transform={`rotate(${j.a + 90} ${j.x} ${j.y})`} />)}</g>
+      </g>
+
+      <!-- Origin-drawn: xylophone, cajón and pedal steel sit in front of the player. -->
+      <g id="inst-xylophone">
+        <g stroke="#5a3a22" stroke-width="4" stroke-linecap="round" filter={F}>
+          <path d="M-74 10 L-80 96 M-74 10 L-66 96 M74 10 L80 96 M74 10 L66 96" fill="none" />
+        </g>
+        <g filter={F} fill="#7a4a2a">
+          <rect x="-84" y="-12" width="168" height="5" rx="2" />
+          <rect x="-84" y="10" width="168" height="5" rx="2" />
+        </g>
+        <g filter={F}>{xyloBars.map((b) => <rect x={b.x} y={b.y} width="13" height={b.h} rx="3" fill={b.fill} />)}</g>
+        <g fill="#f6efe2">{xyloBars.map((b) => <circle cx={b.x + 6.5} cy={b.y + 4} r="1.4" />)}</g>
+      </g>
+
+      <g id="inst-cajon">
+        <rect filter={F} x="-34" y="-46" width="68" height="92" rx="5" fill="#c98a5a" />
+        <rect filter={F} x="-29" y="-41" width="58" height="82" rx="3" fill="#e6b680" />
+        <g fill="#7a4a2a">{[[-25, -37], [25, -37], [-25, 37], [25, 37]].map(([cx, cy]) => <circle cx={cx} cy={cy} r="1.8" />)}</g>
+      </g>
+
+      <g id="inst-pedalsteel">
+        <g stroke="#4a4a4a" stroke-width="4" stroke-linecap="round" filter={F}>
+          <path d="M-70 8 L-70 96 M70 8 L70 96" fill="none" />
+        </g>
+        <rect filter={F} x="-32" y="86" width="64" height="7" rx="3" fill="#4a4a4a" />
+        <g filter={F} fill="#c8c8c8">{[-24, -7, 10].map((x) => <rect x={x} y="78" width="12" height="9" rx="2" />)}</g>
+        <rect filter={F} x="-88" y="-11" width="176" height="22" rx="6" fill="#2e4a6a" />
+        <rect x="-62" y="-6" width="124" height="9" rx="2" fill="#f6efe2" />
+        <g stroke="#7a4a2a" stroke-width="0.8">{Array.from({ length: 15 }, (_, i) => <line x1={-58 + i * 8} y1="-6" x2={-58 + i * 8} y2="3" />)}</g>
+        <rect x="-78" y="-6" width="9" height="9" rx="2" fill="#1e1410" />
+        <g stroke="#fff" stroke-width="0.5" opacity="0.8">{[-4.5, -2.5, -0.5, 1.5].map((y) => <line x1="-84" y1={y} x2="84" y2={y} />)}</g>
+      </g>
+
+      <!-- Drawn where they sit on a bandmate: upright bass, theremin and viola. -->
+      <g id="inst-upright">
+        <line x1="58" y1="286" x2="58" y2="302" stroke="#9a9a9a" stroke-width="3" stroke-linecap="round" />
+        <line filter={F} x1="60" y1="190" x2="70" y2="58" stroke="#8a4a1e" stroke-width="10" stroke-linecap="round" />
+        <path filter={F} d="M58 170 C76 170 86 182 84 198 C83 208 78 214 78 222 C78 230 92 238 92 256 C92 276 76 288 56 288 C36 288 20 276 20 256 C20 238 36 230 36 222 C36 214 30 208 30 198 C30 182 40 170 58 170 Z" fill="#8a4a1e" />
+        <path d="M44 216 q4 6 0 12 q-4 6 0 12 M72 216 q4 6 0 12 q-4 6 0 12" fill="none" stroke="#3a1a08" stroke-width="2" stroke-linecap="round" />
+        <line x1="59" y1="280" x2="59" y2="246" stroke="#1e1410" stroke-width="8" stroke-linecap="round" />
+        <rect x="47" y="234" width="24" height="5" rx="2" fill="#e6b680" />
+        <line filter={F} x1="61" y1="236" x2="70" y2="62" stroke="#1e1410" stroke-width="8" stroke-linecap="round" />
+        <circle filter={F} cx="71" cy="51" r="7" fill="#8a4a1e" />
+        <g stroke="#f6efe2" stroke-width="0.7" opacity="0.8">
+          <line x1="56" y1="276" x2="68" y2="62" />
+          <line x1="59" y1="276" x2="70" y2="62" />
+          <line x1="62" y1="276" x2="72" y2="62" />
+        </g>
+      </g>
+
+      <g id="inst-theremin">
+        <g stroke="#4a4a4a" stroke-width="3" stroke-linecap="round">
+          <path d="M70 206 L60 302 M110 206 L120 302 M90 206 L90 302" fill="none" />
+        </g>
+        <path d="M44 194 C30 194 22 188 22 181 C22 172 34 170 46 178" fill="none" stroke="#c8c8c8" stroke-width="3" stroke-linecap="round" />
+        <line x1="132" y1="186" x2="132" y2="94" stroke="#c8c8c8" stroke-width="3" stroke-linecap="round" />
+        <circle cx="132" cy="93" r="3" fill="#e0e0e0" />
+        <rect filter={F} x="44" y="184" width="96" height="24" rx="5" fill="#7a4a2a" />
+        <rect x="52" y="190" width="58" height="12" rx="3" fill="#f2e4cc" />
+        <g fill="#2e1f16">{[62, 76, 90].map((cx) => <circle cx={cx} cy="196" r="3" />)}</g>
+      </g>
+
+      <g id="inst-viola" transform="rotate(35 126 142)">
+        <path filter={F} d="M96 142 C96 126 104 124 112 127 C118 129 120 133 124 133 C128 133 130 129 136 129 C146 128 152 134 152 142 C152 150 146 156 136 155 C130 155 128 151 124 151 C120 151 118 155 112 157 C104 160 96 158 96 142 Z" fill="#a0522d" />
+        <rect x="100" y="139" width="12" height="6" rx="2" fill="#1e1410" />
+        <rect x="120" y="139" width="52" height="6" rx="2" fill="#1e1410" />
+        <rect filter={F} x="170" y="138" width="8" height="8" rx="2" fill="#a0522d" />
+        <circle filter={F} cx="181" cy="142" r="5" fill="#a0522d" />
+        <rect x="115" y="135" width="2.5" height="14" rx="1" fill="#f2e4cc" />
+        <g stroke="#fff" stroke-width="0.5" opacity="0.75">{[140.5, 141.5, 142.5, 143.5].map((y) => <line x1="104" y1={y} x2="174" y2={y} />)}</g>
+      </g>
+
+      <!-- Drawn around its body's middle, slung like the guitars. -->
+      <g id="inst-mandolin">
+        <path filter={F} d="M-22 0 C-22 -16 -8 -19 4 -14 C12 -10 18 -5 21 0 C18 5 12 10 4 14 C-8 19 -22 16 -22 0 Z" fill="#b5541c" />
+        <path d="M-18 0 C-18 -12 -7 -15 3 -11 C10 -8 15 -4 17 0 C15 4 10 8 3 11 C-7 15 -18 12 -18 0 Z" fill="#e0954a" />
+        <ellipse cx="4" cy="0" rx="3.5" ry="5" fill="#2e1f16" />
+        <rect x="-11" y="-5" width="2" height="10" fill="#5a3a22" />
+        <path filter={F} d="M17 -3 L58 -2.5 L58 2.5 L17 3 Z" fill="#7a4a2a" />
+        <path filter={F} d="M56 -5 L70 -6 C73 -5 73 5 70 6 L56 5 Z" fill="#7a4a2a" />
+        <g fill="#c8c8c8">{[59, 63, 67].map((x) => <><circle cx={x} cy="-7" r="1.3" /><circle cx={x} cy="7" r="1.3" /></>)}</g>
+        <g stroke="#fff" stroke-width="0.4" opacity="0.8">{[-2.2, -0.8, 0.8, 2.2].map((y) => <line x1="-14" y1={y} x2="66" y2={y} />)}</g>
+      </g>
+
+      <!-- Only the tray shows this one: clapping needs nothing but hands. -->
+      <g id="inst-clap">
+        <ellipse filter={F} cx="-9" cy="4" rx="11" ry="15" transform="rotate(-20 -9 4)" fill="#e8b48c" />
+        <ellipse filter={F} cx="9" cy="4" rx="11" ry="15" transform="rotate(20 9 4)" fill="#dba27a" />
+        <path d="M-20 -16 l-5 -6 M0 -20 l0 -8 M20 -16 l5 -6" stroke="#d9440d" stroke-width="3" stroke-linecap="round" />
+      </g>
+
+      <g id="inst-harmonica">
+        <rect filter={F} x="82" y="104" width="36" height="15" rx="3" fill="#c8c8c8" stroke="#8c8c8c" stroke-width="1.5" />
+        <rect x="83" y="109" width="34" height="5" fill="#7a4a2a" />
+        <g fill="#2e1f16">{Array.from({ length: 8 }, (_, i) => <rect x={84.5 + i * 4.1} y="110" width="2.4" height="3" rx="0.6" />)}</g>
+        <path d="M85 106.5 L115 106.5" stroke="#fffaf0" stroke-width="1.2" stroke-linecap="round" opacity="0.8" />
+      </g>
+    </defs>
+  </svg>
+
+  <div class="bab-stage clay">
+    <div class="bab-floor" aria-hidden="true"></div>
+    <ul class="bab-band" role="list">
+      {members.map((m, i) => {
+        const clayDeep = deep(m.clay);
+        const top = tops[m.top];
+        return (
+          <li>
+            <button type="button" class="bab-player" data-player={i} data-name={m.name} aria-label={`${m.name}: empty-handed`}>
+              <svg viewBox="0 0 200 320" aria-hidden="true" focusable="false" style={`--blink-delay: ${-i * 1.7}s`}>
+                <ellipse cx="100" cy="306" rx="64" ry="9" fill="rgba(70, 40, 20, 0.2)" />
+                <g class="bab-body">
+                  <g filter={F} fill={m.clay}>
+                    <path d={blobPath} stroke={clayDeep} stroke-width="2.5" />
+                    {top && <path d={top} />}
+                  </g>
+                  {m.top === 'cap' && m.cap && (
+                    <g filter={F}>
+                      <path d="M60 68 C58 36 78 20 100 20 C122 20 142 36 140 68 Z" fill={m.cap[0]} stroke={deep(m.cap[0], 0.2)} stroke-width="2" />
+                      <path d="M57 63 C80 55 126 55 153 65 C156 72 143 74 137 71 C118 67 84 67 62 71 C54 71 52 65 57 63 Z" fill={m.cap[1]} stroke={deep(m.cap[1])} stroke-width="2" />
+                      <circle cx="100" cy="21" r="3.5" fill={m.cap[1]} />
+                    </g>
+                  )}
+                  {m.top === 'cap' && m.cap && (
+                    <text x="100" y="52" text-anchor="middle" font-family="Fredoka, 'Arial Rounded MT Bold', sans-serif" font-weight="700" font-size="13" fill={m.cap[1]}>MBG*</text>
+                  )}
+                  <g class="bab-eyes">
+                    <ellipse cx="88" cy="80" rx="9.5" ry="11.5" fill="#fffaf0" stroke={clayDeep} stroke-width="1.5" />
+                    <ellipse cx="112" cy="80" rx="9.5" ry="11.5" fill="#fffaf0" stroke={clayDeep} stroke-width="1.5" />
+                    <circle cx="90" cy="83" r="4.5" fill="#2e1f16" />
+                    <circle cx="110" cy="83" r="4.5" fill="#2e1f16" />
+                  </g>
+                  {m.top !== 'cap' && <path filter={F} d="M77 66 Q88 58 97 64 M103 64 Q112 58 123 66" fill="none" stroke={m.clay} stroke-width="6" stroke-linecap="round" />}
+                  <ellipse filter={F} cx="100" cy="96" rx="6" ry="5" fill={m.clay} stroke={clayDeep} stroke-width="1" />
+                  <path class="bab-smile" d="M84 108 Q100 120 116 108" fill="none" stroke="#5a1f14" stroke-width="3" stroke-linecap="round" />
+                  <ellipse class="bab-sing" cx="100" cy="112" rx="8" ry="2" fill="#5a1f14" visibility="hidden" />
+                  <g class="bab-cheeks" filter={F} fill={m.clay} visibility="hidden">
+                    <circle cx="78" cy="104" r="10" />
+                    <circle cx="124" cy="104" r="10" />
+                  </g>
+                </g>
+                <g class="bab-inst"><use href="" visibility="hidden" /></g>
+                <g class="bab-arms">
+                  {[0, 1].map(() => (
+                    <g class="bab-arm">
+                      <g filter="url(#clay-arm)">
+                        <path class="bab-arm-out" fill="none" stroke={clayDeep} stroke-width="16" stroke-linecap="round" />
+                        <path class="bab-arm-in" fill="none" stroke={m.clay} stroke-width="12.5" stroke-linecap="round" />
+                      </g>
+                      <line class="bab-stick" stroke="#c98a5a" stroke-width="4" stroke-linecap="round" visibility="hidden" />
+                      <ellipse class="bab-hand" rx="10" ry="9" fill={m.clay} stroke={clayDeep} stroke-width="2" filter={F} />
+                      <circle class="bab-tip" filter={F} r="5.5" fill="#e8202a" visibility="hidden" />
+                    </g>
+                  ))}
+                </g>
+              </svg>
+              <span class="bab-name">{m.name}</span>
+            </button>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+
+  <div class="bab-tray" role="group" aria-label="Instruments">
+    {instruments.map((inst) => (
+      <button type="button" class="bab-inst-btn clay-button" data-inst={inst.id} aria-pressed="false">
+        <svg viewBox={inst.icon} aria-hidden="true" focusable="false"><use href={`#inst-${inst.id}`} /></svg>
+        <span>{inst.label}</span>
+      </button>
+    ))}
+  </div>
+
+  <div class="bab-controls">
+    <button type="button" class="clay-button bab-play" aria-pressed="false">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path class="bab-play-icon" d="M7 4l13 8-13 8z" fill="currentColor" /></svg>
+      <span>Play</span>
+    </button>
+    <button type="button" class="clay-button bab-shuffle">Shuffle</button>
+    <button type="button" class="clay-button bab-clear">Clear</button>
+  </div>
+  <div class="bab-now" aria-hidden="true"></div>
+  <div class="bab-status" role="status" aria-live="polite">Pick an instrument and tap a bandmate, or drag it right onto them. Then hit Play.</div>
+</section>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap');
+
+  /* The MBG* clay palette: orange M, cream B, teal G, each with a deeper "side". */
+  .bab {
+    --ink: #2e1f16;
+    --paper: #f4e9d8;
+    --orange: #d9440d;
+    --orange-deep: #9e2f06;
+    --cream: #f2e4cc;
+    --cream-deep: #c9ad85;
+    --teal: #0b7a72;
+    --teal-deep: #04524c;
+    --lift: 6px;
+    /* Hand-pressed, never perfectly round. */
+    --blob: 22px 15px 24px 13px / 15px 22px 13px 24px;
+    /* Lumpy clay relief, centered on mid-gray so a soft-light blend keeps the clay's color. */
+    --clay-texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='c' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='4' seed='7' stitchTiles='stitch'/%3E%3CfeDiffuseLighting lighting-color='%23fff' surfaceScale='2.4'%3E%3CfeDistantLight azimuth='225' elevation='58'/%3E%3C/feDiffuseLighting%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='1.1' intercept='-0.42'/%3E%3CfeFuncG type='linear' slope='1.1' intercept='-0.42'/%3E%3CfeFuncB type='linear' slope='1.1' intercept='-0.42'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23c)'/%3E%3C/svg%3E");
+    --font-display: "Fredoka", "Arial Rounded MT Bold", "Trebuchet MS", sans-serif;
+    /* The window's contents are a flex column that would otherwise shrink-wrap the band. */
+    align-self: stretch;
+    margin: 0 0 1.75rem;
+    color: var(--ink);
+  }
+
+  /* app.css colors every element directly, which would undo the clay buttons' text colors. */
+  .bab * {
+    color: inherit;
+  }
+
+  /*
+   * A lump of clay: textured, unevenly rounded, lit from the top left, with a
+   * solid darker "side" underneath and a soft contact shadow on the table.
+   * --press squashes it down onto the table.
+   */
+  .clay,
+  .clay-button {
+    --c: var(--cream);
+    --c-deep: var(--cream-deep);
+    --press: 0px;
+    background: var(--clay-texture) 0 0 / 240px, var(--c);
+    background-blend-mode: soft-light, normal;
+    border-radius: var(--blob);
+    box-shadow:
+      inset 3px 4px 6px rgba(255, 255, 255, 0.4),
+      inset -3px -5px 8px rgba(0, 0, 0, 0.14),
+      0 calc(var(--lift) - var(--press)) 0 var(--c-deep),
+      0 calc(var(--lift) - var(--press) + 8px) calc(18px - var(--press) * 2) rgba(70, 40, 20, 0.22);
+  }
+
+  /* Chunky clay buttons squish down onto the table when pressed. */
+  .clay-button {
+    --c: var(--teal);
+    --c-deep: var(--teal-deep);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: none;
+    color: var(--cream);
+    padding: 0.6rem 1.25rem 0.55rem;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transform: translateY(var(--press)) scale(var(--squash, 1), calc(2 - var(--squash, 1)));
+    transition: transform 120ms ease, box-shadow 120ms ease;
+  }
+
+  .clay-button:hover,
+  .clay-button:focus-visible {
+    --press: 3px;
+    --squash: 1.03;
+  }
+
+  .clay-button:active {
+    --press: var(--lift);
+    --squash: 1.07;
+  }
+
+  button:focus-visible {
+    outline: 3px solid var(--teal);
+    outline-offset: 4px;
+  }
+
+  .bab-defs {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+  }
+
+  .bab-stage {
+    --c: var(--paper);
+    position: relative;
+    padding: 1rem 0.75rem 0.5rem;
+    overflow: hidden;
+  }
+
+  /* A slab of orange clay for them to stand on. */
+  .bab-floor {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 30%;
+    background: var(--clay-texture) 0 0 / 240px, var(--orange);
+    background-blend-mode: soft-light, normal;
+    box-shadow: inset 0 6px 0 rgba(255, 255, 255, 0.2), inset 0 10px 14px rgba(0, 0, 0, 0.12);
+    border-radius: 40% 40% 0 0 / 22px 22px 0 0;
+  }
+
+  .bab-band li {
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  .bab-band {
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.25rem;
+  }
+
+  .bab-player {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 0 0 0.4rem;
+    border: none;
+    background: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    border-radius: var(--blob);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .bab-player svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    transition: transform 140ms ease;
+  }
+
+  .bab:has(.bab-inst-btn[aria-pressed="true"]) .bab-player:hover svg,
+  .bab-player.is-target svg {
+    transform: translateY(-4px) scale(1.04);
+  }
+
+  .bab-player.is-target {
+    outline: 3px dashed var(--teal);
+    outline-offset: -2px;
+  }
+
+  .bab-player.boing svg {
+    animation: bab-boing 420ms ease;
+  }
+
+  @keyframes bab-boing {
+    0% { transform: scale(1, 1); }
+    30% { transform: scale(1.12, 0.86) translateY(14px); }
+    60% { transform: scale(0.94, 1.08) translateY(-6px); }
+    100% { transform: scale(1, 1); }
+  }
+
+  .bab-eyes {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: bab-blink 5s infinite;
+    animation-delay: var(--blink-delay, 0s);
+  }
+
+  @keyframes bab-blink {
+    0%, 94%, 100% { transform: scaleY(1); }
+    96% { transform: scaleY(0.1); }
+  }
+
+  .bab-name {
+    --c: var(--cream);
+    --c-deep: var(--cream-deep);
+    --lift: 4px;
+    margin-top: -0.25rem;
+    padding: 0.15rem 0.6rem 0.1rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    background: var(--clay-texture) 0 0 / 240px, var(--c);
+    background-blend-mode: soft-light, normal;
+    border-radius: var(--blob);
+    box-shadow:
+      inset 2px 3px 4px rgba(255, 255, 255, 0.4),
+      inset -2px -3px 5px rgba(0, 0, 0, 0.14),
+      0 var(--lift) 0 var(--c-deep);
+  }
+
+  .bab-tray {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.9rem 0.6rem;
+    margin: 1.6rem 0 0;
+  }
+
+  .bab-inst-btn {
+    --c: var(--cream);
+    --c-deep: var(--cream-deep);
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.25rem;
+    padding: 0.5rem 0.35rem 0.4rem;
+    color: var(--ink);
+    font-size: 0.78rem;
+    line-height: 1.1;
+    text-align: center;
+    touch-action: none;
+  }
+
+  .bab-inst-btn svg {
+    width: 100%;
+    height: 38px;
+    /* Icons are crops of the full instrument (the mic's stand runs to the floor). */
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .bab-inst-btn[aria-pressed="true"] {
+    --c: var(--teal);
+    --c-deep: var(--teal-deep);
+    color: var(--cream);
+    outline: 3px dashed var(--cream);
+    outline-offset: -7px;
+  }
+
+  .bab-controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.9rem;
+    margin: 1.6rem 0 0.75rem;
+  }
+
+  .bab-play {
+    --c: var(--orange);
+    --c-deep: var(--orange-deep);
+    font-size: 1.25rem;
+    padding: 0.65rem 1.6rem 0.6rem;
+  }
+
+  .bab-shuffle,
+  .bab-clear {
+    --c: var(--cream);
+    --c-deep: var(--cream-deep);
+    color: var(--ink);
+  }
+
+  /* Where the band is in the song: section and chord. */
+  .bab-now {
+    min-height: 1.4em;
+    text-align: center;
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--teal);
+  }
+
+  .bab-status {
+    min-height: 1.6em;
+    text-align: center;
+    font-size: 0.95rem;
+  }
+
+  /* Made by the script, so it has no scoping attribute of its own. */
+  .bab :global(.bab-ghost) {
+    position: fixed;
+    z-index: 50;
+    width: 96px;
+    height: 64px;
+    pointer-events: none;
+    transform: translate(-50%, -60%) rotate(-8deg);
+    filter: drop-shadow(0 8px 8px rgba(70, 40, 20, 0.3));
+  }
+
+  .bab :global(.bab-ghost) svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  @media (max-width: 600px) {
+    .bab-band {
+      grid-template-columns: repeat(6, 1fr);
+      row-gap: 0.4rem;
+    }
+
+    .bab-band li {
+      grid-column: span 2;
+    }
+
+    .bab-band li:nth-child(4) {
+      grid-column: 2 / span 2;
+    }
+
+    .bab-floor {
+      display: none;
+    }
+
+    /* The window's frame leaves less room than a whole phone screen. */
+    .bab-tray {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.7rem 0.45rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .clay-button {
+      transition: none;
+    }
+
+    .bab-eyes,
+    .bab-player.boing svg {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  import { bpm, sections, type Feel } from '../data/wake-up-call';
+
+  type InstId =
+    | 'piano' | 'bass' | 'electric' | 'acoustic' | 'banjo' | 'drums'
+    | 'mic' | 'harmonica' | 'sax' | 'trumpet' | 'tambourine' | 'clap'
+    | 'xylophone' | 'cajon' | 'mandolin' | 'upright' | 'theremin' | 'viola' | 'pedalsteel';
+  type Slung = 'electric' | 'acoustic' | 'bass' | 'banjo' | 'mandolin';
+  interface Pt { x: number; y: number }
+
+  const INSTRUMENTS: InstId[] = [
+    'piano', 'bass', 'electric', 'acoustic', 'banjo', 'drums', 'mic', 'harmonica', 'sax', 'trumpet', 'tambourine', 'clap',
+    'xylophone', 'cajon', 'mandolin', 'upright', 'theremin', 'viola', 'pedalsteel',
+  ];
+  const LABELS: Record<InstId, string> = {
+    piano: 'piano', bass: 'bass', electric: 'electric guitar', acoustic: 'acoustic guitar', banjo: 'banjo', drums: 'drums',
+    mic: 'mic', harmonica: 'harmonica', sax: 'saxophone', trumpet: 'trumpet', tambourine: 'tambourine', clap: 'hand claps',
+    xylophone: 'xylophone', cajon: 'cajón', mandolin: 'mandolin', upright: 'upright bass', theremin: 'theremin', viola: 'viola',
+    pedalsteel: 'pedal steel',
+  };
+  /** The lead section: these take the tune between them, or answer the singers. */
+  const LEADS: InstId[] = ['harmonica', 'sax', 'trumpet', 'theremin'];
+  const STORAGE_KEY = 'mbg-bandmates';
+
+  // ---------- Chords ----------
+
+  const NOTES: Record<string, number> = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 };
+  const QUALITIES: Record<string, number[]> = {
+    '': [0, 4, 7], m: [0, 3, 7], min: [0, 3, 7], 5: [0, 7],
+    7: [0, 4, 7, 10], m7: [0, 3, 7, 10], maj7: [0, 4, 7, 11], M7: [0, 4, 7, 11],
+    6: [0, 4, 7, 9], m6: [0, 3, 7, 9], 9: [0, 4, 7, 10, 14], add9: [0, 4, 7, 14],
+    sus: [0, 5, 7], sus2: [0, 2, 7], sus4: [0, 5, 7], dim: [0, 3, 6], aug: [0, 4, 8],
+    '7sus2': [0, 2, 7, 10], '7sus4': [0, 5, 7, 10],
+  };
+
+  interface Voicing {
+    /** Root pitch class, 0 = C. */
+    pc: number;
+    /** Every pitch class in the chord. */
+    pcs: Set<number>;
+    bass: number;
+    piano: number[];
+    power: number;
+    strum: number[];
+    banjo: number[];
+  }
+
+  const pitchClass = (letter: string, accidental: string) => (NOTES[letter] + (accidental === '#' ? 1 : accidental === 'b' ? -1 : 0) + 12) % 12;
+
+  /** Turn a chord name like "Em", "D/F#" or "Cadd9" into notes for every instrument. */
+  function voice(name: string): Voicing {
+    const m = /^([A-G])([#b]?)([^/]*)(?:\/([A-G])([#b]?))?$/.exec(name.trim());
+    if (!m) throw new Error(`Can't read chord "${name}"`);
+    const pc = pitchClass(m[1], m[2]);
+    const low = m[4] ? pitchClass(m[4], m[5]) : pc;
+    const quality = m[3];
+    const intervals = QUALITIES[quality] ?? (quality.startsWith('m') && !quality.startsWith('maj') ? QUALITIES.m : QUALITIES['']);
+    const pcs = new Set(intervals.map((i) => (pc + i) % 12));
+    const tonesIn = (from: number, to: number) => {
+      const out: number[] = [];
+      for (let n = from; n <= to; n++) if (pcs.has(n % 12)) out.push(n);
+      return out;
+    };
+    const piano = [...new Set(intervals.map((i) => {
+      let n = 48 + pc + i;
+      while (n > 67) n -= 12;
+      while (n < 52) n += 12;
+      return n;
+    }))].sort((a, b) => a - b);
+    // Guitar: bass note on the low strings, then chord tones up the neck, six strings at most.
+    const strumRoot = 40 + ((low - 4 + 12) % 12);
+    return {
+      pc,
+      pcs,
+      bass: 36 + low,
+      piano,
+      power: 40 + ((pc - 4 + 12) % 12),
+      strum: [strumRoot, ...tonesIn(strumRoot + 5, strumRoot + 27).slice(0, 5)],
+      banjo: tonesIn(62, 80).slice(0, 4),
+    };
+  }
+
+  // ---------- The song, laid out in sixteenth notes ----------
+
+  /** A note in sixteenths. `tune` is the pitch as written, before a section shifts its octave. */
+  interface Note { len: number; midi: number; tune?: number }
+
+  /** The chord and feel under each sixteenth note of the loop. */
+  const CHART: { chord: Voicing; feel: Feel; next: Voicing }[] = [];
+  /** Where each new chord lands, labelled for the readout. */
+  const CHANGES = new Map<number, string>();
+  /** The last step of each section, where the drummer fills. */
+  const SECTION_ENDS = new Set<number>();
+  /** Melody notes starting on each step: what the mics sing, and the harmonica's solos. */
+  const VOCAL = new Map<number, Note>();
+  const SOLO = new Map<number, Note>();
+
+  function lay(into: Map<number, Note>, start: number, part: { melody: number[]; shift?: number; from?: number; to?: number }) {
+    const { melody, shift = 0, from = -Infinity, to = Infinity } = part;
+    const offset = Number.isFinite(from) ? from : 0;
+    for (let i = 0; i < melody.length; i += 3) {
+      const [at, len, midi] = [melody[i], melody[i + 1], melody[i + 2]];
+      if (at >= from && at < to) into.set(start + at - offset, { len, midi: midi + shift, tune: midi });
+    }
+  }
+
+  for (const section of sections) {
+    const start = CHART.length;
+    const names = section.chords.split(/\s+/);
+    names.forEach((name, bar) => {
+      const chord = voice(name);
+      if (bar === 0 || name !== names[bar - 1]) CHANGES.set(CHART.length, `${section.name} · ${name}`);
+      for (let i = 0; i < 16; i++) CHART.push({ chord, feel: section.feel, next: chord });
+    });
+    SECTION_ENDS.add(CHART.length - 1);
+    if (section.vocal) lay(VOCAL, start, section.vocal);
+    if (section.solo) lay(SOLO, start, section.solo);
+  }
+  const LOOP = CHART.length;
+  // Each step also knows the chord coming next, for the bass's walk-ups.
+  for (let i = 0; i < LOOP; i++) CHART[i].next = CHART[(i + 16 - (i % 16)) % LOOP].chord;
+  const STEP = 60 / bpm / 4;
+
+  /** The note sounding on each step (or null), for mouths and for the harmonica to find gaps. */
+  function sounding(notes: Map<number, Note>) {
+    const out: (number | null)[] = new Array(LOOP).fill(null);
+    for (const [at, n] of notes) for (let i = 0; i < n.len; i++) out[(at + i + LOOP) % LOOP] = n.midi;
+    return out;
+  }
+  const VOCAL_AT = sounding(VOCAL);
+  const SOLO_AT = sounding(SOLO);
+
+  /**
+   * Harmony for the k-th mic: the melody, then the chord tones just above
+   * and below it, then the next one up, then the melody an octave down.
+   */
+  function harmony(midi: number, chord: Voicing, k: number): number {
+    if (k === 0) return midi;
+    if (k === 4) return midi - 12;
+    const up = (from: number) => {
+      let n = from + 1;
+      while (!chord.pcs.has(n % 12) || n - from < 3) n++;
+      return n;
+    };
+    if (k === 1) return up(midi);
+    if (k === 3) return up(up(midi));
+    let n = midi - 1;
+    while (!chord.pcs.has(n % 12) || midi - n < 3) n--;
+    return n;
+  }
+
+  /** Rhythm patterns, by sixteenth within the bar, for each feel. */
+  const GROOVES: Record<Feel, {
+    kick: number[]; snare: number[]; hat: number[]; piano: number[]; electric: number[];
+    strum: Record<number, 'down' | 'up'>; banjo: number; bass: number[];
+    clap: number[]; shake: number[]; smack: number[];
+    xylo: number[]; ghost: number[]; walk: number[];
+  }> = {
+    full: {
+      clap: [4, 12], shake: [0, 2, 6, 8, 10, 14], smack: [4, 12],
+      xylo: [0, 2, 4, 6, 8, 10, 12, 14], ghost: [2, 6, 10, 14], walk: [0, 4, 8, 12],
+      kick: [0, 8, 10], snare: [4, 12], hat: [0, 2, 4, 6, 8, 10, 12, 14],
+      piano: [0, 6, 10], electric: [0, 2, 4, 6, 8, 10, 12, 14],
+      strum: { 0: 'down', 4: 'down', 6: 'up', 10: 'up', 12: 'down', 14: 'up' }, banjo: 1, bass: [0, 4, 8, 12],
+    },
+    half: {
+      clap: [8], shake: [0, 4, 12], smack: [8],
+      xylo: [0, 4, 8, 12], ghost: [], walk: [0, 8],
+      kick: [0], snare: [8], hat: [0, 4, 8, 12],
+      piano: [0, 8], electric: [0, 8],
+      strum: { 0: 'down', 8: 'down', 14: 'up' }, banjo: 2, bass: [0, 8],
+    },
+    sparse: {
+      clap: [12], shake: [], smack: [12],
+      xylo: [0, 8], ghost: [], walk: [0],
+      kick: [0], snare: [], hat: [4, 8, 12],
+      piano: [0], electric: [0],
+      strum: { 0: 'down' }, banjo: 4, bass: [0],
+    },
+  };
+  const ROLL = [1, 2, 3, 0, 2, 3, 1, 3];
+  const TOMS = [200, 170, 140, 115];
+
+  /** The drummer fills on the last beat of each section the band is in full swing for. */
+  const isFill = (step: number) => {
+    const end = [...SECTION_ENDS].find((e) => e >= step && e - step < 4);
+    return end !== undefined && CHART[step].feel === 'full';
+  };
+  const FILL = Array.from({ length: LOOP }, (_, i) => isFill(i));
+
+  /** The bass note for a step, or null: root on the beat, walking up to the next chord on beat four. */
+  function bassNote(step: number): number | null {
+    const { chord, feel, next } = CHART[step];
+    const s = step % 16;
+    if (!GROOVES[feel].bass.includes(s)) return null;
+    if (s === 12 && feel === 'full') return next.pc === chord.pc ? chord.bass + 7 : next.bass - 1;
+    return chord.bass;
+  }
+
+  const P = (x: number, y: number): Pt => ({ x, y });
+  const lerp = (a: Pt, b: Pt, t: number): Pt => P(a.x + (b.x - a.x) * t, a.y + (b.y - a.y) * t);
+  const smooth = (t: number) => t * t * (3 - 2 * t);
+  const wrap = (s: number) => ((s % LOOP) + LOOP) % LOOP;
+  function rotate(p: Pt, deg: number): Pt {
+    const r = (deg * Math.PI) / 180;
+    return P(p.x * Math.cos(r) - p.y * Math.sin(r), p.x * Math.sin(r) + p.y * Math.cos(r));
+  }
+
+  // ---------- Poses ----------
+
+  /**
+   * Where each slung instrument hangs on a player, plus how its hands move:
+   * the strumming hand rocks across the strings and the fretting hand
+   * slides up the neck to wherever the chord's root is.
+   */
+  const SLUNG: Record<Slung, { at: Pt; rot: number; strum: Pt; amp: number; period: number; fret: (pc: number) => number }> = {
+    electric: { at: P(90, 192), rot: -24, strum: P(-4, 0), amp: 9, period: 2, fret: (pc) => 46 + ((pc - 4 + 12) % 12) * 2.6 },
+    acoustic: { at: P(88, 194), rot: -24, strum: P(6, 0), amp: 11, period: 4, fret: (pc) => 44 + ((pc - 4 + 12) % 12) * 2.4 },
+    bass: { at: P(80, 196), rot: -26, strum: P(-6, 0), amp: 5, period: 4, fret: (pc) => 54 + ((pc - 4 + 12) % 12) * 3 },
+    banjo: { at: P(90, 192), rot: -22, strum: P(-6, 4), amp: 3.5, period: 1, fret: (pc) => 44 + ((pc - 7 + 12) % 12) * 2.6 },
+    // Smaller and worn higher, up on the chest.
+    mandolin: { at: P(92, 170), rot: -30, strum: P(-8, 0), amp: 4, period: 1, fret: (pc) => 26 + ((pc - 7 + 12) % 12) * 2.2 },
+  };
+  /** Sparse sections strum once a bar; half-time ones half as often. */
+  const STRUM_SLOW: Record<Feel, number> = { full: 1, half: 2, sparse: 8 };
+  const FIXED_AT: Record<'piano' | 'drums' | 'xylophone' | 'cajon' | 'pedalsteel', Pt> = {
+    piano: P(100, 200), drums: P(100, 252), xylophone: P(100, 206), cajon: P(100, 258), pedalsteel: P(100, 206),
+  };
+  const SHOULDERS: [Pt, Pt] = [P(76, 152), P(124, 152)];
+  const REST: [Pt, Pt] = [P(56, 212), P(144, 212)];
+  const WAVE: [Pt, Pt] = [P(36, 116), P(164, 116)];
+  const MIC_GRIP = P(131, 149);
+  /** Bodies squash and lean from the feet. */
+  const FEET = P(100, 304);
+  /** Drummers sit down behind the kit. */
+  const SEATS: Partial<Record<InstId, number>> = { drums: 14, cajon: 20, pedalsteel: 14 };
+  /** These stay put on the floor while the player grooves behind them. */
+  const STEADY: InstId[] = ['drums', 'piano', 'mic', 'xylophone', 'cajon', 'upright', 'theremin', 'pedalsteel'];
+
+  interface HandEvent { step: number; at: Pt }
+
+  function hits(test: (step: number, s16: number) => boolean, at: (step: number) => Pt): HandEvent[] {
+    const out: HandEvent[] = [];
+    for (let step = 0; step < LOOP; step++) if (test(step, step % 16)) out.push({ step, at: at(step) });
+    return out;
+  }
+
+  // Drums: stick tips land on these (world coordinates).
+  const HIHAT = P(32, 194);
+  const SNARE = P(146, 212);
+  const TOM = P(92, 200);
+  const CRASH = P(160, 172);
+  const STICK: [Pt, Pt] = [P(-20, 10), P(20, 10)];
+  const groove = (step: number) => GROOVES[CHART[step].feel];
+  const sectionStart = (step: number) => SECTION_ENDS.has((step - 1 + LOOP) % LOOP);
+
+  const DRUM_HANDS: [HandEvent[], HandEvent[]] = [
+    // Left hand rides the hi-hat, then joins the tom fills.
+    hits((step, s) => (FILL[step] ? s % 2 === 1 : groove(step).hat.includes(s)), (step) => (FILL[step] ? TOM : HIHAT)),
+    // Right hand: crashes into each section, backbeat on the snare, toms in the fills.
+    hits(
+      (step, s) => sectionStart(step) || (FILL[step] ? s % 2 === 0 : groove(step).snare.includes(s)),
+      (step) => (sectionStart(step) ? CRASH : FILL[step] ? TOM : SNARE),
+    ),
+  ];
+
+  // Piano: left hand on the root, right hand comping, both moving up the keys with the chord.
+  const PIANO_HANDS: [HandEvent[], HandEvent[]] = [
+    hits((step, s) => CHANGES.has(step) || s === 0 || (s === 8 && CHART[step].feel !== 'sparse'), (step) => P(54 + CHART[step].chord.pc * 2, 194)),
+    hits((step, s) => CHANGES.has(step) || groove(step).piano.includes(s), (step) => P(122 + CHART[step].chord.pc * 2 + (step % 16 === 6 ? 4 : 0), 194)),
+  ];
+
+  /** Xylophone: a sparkly run up and down the chord. */
+  const XYLO_RUN = [0, 1, 2, 3, 2, 1, 2, 1];
+  function xyloNote(step: number): number | null {
+    const s = step % 16;
+    const { chord } = CHART[wrap(step)];
+    const xylo = groove(step).xylo;
+    if (!xylo.includes(s)) return null;
+    const tones = [...chord.piano.map((n) => n + 12), chord.piano[0] + 24];
+    return tones[XYLO_RUN[xylo.indexOf(s) % 8] % tones.length];
+  }
+  const XYLO_SCALE = [72, 74, 76, 77, 79, 81, 83, 84, 86, 88];
+  /** Where a note's bar is: the nearest bar in pitch. */
+  function xyloBar(midi: number): Pt {
+    let best = 0;
+    XYLO_SCALE.forEach((n, i) => {
+      if (Math.abs(n - midi) < Math.abs(XYLO_SCALE[best] - midi)) best = i;
+    });
+    return P(FIXED_AT.xylophone.x - 78 + best * 15.8 + 6.5, FIXED_AT.xylophone.y - 6);
+  }
+  const XYLO_HITS: [HandEvent[], HandEvent[]] = (() => {
+    const hands: [HandEvent[], HandEvent[]] = [[], []];
+    let h = 0;
+    for (let step = 0; step < LOOP; step++) {
+      const n = xyloNote(step);
+      if (n === null) continue;
+      // Low bars to the left hand, high to the right, alternating in the middle.
+      const at = xyloBar(n);
+      const which = at.x < 80 ? 0 : at.x > 120 ? 1 : (h = 1 - h);
+      hands[which].push({ step, at });
+    }
+    return hands;
+  })();
+  const MALLET: [Pt, Pt] = [P(-10, 24), P(10, 24)];
+
+  // Cajón: bass in the middle of the face with the left hand, slaps and ghosts up top with the right.
+  const CAJON_HANDS: [HandEvent[], HandEvent[]] = [
+    hits((step, s) => groove(step).kick.includes(s), () => P(FIXED_AT.cajon.x - 4, FIXED_AT.cajon.y - 14)),
+    hits((step, s) => groove(step).smack.includes(s) || groove(step).ghost.includes(s), () => P(FIXED_AT.cajon.x + 18, FIXED_AT.cajon.y - 38)),
+  ];
+
+  /** Upright bass: walking quarter notes — root, third, fifth, then a step into the next chord. */
+  function walkNote(step: number): number | null {
+    const { chord, feel, next } = CHART[wrap(step)];
+    const s = step % 16;
+    const walk = GROOVES[feel].walk;
+    if (!walk.includes(s)) return null;
+    const root = chord.bass;
+    const third = chord.pcs.has((chord.pc + 4) % 12) ? 4 : chord.pcs.has((chord.pc + 3) % 12) ? 3 : 7;
+    if (feel !== 'full') return s === 0 ? root : root + 7;
+    return [root, root + third, root + 7, next.pc === chord.pc ? root + 2 : next.bass - 1][walk.indexOf(s)];
+  }
+
+  /** Viola: long bowed notes on the chord's third, then its fifth. */
+  function violaNote(step: number): Note | null {
+    const { chord, feel } = CHART[wrap(step)];
+    const s = step % 16;
+    const tone = (degree: number) => {
+      const pc = [...chord.pcs][degree] ?? chord.pc;
+      let n = 48 + ((pc - 48 + 120) % 12);
+      while (n < 55) n += 12;
+      return n;
+    };
+    if (feel === 'full') return s === 0 ? { len: 8, midi: tone(1) } : s === 8 ? { len: 8, midi: tone(2) } : null;
+    return s === 0 ? { len: 16, midi: tone(1) } : null;
+  }
+
+  /** Pedal steel: a chord swelling in on every change, and again mid-bar when the band's going. */
+  function steelSwell(step: number): Note | null {
+    const m = wrap(step);
+    const s = step % 16;
+    if (!CHANGES.has(m) && !(s === 8 && CHART[m].feel === 'full')) return null;
+    let len = 1;
+    while (len < 16 && !CHANGES.has(wrap(m + len)) && !((m + len) % 16 === 8 && CHART[m].feel === 'full')) len++;
+    return { len, midi: CHART[m].chord.pc };
+  }
+
+  /** Viola, pedal steel and theremin poses need to know where things sit. */
+  const VIOLA_PIVOT = P(126, 142);
+  const onViola = (x: number, y: number) => {
+    const r = rotate(P(x - VIOLA_PIVOT.x, y - VIOLA_PIVOT.y), 35);
+    return P(VIOLA_PIVOT.x + r.x, VIOLA_PIVOT.y + r.y);
+  };
+  const BOW_DIR = rotate(P(1, 0), -55);
+
+  // Claps meet in front of the chest; the tambourine gets smacked by the free hand.
+  const CLAP_HITS = hits((step, s) => groove(step).clap.includes(s), () => P(100, 176));
+  const SMACKS = hits((step, s) => groove(step).smack.includes(s), () => P(0, 0));
+  /** Where the tambourine is held up, and the trumpet's pivot and hand holds. */
+  const TAMBOURINE_HAND = P(156, 128);
+  const TRUMPET_PIVOT = P(102, 110);
+  const TRUMPET_TILT = -12;
+  const TRUMPET_SCALE = 1.25;
+  const onTrumpet = (x: number, y: number) => {
+    const r = rotate(P((x - TRUMPET_PIVOT.x) * TRUMPET_SCALE, (y - TRUMPET_PIVOT.y) * TRUMPET_SCALE), TRUMPET_TILT);
+    return P(TRUMPET_PIVOT.x + r.x, TRUMPET_PIVOT.y + r.y);
+  };
+
+  /** Where a hand is between hits: down on each hit, swinging up in between. */
+  function between(events: HandEvent[], s: number): { at: Pt; lift: number } {
+    const m = wrap(s);
+    let i = events.length - 1;
+    while (i >= 0 && events[i].step > m) i--;
+    const last = i >= 0 ? events[i] : { ...events[events.length - 1], step: events[events.length - 1].step - LOOP };
+    const nextRaw = events[(i + 1) % events.length];
+    const next = i + 1 < events.length ? nextRaw : { ...nextRaw, step: nextRaw.step + LOOP };
+    const gap = next.step - last.step;
+    const frac = gap > 0 ? (m - last.step) / gap : 0;
+    return { at: lerp(last.at, next.at, smooth(frac)), lift: Math.sin(Math.PI * frac) * Math.min(1, gap / 2) };
+  }
+
+  /** A squash-and-stretch lean from the feet, as a point mapper and an SVG transform. */
+  function bodyMove(y: number, deg: number, sx: number, sy: number) {
+    const map = (p: Pt) => {
+      const r = rotate(P((p.x - FEET.x) * sx, (p.y - FEET.y) * sy), deg);
+      return P(FEET.x + r.x, FEET.y + r.y + y);
+    };
+    const transform =
+      `translate(0 ${y.toFixed(2)}) rotate(${deg.toFixed(2)} ${FEET.x} ${FEET.y}) ` +
+      `translate(${FEET.x} ${FEET.y}) scale(${sx.toFixed(4)} ${sy.toFixed(4)}) translate(${-FEET.x} ${-FEET.y})`;
+    return { map, transform };
+  }
+
+  function placeSlung(id: Slung, local: Pt): Pt {
+    const g = SLUNG[id];
+    const r = rotate(local, g.rot);
+    return P(g.at.x + r.x, g.at.y + r.y);
+  }
+
+  // ---------- Players ----------
+
+  interface Arm {
+    paths: SVGPathElement[];
+    hand: SVGEllipseElement;
+    stick: SVGLineElement;
+    tip: SVGCircleElement;
+  }
+
+  interface Player {
+    name: string;
+    button: HTMLButtonElement;
+    body: SVGGElement;
+    instG: SVGGElement;
+    use: SVGUseElement;
+    arm: [Arm, Arm];
+    smile: SVGPathElement;
+    sing: SVGEllipseElement;
+    cheeks: SVGGElement;
+    inst: InstId | null;
+    /** A little personality in how each one grooves. */
+    squash: number;
+    lean: number;
+  }
+
+  /*
+   * The blog's window manager can open this page in a new window, so the
+   * band mounts on every .bab that shows up, not just the one on load.
+   */
+  function mount(root: HTMLElement) {
+    const status = root.querySelector<HTMLElement>('.bab-status')!;
+    const playBtn = root.querySelector<HTMLButtonElement>('.bab-play')!;
+    const now = root.querySelector<HTMLElement>('.bab-now')!;
+    const trayBtns = [...root.querySelectorAll<HTMLButtonElement>('.bab-inst-btn')];
+
+    const players: Player[] = [...root.querySelectorAll<HTMLButtonElement>('.bab-player')].map((button, i) => {
+      const arm = [...button.querySelectorAll<SVGGElement>('.bab-arm')].map((g) => ({
+        paths: [g.querySelector<SVGPathElement>('.bab-arm-out')!, g.querySelector<SVGPathElement>('.bab-arm-in')!],
+        hand: g.querySelector<SVGEllipseElement>('.bab-hand')!,
+        stick: g.querySelector<SVGLineElement>('.bab-stick')!,
+        tip: g.querySelector<SVGCircleElement>('.bab-tip')!,
+      })) as [Arm, Arm];
+      return {
+        name: button.dataset.name!,
+        button,
+        body: button.querySelector<SVGGElement>('.bab-body')!,
+        instG: button.querySelector<SVGGElement>('.bab-inst')!,
+        use: button.querySelector<SVGUseElement>('.bab-inst use')!,
+        arm,
+        smile: button.querySelector<SVGPathElement>('.bab-smile')!,
+        sing: button.querySelector<SVGEllipseElement>('.bab-sing')!,
+        cheeks: button.querySelector<SVGGElement>('.bab-cheeks')!,
+        inst: null,
+        squash: [0.05, 0.07, 0.04, 0.06, 0.08][i % 5],
+        lean: [3, -4, 5, -3, 4][i % 5],
+      };
+    });
+
+    const anyone = (inst: InstId) => players.some((p) => p.inst === inst);
+
+    /**
+     * The lead line on a step: solos, the tune when nobody has a mic, and
+     * little chord answers in the gaps between sung lines.
+     */
+    function leadLine(step: number): (Note & { isTune?: boolean }) | null {
+      const m = wrap(step);
+      // The tune comes at its written pitch, so it doesn't drop an octave where the singer does.
+      const tune = (n: Note) => ({ len: n.len, midi: n.tune ?? n.midi, isTune: true });
+      if (SOLO.has(m)) return tune(SOLO.get(m)!);
+      if (SOLO_AT[m] !== null) return null;
+      if (!anyone('mic') && VOCAL.has(m)) return tune(VOCAL.get(m)!);
+      if (m % 4 !== 0) return null;
+      for (let i = -1; i < 8; i++) if (VOCAL_AT[wrap(m + i)] !== null) return null;
+      const tones = CHART[m].chord.piano.map((n) => n + 12);
+      return { len: 3, midi: tones[[0, 1, 2, 1][(m / 4) % 4] % tones.length] };
+    }
+
+    /** Each lead player's note: the first in the line-up takes the line, the rest harmonize like a horn section. */
+    function leadNote(p: Player, step: number): Note | null {
+      const line = leadLine(step);
+      if (!line) return null;
+      const rank = players.filter((q) => q.inst && LEADS.includes(q.inst)).indexOf(p);
+      const midi = harmony(line.midi, CHART[wrap(step)].chord, rank);
+      // Harmonica and theremin play the tune up an octave, in their sweet spot. Whole lines move
+      // together, so the tune keeps its shape; the answers between lines are already up there.
+      const up = line.isTune && (p.inst === 'harmonica' || p.inst === 'theremin') ? 12 : 0;
+      return { len: line.len, midi: midi + up };
+    }
+
+    /** The note a lead player is holding at song position s, for poses. */
+    function leadAt(p: Player, s: number): number | null {
+      const m = Math.floor(wrap(s));
+      for (let i = 0; i < 16; i++) {
+        const n = leadNote(p, m - i);
+        if (n) return n.len > i ? n.midi : null;
+      }
+      return null;
+    }
+
+    function setArm(arm: Arm, shoulder: Pt, hand: Pt, outward: number) {
+      const dx = hand.x - shoulder.x;
+      const dy = hand.y - shoulder.y;
+      const len = Math.hypot(dx, dy) || 1;
+      // Noodle arms: the shorter the reach, the more the elbow bows out.
+      const bend = Math.max(8, (84 - len) * 0.55);
+      let n = P(-dy / len, dx / len);
+      if (n.x * outward < 0) n = P(-n.x, -n.y);
+      const ctrl = P((shoulder.x + hand.x) / 2 + n.x * bend, (shoulder.y + hand.y) / 2 + n.y * bend);
+      const d = `M${shoulder.x.toFixed(1)} ${shoulder.y.toFixed(1)} Q${ctrl.x.toFixed(1)} ${ctrl.y.toFixed(1)} ${hand.x.toFixed(1)} ${hand.y.toFixed(1)}`;
+      for (const p of arm.paths) p.setAttribute('d', d);
+      arm.hand.setAttribute('cx', hand.x.toFixed(1));
+      arm.hand.setAttribute('cy', hand.y.toFixed(1));
+    }
+
+    /** Put a player in their pose at song position s (in sixteenth notes). */
+    function pose(p: Player, s: number, playing: boolean) {
+      const beat = (Math.PI * s) / 4;
+      const k = playing ? p.squash * Math.abs(Math.sin(beat)) : 0;
+      const steady = p.inst !== null && STEADY.includes(p.inst);
+      const lean = playing ? p.lean * Math.sin(beat / 2) * (steady ? 0.4 : 1) : 0;
+      const move = bodyMove((p.inst && SEATS[p.inst]) || 0, lean, 1 + k * 0.7, 1 - k);
+      const shoulders: [Pt, Pt] = [move.map(SHOULDERS[0]), move.map(SHOULDERS[1])];
+      const hands: [Pt, Pt] = [move.map(REST[0]), move.map(REST[1])];
+      const sticks: (Pt | null)[] = [null, null];
+      let instTransform = '';
+      let mouth = 0;
+      let puff = false;
+      let mallets = false;
+      let bow = false;
+      let bar = false;
+
+      if (p.inst === 'drums' || p.inst === 'piano') {
+        const events = p.inst === 'drums' ? DRUM_HANDS : PIANO_HANDS;
+        for (const h of [0, 1] as const) {
+          const { at, lift } = playing ? between(events[h], s) : { at: events[h][0].at, lift: 0 };
+          if (p.inst === 'drums') {
+            // The hand sits back up the stick from where the tip lands.
+            hands[h] = P(at.x - STICK[h].x, at.y - STICK[h].y - lift * 20);
+            const tip = rotate(STICK[h], (h === 0 ? 1 : -1) * lift * 35);
+            sticks[h] = P(hands[h].x + tip.x, hands[h].y + tip.y);
+          } else {
+            hands[h] = P(at.x, at.y - lift * 12);
+          }
+        }
+      } else if (p.inst === 'mic') {
+        // One hand on the mic; the other reaches out while they sing.
+        const m = Math.floor(wrap(s));
+        const singing = playing && VOCAL_AT[m] !== null;
+        hands[1] = MIC_GRIP;
+        hands[0] = singing ? move.map(P(44, 168 - 6 * Math.sin(beat))) : hands[0];
+        if (singing) {
+          let start = m;
+          while (!VOCAL.has(start) && m - start < 16) start--;
+          mouth = 0.45 + 0.55 * Math.exp(-(wrap(s) - start) * 0.5);
+        }
+      } else if (p.inst === 'harmonica') {
+        // Both hands cupped round it; it slides along the lips with the tune.
+        const midi = playing ? leadAt(p, s) : null;
+        const slide = midi === null ? 0 : Math.max(-8, Math.min(8, (67 - midi) * 1.2));
+        const wah = midi === null ? 0 : 3 * Math.sin(Math.PI * s);
+        instTransform = `${move.transform} translate(${slide.toFixed(2)} 0)`;
+        hands[0] = move.map(P(80 + slide, 113));
+        hands[1] = move.map(P(121 + slide + wah * 0.5, 113 + wah));
+      } else if (p.inst === 'sax') {
+        // Hands on the keys, fingers busy while a note sounds.
+        const busy = playing && leadAt(p, s) !== null ? 2 * Math.sin(Math.PI * s * 2) : 0;
+        hands[0] = move.map(P(87, 160 + busy));
+        hands[1] = move.map(P(82, 198 - busy));
+        instTransform = move.transform;
+      } else if (p.inst === 'trumpet') {
+        // Right hand on the valves, left cradling it; cheeks puff on every note.
+        const blowing = playing && leadAt(p, s) !== null;
+        const valves = blowing ? 2 * Math.abs(Math.sin(Math.PI * s * 2)) : 0;
+        hands[0] = move.map(onTrumpet(130, 127));
+        hands[1] = move.map(onTrumpet(135, 93 + valves));
+        instTransform = move.transform;
+        puff = blowing;
+      } else if (p.inst === 'tambourine') {
+        // Held up in one hand and shaken; the other hand smacks it on the backbeat.
+        const shake = playing ? 3 * Math.sin(Math.PI * s) : 0;
+        const held = move.map(P(TAMBOURINE_HAND.x + shake, TAMBOURINE_HAND.y - Math.abs(shake)));
+        const centre = P(held.x - 4, held.y - 18);
+        const { lift } = playing ? between(SMACKS, s) : { lift: 1 };
+        hands[1] = held;
+        hands[0] = lerp(centre, move.map(P(96, 170)), lift);
+        instTransform = `translate(${centre.x.toFixed(1)} ${centre.y.toFixed(1)}) rotate(${(shake * 4).toFixed(1)})`;
+      } else if (p.inst === 'xylophone') {
+        // Two mallets, low bars with the left hand and high with the right.
+        for (const h of [0, 1] as const) {
+          const events = XYLO_HITS[h].length ? XYLO_HITS[h] : XYLO_HITS[1 - h];
+          const { at, lift } = playing ? between(events, s) : { at: events[0].at, lift: 0.5 };
+          hands[h] = P(at.x - MALLET[h].x, at.y - MALLET[h].y - lift * 14);
+          const tip = rotate(MALLET[h], (h === 0 ? -1 : 1) * lift * 30);
+          sticks[h] = P(hands[h].x + tip.x, hands[h].y + tip.y);
+          mallets = true;
+        }
+      } else if (p.inst === 'cajon') {
+        // Sat on the box, slapping its face.
+        for (const h of [0, 1] as const) {
+          const { at, lift } = playing ? between(CAJON_HANDS[h], s) : { at: CAJON_HANDS[h][0].at, lift: 0 };
+          hands[h] = P(at.x, at.y - lift * 18);
+        }
+      } else if (p.inst === 'upright') {
+        // Plucking low on the body, the other hand walking up and down the neck.
+        const m = Math.floor(wrap(s));
+        let n: number | null = null;
+        for (let i = 0; i < 4 && n === null; i++) n = walkNote(m - i);
+        const pos = n === null ? 0.35 : 0.2 + ((n - 36) / 16) * 0.5;
+        const pluck = playing ? 3 * Math.abs(Math.sin((Math.PI * s) / 4)) : 0;
+        hands[0] = P(64 + pluck, 226);
+        hands[1] = lerp(P(61, 200), P(69, 70), Math.max(0.15, Math.min(0.75, pos)));
+      } else if (p.inst === 'theremin') {
+        // Hands hover: closer to the antenna for higher notes, up off the loop for louder.
+        const midi = playing ? leadAt(p, s) : null;
+        const near = midi === null ? 0 : Math.max(0, Math.min(1, (midi - 60) / 16));
+        const wobble = midi === null ? 0 : 2 * Math.sin(Math.PI * s * 1.5);
+        hands[1] = move.map(P(160 - near * 18 + wobble, 142));
+        hands[0] = move.map(P(36, midi === null ? 176 : 160 + 3 * Math.sin(beat)));
+      } else if (p.inst === 'viola') {
+        // Tucked under the chin, the bow sawing back and forth across the strings.
+        const draw = playing ? Math.cos((Math.PI * s) / 8) : 0;
+        const contact = onViola(116, 142);
+        const along = 38 + 22 * draw;
+        hands[0] = move.map(P(contact.x - BOW_DIR.x * along, contact.y - BOW_DIR.y * along));
+        hands[1] = move.map(onViola(158, 143));
+        sticks[0] = P(hands[0].x + BOW_DIR.x * 96, hands[0].y + BOW_DIR.y * 96);
+        bow = true;
+        instTransform = move.transform;
+      } else if (p.inst === 'pedalsteel') {
+        // Picking with one hand, sliding the steel bar along with the other.
+        const m = wrap(playing ? s : 0);
+        const barAt = (step: number) => FIXED_AT.pedalsteel.x - 30 + ((CHART[Math.floor(step) % LOOP].chord.pc + 5) % 12) * 6;
+        const x = barAt(m) + (barAt(m + 1) - barAt(m)) * smooth(m % 1);
+        hands[0] = P(34 + (playing ? 2 * Math.sin(Math.PI * s) : 0), 198);
+        hands[1] = P(x, 196);
+        sticks[1] = P(x + 12, 200);
+        bar = true;
+      } else if (p.inst === 'clap') {
+        // Hands come together in front of the chest on the beat.
+        const { lift } = playing ? between(CLAP_HITS, s) : { lift: 0.6 };
+        const apart = 6 + lift * 30;
+        hands[0] = move.map(P(100 - apart, 178 - lift * 10));
+        hands[1] = move.map(P(100 + apart, 178 - lift * 10));
+      } else if (p.inst) {
+        const g = SLUNG[p.inst as Slung];
+        const t = playing ? s : 0;
+        const period = g.period * STRUM_SLOW[CHART[Math.floor(wrap(t))].feel];
+        const strum = g.amp * Math.cos((2 * Math.PI * t) / period);
+        hands[0] = move.map(placeSlung(p.inst as Slung, P(g.strum.x + (p.inst === 'bass' ? strum * 0.6 : 0), g.strum.y + strum)));
+        // Slide to the next chord during the sixteenth before it lands.
+        const m = wrap(t);
+        const here = g.fret(CHART[Math.floor(m)].chord.pc);
+        const next = g.fret(CHART[(Math.floor(m) + 1) % LOOP].chord.pc);
+        const fret = here + (next - here) * smooth(m % 1);
+        hands[1] = move.map(placeSlung(p.inst as Slung, P(fret + (playing ? 1.5 * Math.sin(Math.PI * t) : 0), 5)));
+        instTransform = move.transform;
+      } else if (playing) {
+        // Nothing to play, so dance: arms up and down, one after the other.
+        const up = (Math.sin(beat) + 1) / 2;
+        hands[0] = move.map(lerp(REST[0], WAVE[0], up));
+        hands[1] = move.map(lerp(REST[1], WAVE[1], 1 - up));
+      }
+
+      p.body.setAttribute('transform', move.transform);
+      p.instG.setAttribute('transform', instTransform);
+      setArm(p.arm[0], shoulders[0], hands[0], -1);
+      setArm(p.arm[1], shoulders[1], hands[1], 1);
+      // The same line in each hand is a drumstick, a mallet, a bow or a steel bar.
+      for (const h of [0, 1] as const) {
+        const { stick, tip: head } = p.arm[h];
+        const tip = sticks[h];
+        stick.setAttribute('visibility', tip ? 'visible' : 'hidden');
+        head.setAttribute('visibility', tip && mallets ? 'visible' : 'hidden');
+        if (tip) {
+          const from = bar ? P(tip.x - 24, tip.y) : hands[h];
+          stick.setAttribute('x1', from.x.toFixed(1));
+          stick.setAttribute('y1', from.y.toFixed(1));
+          stick.setAttribute('x2', tip.x.toFixed(1));
+          stick.setAttribute('y2', tip.y.toFixed(1));
+          stick.setAttribute('stroke', bow ? '#5a3a22' : bar ? '#d0d0d0' : '#dba468');
+          stick.setAttribute('stroke-width', bow ? '3' : bar ? '7' : mallets ? '4' : '6.5');
+          if (mallets) {
+            head.setAttribute('cx', tip.x.toFixed(1));
+            head.setAttribute('cy', tip.y.toFixed(1));
+          }
+        }
+      }
+      // A horn's mouthpiece sits where the smile would be.
+      const blowing = p.inst === 'sax' || p.inst === 'trumpet';
+      p.smile.setAttribute('visibility', mouth || blowing ? 'hidden' : 'visible');
+      p.cheeks.setAttribute('visibility', puff ? 'visible' : 'hidden');
+      p.sing.setAttribute('visibility', mouth ? 'visible' : 'hidden');
+      if (mouth) p.sing.setAttribute('ry', (2 + 7 * mouth).toFixed(2));
+    }
+
+    function give(p: Player, inst: InstId | null) {
+      p.inst = inst;
+      p.use.setAttribute('href', inst ? `#inst-${inst}` : '');
+      p.use.setAttribute('visibility', inst && inst !== 'clap' ? 'visible' : 'hidden');
+      if (inst && inst in FIXED_AT) {
+        const at = FIXED_AT[inst as keyof typeof FIXED_AT];
+        p.use.setAttribute('transform', `translate(${at.x} ${at.y})`);
+      } else if (!inst || !(inst in SLUNG)) {
+        p.use.removeAttribute('transform');
+      } else {
+        const g = SLUNG[inst as Slung];
+        p.use.setAttribute('transform', `translate(${g.at.x} ${g.at.y}) rotate(${g.rot})`);
+      }
+      p.button.setAttribute('aria-label', `${p.name}: ${inst ? LABELS[inst] : 'empty-handed'}`);
+      if (!band.playing) for (const q of players) pose(q, 0, false);
+    }
+
+    function boing(p: Player) {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      p.button.classList.remove('boing');
+      void p.button.offsetWidth;
+      p.button.classList.add('boing');
+    }
+
+    function save() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(players.map((p) => p.inst)));
+      } catch {}
+    }
+
+    function load() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+        if (Array.isArray(saved)) {
+          saved.forEach((inst, i) => {
+            if (players[i] && INSTRUMENTS.includes(inst)) give(players[i], inst);
+          });
+        }
+      } catch {}
+    }
+
+    // ---------- Sound ----------
+
+    const midiHz = (m: number) => 440 * 2 ** ((m - 69) / 12);
+
+    /** Vowel formants (Hz) for the clay choir. */
+    const VOWELS = {
+      oo: [320, 800, 2500],
+      ah: [750, 1150, 2600],
+      oh: [450, 820, 2700],
+    };
+
+    class Band {
+      ctx: AudioContext | null = null;
+      out!: GainNode;
+      noise!: AudioBuffer;
+      curve!: Float32Array<ArrayBuffer>;
+      plucks = new Map<string, AudioBuffer>();
+      playing = false;
+      t0 = 0;
+      step = 0;
+      timer = 0;
+
+      private init() {
+        const AC = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+        const ctx = (this.ctx = new AC());
+        const comp = ctx.createDynamicsCompressor();
+        this.out = ctx.createGain();
+        this.out.gain.value = 0.6;
+        this.out.connect(comp).connect(ctx.destination);
+        this.noise = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate);
+        const n = this.noise.getChannelData(0);
+        for (let i = 0; i < n.length; i++) n[i] = Math.random() * 2 - 1;
+        this.curve = new Float32Array(1024);
+        for (let i = 0; i < 1024; i++) {
+          const x = (i / 1023) * 2 - 1;
+          this.curve[i] = Math.tanh(x * 6);
+        }
+      }
+
+      start() {
+        if (!this.ctx) this.init();
+        const ctx = this.ctx!;
+        void ctx.resume();
+        this.t0 = ctx.currentTime + 0.08;
+        this.step = 0;
+        this.playing = true;
+        this.tick();
+      }
+
+      stop() {
+        this.playing = false;
+        clearTimeout(this.timer);
+      }
+
+      /** Song position in sixteenth notes. */
+      position() {
+        return this.ctx ? Math.max(0, (this.ctx.currentTime - this.t0) / STEP) : 0;
+      }
+
+      private tick = () => {
+        const ctx = this.ctx!;
+        while (this.t0 + this.step * STEP < ctx.currentTime + 0.12) {
+          this.play(this.step, this.t0 + this.step * STEP);
+          this.step++;
+        }
+        this.timer = window.setTimeout(this.tick, 25);
+      };
+
+      private env(t: number, peak: number, decay: number, attack = 0.004, into: AudioNode = this.out): GainNode {
+        const g = this.ctx!.createGain();
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(peak, t + attack);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + attack + decay);
+        g.connect(into);
+        return g;
+      }
+
+      private osc(type: OscillatorType, hz: number, t: number, dur: number, into: AudioNode, detune = 0) {
+        const o = this.ctx!.createOscillator();
+        o.type = type;
+        o.frequency.value = hz;
+        o.detune.value = detune;
+        o.connect(into);
+        o.start(t);
+        o.stop(t + dur + 0.05);
+        return o;
+      }
+
+      private hiss(t: number, dur: number, filter: BiquadFilterType, hz: number, into: AudioNode, q = 0.7) {
+        const ctx = this.ctx!;
+        const src = ctx.createBufferSource();
+        src.buffer = this.noise;
+        const f = ctx.createBiquadFilter();
+        f.type = filter;
+        f.frequency.value = hz;
+        f.Q.value = q;
+        src.connect(f).connect(into);
+        src.start(t, Math.random() * 0.5);
+        src.stop(t + dur + 0.05);
+      }
+
+      private kick(t: number, gain = 0.9) {
+        const o = this.osc('sine', 150, t, 0.4, this.env(t, gain, 0.38, 0.002));
+        o.frequency.setValueAtTime(150, t);
+        o.frequency.exponentialRampToValueAtTime(42, t + 0.12);
+      }
+
+      private tom(t: number, hz: number) {
+        const o = this.osc('sine', hz, t, 0.35, this.env(t, 0.6, 0.32, 0.002));
+        o.frequency.exponentialRampToValueAtTime(hz * 0.6, t + 0.25);
+      }
+
+      /** Karplus–Strong: a burst of noise that rings round a short delay loop like a plucked string. */
+      private pluck(t: number, midi: number, kind: 'acoustic' | 'banjo' | 'mandolin', gain: number, dur = 0, rate = 1) {
+        const ctx = this.ctx!;
+        const key = `${kind}${midi}`;
+        let buf = this.plucks.get(key);
+        if (!buf) {
+          // Banjo and mandolin are bright and short; mandolin a touch rounder.
+          const banjo = kind !== 'acoustic';
+          const sr = ctx.sampleRate;
+          const len = Math.floor(sr * (banjo ? 0.8 : 1.8));
+          const period = Math.max(2, Math.round(sr / midiHz(midi)));
+          buf = ctx.createBuffer(1, len, sr);
+          const out = buf.getChannelData(0);
+          const ring = new Float32Array(period);
+          let prev = 0;
+          for (let i = 0; i < period; i++) {
+            prev = (banjo ? 0.9 : 0.55) * (Math.random() * 2 - 1) + (banjo ? 0.1 : 0.45) * prev;
+            ring[i] = prev;
+          }
+          const decay = kind === 'banjo' ? 0.985 : kind === 'mandolin' ? 0.99 : 0.996;
+          for (let i = 0, j = 0; i < len; i++) {
+            const k = (j + 1) % period;
+            out[i] = ring[j];
+            ring[j] = decay * 0.5 * (ring[j] + ring[k]);
+            j = k;
+          }
+          this.plucks.set(key, buf);
+        }
+        const src = ctx.createBufferSource();
+        src.buffer = buf;
+        src.playbackRate.value = rate;
+        const g = ctx.createGain();
+        g.gain.setValueAtTime(gain, t);
+        // A short duration damps the strings: a mandolin chop.
+        if (dur) g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+        src.connect(g).connect(this.out);
+        src.start(t);
+      }
+
+      /**
+       * A clay choir voice: a buzzy tone with vibrato through three vowel
+       * formants. The lead opens "oo" into "ah" on every note, like singing
+       * "wah"; harmonies stay rounder.
+       */
+      private sing(t: number, midi: number, dur: number, lead: boolean, pan: number) {
+        const ctx = this.ctx!;
+        const hz = midiHz(midi);
+        const o = ctx.createOscillator();
+        o.type = 'sawtooth';
+        o.frequency.setValueAtTime(hz * 0.97, t);
+        o.frequency.linearRampToValueAtTime(hz, t + 0.05);
+        const lfo = ctx.createOscillator();
+        lfo.frequency.value = 5.5;
+        const depth = ctx.createGain();
+        depth.gain.setValueAtTime(0, t);
+        depth.gain.linearRampToValueAtTime(hz * 0.008, t + Math.min(dur, 0.35));
+        lfo.connect(depth).connect(o.frequency);
+
+        const amp = ctx.createGain();
+        const peak = lead ? 0.28 : 0.18;
+        amp.gain.setValueAtTime(0.0001, t);
+        amp.gain.exponentialRampToValueAtTime(peak, t + 0.03);
+        amp.gain.setValueAtTime(peak, t + Math.max(0.03, dur - 0.05));
+        amp.gain.exponentialRampToValueAtTime(0.0001, t + dur + 0.08);
+        const panner = ctx.createStereoPanner();
+        panner.pan.value = pan;
+        amp.connect(panner).connect(this.out);
+
+        const from = VOWELS.oo;
+        const to = lead ? VOWELS.ah : VOWELS.oh;
+        [1, 0.5, 0.25].forEach((gain, i) => {
+          const f = ctx.createBiquadFilter();
+          f.type = 'bandpass';
+          f.Q.value = 6 + i * 3;
+          f.frequency.setValueAtTime(from[i], t);
+          f.frequency.linearRampToValueAtTime(to[i], t + 0.08);
+          const g = ctx.createGain();
+          g.gain.value = gain * 3;
+          o.connect(f).connect(g).connect(amp);
+        });
+        o.start(t);
+        lfo.start(t);
+        o.stop(t + dur + 0.1);
+        lfo.stop(t + dur + 0.1);
+      }
+
+      /** Harmonica: two slightly beating reeds through a cupped-hands filter, with a little hand wah. */
+      private harp(t: number, midi: number, dur: number) {
+        const ctx = this.ctx!;
+        const f = ctx.createBiquadFilter();
+        f.type = 'bandpass';
+        f.frequency.value = 1500;
+        f.Q.value = 0.9;
+        const wah = ctx.createGain();
+        wah.gain.value = 0.75;
+        const lfo = ctx.createOscillator();
+        lfo.frequency.value = 5;
+        const lfoDepth = ctx.createGain();
+        lfoDepth.gain.value = 0.25;
+        lfo.connect(lfoDepth).connect(wah.gain);
+        const amp = ctx.createGain();
+        amp.gain.setValueAtTime(0.0001, t);
+        amp.gain.exponentialRampToValueAtTime(0.16, t + 0.025);
+        amp.gain.setValueAtTime(0.16, t + Math.max(0.025, dur - 0.04));
+        amp.gain.exponentialRampToValueAtTime(0.0001, t + dur + 0.06);
+        f.connect(wah).connect(amp).connect(this.out);
+        this.osc('square', midiHz(midi), t, dur + 0.06, f, -5);
+        this.osc('sawtooth', midiHz(midi), t, dur + 0.06, f, 5);
+        lfo.start(t);
+        lfo.stop(t + dur + 0.1);
+      }
+
+      /** Saxophone: a reedy buzz with a honky middle, a breathy attack and a late vibrato. */
+      private sax(t: number, midi: number, dur: number) {
+        const ctx = this.ctx!;
+        const hz = midiHz(midi);
+        const honk = ctx.createBiquadFilter();
+        honk.type = 'peaking';
+        honk.frequency.value = 950;
+        honk.gain.value = 9;
+        const top = ctx.createBiquadFilter();
+        top.type = 'lowpass';
+        top.frequency.value = 2600;
+        const amp = ctx.createGain();
+        amp.gain.setValueAtTime(0.0001, t);
+        amp.gain.exponentialRampToValueAtTime(0.055, t + 0.04);
+        amp.gain.setValueAtTime(0.055, t + Math.max(0.04, dur - 0.05));
+        amp.gain.exponentialRampToValueAtTime(0.0001, t + dur + 0.08);
+        honk.connect(top).connect(amp).connect(this.out);
+        const vib = ctx.createOscillator();
+        vib.frequency.value = 5;
+        const depth = ctx.createGain();
+        depth.gain.setValueAtTime(0, t);
+        depth.gain.linearRampToValueAtTime(hz * 0.007, t + Math.min(dur, 0.4));
+        vib.connect(depth);
+        for (const [type, detune] of [['sawtooth', -4], ['square', 4]] as const) {
+          const o = this.osc(type, hz, t, dur + 0.08, honk, detune);
+          depth.connect(o.frequency);
+        }
+        vib.start(t);
+        vib.stop(t + dur + 0.1);
+        this.hiss(t, 0.08, 'bandpass', 1800, this.env(t, 0.04, 0.07, 0.01));
+      }
+
+      /** Trumpet: a brassy buzz whose brightness blooms as the note starts. */
+      private trumpet(t: number, midi: number, dur: number) {
+        const ctx = this.ctx!;
+        const hz = midiHz(midi);
+        const f = ctx.createBiquadFilter();
+        f.type = 'lowpass';
+        f.Q.value = 2;
+        f.frequency.setValueAtTime(500, t);
+        f.frequency.exponentialRampToValueAtTime(3800, t + 0.05);
+        f.frequency.exponentialRampToValueAtTime(2400, t + 0.2);
+        const amp = ctx.createGain();
+        amp.gain.setValueAtTime(0.0001, t);
+        amp.gain.exponentialRampToValueAtTime(0.1, t + 0.025);
+        amp.gain.setValueAtTime(0.09, t + Math.max(0.025, dur - 0.04));
+        amp.gain.exponentialRampToValueAtTime(0.0001, t + dur + 0.06);
+        f.connect(amp).connect(this.out);
+        const o = this.osc('sawtooth', hz, t, dur + 0.06, f);
+        o.frequency.setValueAtTime(hz * 0.985, t);
+        o.frequency.linearRampToValueAtTime(hz, t + 0.03);
+        this.osc('sawtooth', hz, t, dur + 0.06, f, 6);
+      }
+
+      /** Hand claps: a few quick bursts of filtered noise, a little bigger with more clappers. */
+      private clap(t: number, clappers: number) {
+        const g = this.ctx!.createGain();
+        const peak = 0.6 * Math.min(1.6, 0.8 + 0.2 * clappers);
+        g.gain.setValueAtTime(0.0001, t);
+        for (const d of [0, 0.011, 0.022]) {
+          g.gain.setValueAtTime(peak, t + d);
+          g.gain.exponentialRampToValueAtTime(peak * 0.15, t + d + 0.009);
+        }
+        g.gain.setValueAtTime(peak, t + 0.031);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + 0.16);
+        g.connect(this.out);
+        this.hiss(t, 0.2, 'bandpass', 1400, g, 1.2);
+      }
+
+      /** Tambourine: the jingles ring as a few bright, narrow bands of noise. */
+      private tambourine(t: number, smack: boolean) {
+        const g = this.env(t, smack ? 0.6 : 0.25, smack ? 0.22 : 0.07, 0.002);
+        for (const hz of [6200, 8400, 10800]) this.hiss(t, 0.25, 'bandpass', hz, g, 6);
+        if (smack) this.osc('triangle', 220, t, 0.06, this.env(t, 0.12, 0.05, 0.002));
+      }
+
+      /** Xylophone: a woody tone with its bright overtone, gone almost at once. */
+      private mallet(t: number, midi: number) {
+        const hz = midiHz(midi);
+        this.osc('sine', hz, t, 0.5, this.env(t, 0.15, 0.45, 0.002));
+        this.osc('sine', hz * 3.93, t, 0.15, this.env(t, 0.04, 0.12, 0.002));
+        this.hiss(t, 0.02, 'bandpass', 3000, this.env(t, 0.05, 0.015, 0.001));
+      }
+
+      /** Cajón: a deep thump from the middle of the face, a snappy slap with buzzing wires up top. */
+      private cajon(t: number, kind: 'bass' | 'slap' | 'ghost') {
+        if (kind === 'bass') {
+          const o = this.osc('sine', 95, t, 0.3, this.env(t, 1, 0.26, 0.002));
+          o.frequency.exponentialRampToValueAtTime(58, t + 0.12);
+          this.hiss(t, 0.06, 'lowpass', 400, this.env(t, 0.2, 0.05, 0.002));
+          return;
+        }
+        const gain = kind === 'slap' ? 0.65 : 0.14;
+        this.hiss(t, 0.14, 'bandpass', 2400, this.env(t, gain, 0.1, 0.001), 1);
+        this.hiss(t, 0.18, 'highpass', 4500, this.env(t, gain * 0.5, 0.15, 0.002));
+      }
+
+      /** Upright bass: a round, woody pluck with a little finger thump. */
+      private upright(t: number, midi: number, dur: number) {
+        const ctx = this.ctx!;
+        const f = ctx.createBiquadFilter();
+        f.type = 'lowpass';
+        f.frequency.value = 700;
+        f.connect(this.env(t, 0.5, dur, 0.004));
+        this.osc('triangle', midiHz(midi), t, dur, f);
+        this.osc('sine', midiHz(midi), t, dur, f);
+        this.hiss(t, 0.04, 'lowpass', 300, this.env(t, 0.15, 0.03, 0.001));
+      }
+
+      private lastTheremin: number | null = null;
+
+      /** Theremin: a pure, wavering tone that glides from the last note to the next. */
+      private theremin(t: number, midi: number, dur: number) {
+        const ctx = this.ctx!;
+        const hz = midiHz(midi);
+        const from = this.lastTheremin === null ? hz : midiHz(this.lastTheremin);
+        this.lastTheremin = midi;
+        const amp = ctx.createGain();
+        amp.gain.setValueAtTime(0.0001, t);
+        amp.gain.exponentialRampToValueAtTime(0.14, t + 0.06);
+        amp.gain.setValueAtTime(0.14, t + Math.max(0.06, dur - 0.08));
+        amp.gain.exponentialRampToValueAtTime(0.0001, t + dur + 0.12);
+        amp.connect(this.out);
+        const vib = ctx.createOscillator();
+        vib.frequency.value = 6;
+        const depth = ctx.createGain();
+        depth.gain.value = hz * 0.012;
+        vib.connect(depth);
+        for (const [type, mult, gain] of [['sine', 1, 1], ['triangle', 2, 0.12]] as const) {
+          const g = ctx.createGain();
+          g.gain.value = gain;
+          g.connect(amp);
+          const o = this.osc(type, from * mult, t, dur + 0.12, g);
+          o.frequency.setValueAtTime(from * mult, t);
+          o.frequency.exponentialRampToValueAtTime(hz * mult, t + 0.08);
+          depth.connect(o.frequency);
+        }
+        vib.start(t);
+        vib.stop(t + dur + 0.15);
+      }
+
+      /** Viola: a bowed, slightly rosiny tone that leans in and sings with vibrato. */
+      private viola(t: number, midi: number, dur: number) {
+        const ctx = this.ctx!;
+        const hz = midiHz(midi);
+        const f = ctx.createBiquadFilter();
+        f.type = 'lowpass';
+        f.frequency.value = 2200;
+        const body = ctx.createBiquadFilter();
+        body.type = 'peaking';
+        body.frequency.value = 1100;
+        body.gain.value = 5;
+        const amp = ctx.createGain();
+        amp.gain.setValueAtTime(0.0001, t);
+        amp.gain.exponentialRampToValueAtTime(0.05, t + 0.12);
+        amp.gain.setValueAtTime(0.05, t + Math.max(0.12, dur - 0.1));
+        amp.gain.exponentialRampToValueAtTime(0.0001, t + dur + 0.15);
+        f.connect(body).connect(amp).connect(this.out);
+        const vib = ctx.createOscillator();
+        vib.frequency.value = 5.5;
+        const depth = ctx.createGain();
+        depth.gain.setValueAtTime(0, t);
+        depth.gain.linearRampToValueAtTime(hz * 0.006, t + Math.min(dur, 0.4));
+        vib.connect(depth);
+        for (const detune of [-5, 5]) depth.connect(this.osc('sawtooth', hz, t, dur + 0.15, f, detune).frequency);
+        vib.start(t);
+        vib.stop(t + dur + 0.2);
+      }
+
+      /** Pedal steel: the chord slides up into place and swells in on the volume pedal. */
+      private steel(t: number, chord: Voicing, dur: number) {
+        const ctx = this.ctx!;
+        const f = ctx.createBiquadFilter();
+        f.type = 'lowpass';
+        f.frequency.value = 1900;
+        const amp = ctx.createGain();
+        amp.gain.setValueAtTime(0.0001, t);
+        amp.gain.exponentialRampToValueAtTime(0.042, t + Math.min(0.35, dur * 0.6));
+        amp.gain.setValueAtTime(0.042, t + Math.max(0.35, dur - 0.1));
+        amp.gain.exponentialRampToValueAtTime(0.0001, t + dur + 0.3);
+        f.connect(amp).connect(this.out);
+        for (const n of chord.piano.map((x) => x + 12)) {
+          const hz = midiHz(n);
+          for (const type of ['sawtooth', 'sine'] as const) {
+            const o = this.osc(type, hz, t, dur + 0.3, f, type === 'sine' ? 3 : 0);
+            o.frequency.setValueAtTime(hz * 2 ** (-2 / 12), t);
+            o.frequency.exponentialRampToValueAtTime(hz, t + 0.18);
+          }
+        }
+      }
+
+      /** Schedule one sixteenth note. Only instruments somebody is holding make a sound. */
+      private play(step: number, t: number) {
+        const active = new Set(players.map((p) => p.inst));
+        const s = step % 16;
+        const m = step % LOOP;
+        const { chord, feel } = CHART[m];
+        const g = GROOVES[feel];
+        const change = CHANGES.has(m);
+        const first = sectionStart(m);
+
+        if (active.has('drums')) {
+          if (g.kick.includes(s)) this.kick(t, feel === 'sparse' ? 0.5 : 0.9);
+          if (FILL[m]) this.tom(t, TOMS[m % 4]);
+          else {
+            if (g.snare.includes(s)) {
+              this.hiss(t, 0.18, 'highpass', 1200, this.env(t, feel === 'half' ? 0.25 : 0.45, 0.16, 0.002));
+              this.osc('triangle', 185, t, 0.1, this.env(t, 0.3, 0.09, 0.002));
+            }
+            if (g.hat.includes(s)) this.hiss(t, 0.05, 'highpass', 7500, this.env(t, feel === 'full' && s % 4 ? 0.12 : 0.18, 0.045, 0.002));
+          }
+          if (first && feel !== 'sparse') this.hiss(t, 1.4, 'highpass', 5000, this.env(t, 0.28, 1.3, 0.002));
+        }
+
+        const bass = active.has('bass') ? bassNote(m) : null;
+        if (bass !== null) {
+          const ctx = this.ctx!;
+          const f = ctx.createBiquadFilter();
+          f.type = 'lowpass';
+          f.Q.value = 3;
+          f.frequency.setValueAtTime(1400, t);
+          f.frequency.exponentialRampToValueAtTime(380, t + 0.2);
+          const len = feel === 'full' ? 0.3 : feel === 'half' ? 0.9 : 1.4;
+          f.connect(this.env(t, 0.42, len, 0.006));
+          this.osc('sawtooth', midiHz(bass), t, len, f);
+          this.osc('sine', midiHz(bass), t, len, f);
+        }
+
+        if (active.has('piano') && (g.piano.includes(s) || change)) {
+          const big = s === 0 || change;
+          const notes = big ? chord.piano : chord.piano.map((n) => n + 12);
+          const lh = big || (s === 8 && feel !== 'sparse') ? [chord.bass + 12] : [];
+          for (const n of [...notes, ...lh]) {
+            const decay = big ? (feel === 'full' ? 1.6 : 2.4) : 0.6;
+            this.osc('triangle', midiHz(n), t, decay, this.env(t, big ? 0.16 : 0.1, decay, 0.005));
+            this.osc('sine', midiHz(n) * 2, t, decay, this.env(t, 0.04, decay * 0.6, 0.005));
+          }
+        }
+
+        if (active.has('electric') && g.electric.includes(s)) {
+          const ctx = this.ctx!;
+          const shaper = ctx.createWaveShaper();
+          shaper.curve = this.curve;
+          shaper.oversample = '2x';
+          const f = ctx.createBiquadFilter();
+          f.type = 'lowpass';
+          f.frequency.value = 2400;
+          const long = change || feel !== 'full';
+          const len = feel === 'sparse' ? 1.8 : long ? 0.9 : 0.16;
+          shaper.connect(f).connect(this.env(t, long ? 0.18 : 0.13, len, 0.004));
+          const pre = ctx.createGain();
+          pre.gain.value = 0.35;
+          pre.connect(shaper);
+          for (const n of [chord.power, chord.power + 7, chord.power + 12]) {
+            this.osc('sawtooth', midiHz(n), t, len + 0.04, pre, -7);
+            this.osc('sawtooth', midiHz(n), t, len + 0.04, pre, 7);
+          }
+        }
+
+        if (active.has('acoustic') && s in g.strum) {
+          const up = g.strum[s] === 'up';
+          const strings = up ? chord.strum.slice(-4).reverse() : chord.strum;
+          strings.forEach((n, i) => this.pluck(t + i * (feel === 'sparse' ? 0.03 : 0.012), n, 'acoustic', up ? 0.06 : 0.09));
+        }
+
+        if (active.has('banjo') && s % g.banjo === 0) {
+          this.pluck(t, chord.banjo[ROLL[(s / g.banjo) % 8] % chord.banjo.length], 'banjo', s % 8 === 0 ? 0.3 : 0.2);
+        }
+
+        // Every mic sings the tune at once; extra mics take harmonies, spread across the stereo.
+        const sung = VOCAL.get(m);
+        if (sung) {
+          const mics = players.filter((p) => p.inst === 'mic');
+          mics.forEach((_, k) => {
+            const pan = mics.length > 1 ? (k % 2 ? 1 : -1) * Math.min(0.6, 0.2 * Math.ceil(k / 2) + 0.1) : 0;
+            this.sing(t, harmony(sung.midi, chord, k), sung.len * STEP * 0.95, k === 0, k === 0 ? 0 : pan);
+          });
+        }
+
+        // The lead section: harmonica, sax and trumpet, each on their own part.
+        for (const p of players) {
+          if (!p.inst || !LEADS.includes(p.inst)) continue;
+          const n = leadNote(p, m);
+          if (!n) continue;
+          const dur = n.len * STEP * 0.92;
+          if (p.inst === 'harmonica') this.harp(t, n.midi, dur);
+          else if (p.inst === 'sax') this.sax(t, n.midi, dur);
+          else if (p.inst === 'theremin') this.theremin(t, n.midi, n.len * STEP);
+          else this.trumpet(t, n.midi, dur);
+        }
+
+        const clappers = players.filter((p) => p.inst === 'clap').length;
+        if (clappers && g.clap.includes(s)) this.clap(t, clappers);
+
+        if (active.has('xylophone')) {
+          const n = xyloNote(m);
+          if (n !== null) this.mallet(t, n);
+        }
+
+        if (active.has('cajon')) {
+          if (g.kick.includes(s)) this.cajon(t, 'bass');
+          if (g.smack.includes(s)) this.cajon(t, 'slap');
+          else if (g.ghost.includes(s)) this.cajon(t, 'ghost');
+        }
+
+        if (active.has('mandolin')) {
+          const tones = chord.banjo;
+          if (feel === 'full' && g.smack.includes(s)) {
+            // Bluegrass chop on the backbeat: the whole chord, damped at once.
+            tones.forEach((n, i) => this.pluck(t + i * 0.006, n, 'mandolin', 0.17, 0.07));
+          } else if (feel === 'full' ? s % 2 === 0 : true) {
+            // Picking eighths, or a tremolo shimmer when the band's quiet.
+            const n = tones[(feel === 'full' ? s / 2 : Math.floor(s / 8) + 1) % tones.length];
+            const gain = feel === 'full' ? 0.15 : 0.07;
+            this.pluck(t, n, 'mandolin', gain);
+            this.pluck(t, n, 'mandolin', gain * 0.8, 0, 1.003);
+          }
+        }
+
+        if (active.has('upright')) {
+          const n = walkNote(m);
+          if (n !== null) this.upright(t, n, feel === 'full' ? 0.45 : 1.2);
+        }
+
+        if (active.has('viola')) {
+          const n = violaNote(m);
+          if (n) this.viola(t, n.midi, n.len * STEP);
+        }
+
+        if (active.has('pedalsteel')) {
+          const n = steelSwell(m);
+          if (n) this.steel(t, chord, n.len * STEP);
+        }
+
+        if (active.has('tambourine')) {
+          if (g.smack.includes(s)) this.tambourine(t, true);
+          else if (g.shake.includes(s)) this.tambourine(t, false);
+        }
+      }
+    }
+
+    const band = new Band();
+    let frame = 0;
+    let shown = '';
+
+    function animate() {
+      // Closing the window takes the band with it.
+      if (!root.isConnected) return setPlaying(false);
+      const s = band.position();
+      for (const p of players) pose(p, s, true);
+      const step = Math.floor(wrap(s));
+      const label = CHANGES.get(step);
+      if (label && label !== shown) now.textContent = shown = label;
+      frame = requestAnimationFrame(animate);
+    }
+
+    function setPlaying(on: boolean) {
+      if (on === band.playing) return;
+      if (on && !players.some((p) => p.inst)) {
+        status.textContent = 'Nobody has an instrument yet! Hand somebody something first.';
+        return;
+      }
+      if (on) {
+        band.start();
+        frame = requestAnimationFrame(animate);
+        status.textContent = 'Take it away!';
+      } else {
+        band.stop();
+        cancelAnimationFrame(frame);
+        now.textContent = shown = '';
+        for (const p of players) pose(p, 0, false);
+      }
+      playBtn.setAttribute('aria-pressed', String(on));
+      playBtn.querySelector('span')!.textContent = on ? 'Stop' : 'Play';
+      playBtn.querySelector('.bab-play-icon')!.setAttribute('d', on ? 'M6 5h4v14H6zM14 5h4v14h-4z' : 'M7 4l13 8-13 8z');
+    }
+
+    // ---------- Handing out instruments ----------
+
+    let selected: InstId | null = null;
+
+    function select(inst: InstId | null) {
+      selected = inst;
+      for (const b of trayBtns) b.setAttribute('aria-pressed', String(b.dataset.inst === inst));
+      if (inst) status.textContent = `Who gets the ${LABELS[inst]}? Tap a bandmate.`;
+    }
+
+    function handTo(p: Player, inst: InstId) {
+      // Handing someone what they're already holding takes it back.
+      if (p.inst === inst) {
+        give(p, null);
+        status.textContent = inst === 'clap' ? `${p.name} stopped clapping.` : `${p.name} put down the ${LABELS[inst]}.`;
+      } else {
+        give(p, inst);
+        const mics = players.filter((q) => q.inst === 'mic').length;
+        status.textContent =
+          inst === 'mic' && mics > 1 ? `${p.name} grabbed a mic. ${mics} voices means harmonies!`
+          : inst === 'clap' ? `${p.name} is clapping along.`
+          : `${p.name} picked up the ${LABELS[inst]}.`;
+      }
+      boing(p);
+      save();
+    }
+
+    for (const p of players) {
+      p.button.addEventListener('click', () => {
+        if (selected) handTo(p, selected);
+        else if (p.inst) status.textContent = `${p.name} is on ${LABELS[p.inst]}. Pick an instrument to swap it.`;
+        else status.textContent = `Pick an instrument for ${p.name} first.`;
+      });
+    }
+
+    // Drag an instrument from the tray straight onto someone.
+    let drag: { inst: InstId; id: number; x: number; y: number; ghost: HTMLElement | null; over: Player | null } | null = null;
+    let suppressClick = false;
+
+    const playerAt = (x: number, y: number) => {
+      const el = document.elementFromPoint(x, y)?.closest<HTMLElement>('.bab-player');
+      return el ? players[Number(el.dataset.player)] : null;
+    };
+
+    for (const b of trayBtns) {
+      const inst = b.dataset.inst as InstId;
+      b.addEventListener('click', () => {
+        if (suppressClick) {
+          suppressClick = false;
+          return;
+        }
+        select(selected === inst ? null : inst);
+      });
+      b.addEventListener('pointerdown', (e) => {
+        if (e.button !== 0) return;
+        drag = { inst, id: e.pointerId, x: e.clientX, y: e.clientY, ghost: null, over: null };
+        b.setPointerCapture(e.pointerId);
+      });
+      b.addEventListener('pointermove', (e) => {
+        if (!drag || drag.id !== e.pointerId) return;
+        if (!drag.ghost) {
+          if (Math.hypot(e.clientX - drag.x, e.clientY - drag.y) < 8) return;
+          drag.ghost = document.createElement('div');
+          drag.ghost.className = 'bab-ghost';
+          drag.ghost.appendChild(b.querySelector('svg')!.cloneNode(true));
+          root.appendChild(drag.ghost);
+        }
+        drag.ghost.style.left = `${e.clientX}px`;
+        drag.ghost.style.top = `${e.clientY}px`;
+        const over = playerAt(e.clientX, e.clientY);
+        if (over !== drag.over) {
+          drag.over?.button.classList.remove('is-target');
+          over?.button.classList.add('is-target');
+          drag.over = over;
+        }
+      });
+      const end = (e: PointerEvent) => {
+        if (!drag || drag.id !== e.pointerId) return;
+        if (drag.ghost) {
+          drag.ghost.remove();
+          drag.over?.button.classList.remove('is-target');
+          const target = e.type === 'pointerup' ? playerAt(e.clientX, e.clientY) : null;
+          if (target) {
+            handTo(target, drag.inst);
+            select(null);
+          }
+          suppressClick = true;
+          setTimeout(() => (suppressClick = false), 0);
+        }
+        drag = null;
+      };
+      b.addEventListener('pointerup', end);
+      b.addEventListener('pointercancel', end);
+    }
+
+    root.querySelector('.bab-shuffle')!.addEventListener('click', () => {
+      const deck = [...INSTRUMENTS].sort(() => Math.random() - 0.5);
+      players.forEach((p, i) => {
+        give(p, deck[i]);
+        boing(p);
+      });
+      select(null);
+      status.textContent = 'New lineup!';
+      save();
+    });
+
+    root.querySelector('.bab-clear')!.addEventListener('click', () => {
+      for (const p of players) give(p, null);
+      select(null);
+      status.textContent = 'Everybody put their instruments down.';
+      save();
+    });
+
+    playBtn.addEventListener('click', () => setPlaying(!band.playing));
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') select(null);
+    });
+
+    // Background tabs throttle timers, which makes the band trip over itself.
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) setPlaying(false);
+    });
+
+    for (const p of players) pose(p, 0, false);
+    load();
+  }
+
+  function mountAll() {
+    for (const root of document.querySelectorAll<HTMLElement>('.bab:not([data-mounted])')) {
+      root.dataset.mounted = '';
+      mount(root);
+    }
+  }
+
+  mountAll();
+  new MutationObserver(mountAll).observe(document.querySelector('.everything') ?? document.body, { childList: true });
+</script>

@@ -125,6 +125,8 @@ document.addEventListener("DOMContentLoaded", function() {
     var url = win.dataset.url || '';
     if (url === '/') return windowList.dataset.iconPosts;
     if (/\/library$/.test(url)) return windowList.dataset.iconBooks;
+    if (/\/extras$/.test(url)) return windowList.dataset.iconFolder;
+    if (/\/wake-up-call$/.test(url)) return windowList.dataset.iconBand;
     return windowList.dataset.iconDocument;
   }
 
@@ -338,8 +340,17 @@ document.addEventListener("DOMContentLoaded", function() {
       var titleEl = doc.querySelector('.title-bar .title');
       var title = titleEl ? titleEl.textContent.trim() : (doc.title || 'Untitled');
 
-      // Get content
+      // Extract module scripts (for Library DuckDB etc). Bundled ones
+      // come as a src, inline ones as text.
+      var moduleScripts = [];
+      doc.querySelectorAll('script[type="module"]').forEach(function(s) {
+        moduleScripts.push(s.getAttribute('src') ? { src: s.getAttribute('src') } : { text: s.textContent });
+      });
+
+      // Get content. Scripts in it wouldn't run from innerHTML anyway, and
+      // the module ones were picked up above.
       var contentsEl = doc.querySelector('.window-contents');
+      if (contentsEl) contentsEl.querySelectorAll('script').forEach(function(s) { s.remove(); });
       var contentHtml = contentsEl ? contentsEl.innerHTML : '';
 
       // Check if wide
@@ -347,17 +358,15 @@ document.addEventListener("DOMContentLoaded", function() {
       var pageTitleText = pageTitle ? pageTitle.textContent : '';
       var isWide = pageTitleText === 'About' || pageTitleText === 'Library';
 
-      // Extract module scripts (for Library DuckDB etc)
-      var moduleScripts = [];
-      doc.querySelectorAll('script[type="module"]').forEach(function(s) {
-        moduleScripts.push(s.textContent);
-      });
+      // Component styles Astro puts in the page's head (Wake Up Call etc)
+      var styles = Array.prototype.slice.call(doc.querySelectorAll('head link[rel="stylesheet"], head style'));
 
       return {
         title: title,
         contentHtml: contentHtml,
         isWide: isWide,
-        moduleScripts: moduleScripts
+        moduleScripts: moduleScripts,
+        styles: styles
       };
     });
   }
@@ -381,15 +390,31 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }
 
+  // Add the fetched page's stylesheets that this page doesn't have yet
+  function adoptStyles(styles) {
+    styles.forEach(function(el) {
+      var href = el.getAttribute('href');
+      var present = Array.prototype.some.call(document.querySelectorAll('head link[rel="stylesheet"], head style'), function(mine) {
+        return href ? mine.getAttribute('href') === href : mine.textContent === el.textContent;
+      });
+      if (!present) document.head.appendChild(document.importNode(el, true));
+    });
+  }
+
   // Open a window for a fetched page
   function openPageWindow(page, url, background) {
+    adoptStyles(page.styles);
     var win = createWindow(page.title, page.contentHtml, url, { wide: page.isWide, background: background });
 
-    // Execute any module scripts from the fetched page
-    page.moduleScripts.forEach(function(src) {
+    // Execute any module scripts from the fetched page. Inline ones run
+    // again for every window; bundled ones load once, like any module, so
+    // they have to watch for their own markup turning up.
+    page.moduleScripts.forEach(function(entry) {
+      if (entry.src && document.querySelector('script[type="module"][src="' + entry.src + '"]')) return;
       var script = document.createElement('script');
       script.type = 'module';
-      script.textContent = src;
+      if (entry.src) script.src = entry.src;
+      else script.textContent = entry.text;
       document.body.appendChild(script);
     });
 
