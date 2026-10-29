@@ -14,6 +14,7 @@ This is a personal blog built with Astro that uses a BeOS-inspired desktop inter
 - `/src/pages/index.astro` - Homepage post listing
 - `/src/pages/[slug].astro` - Route for every post and page
 - `/src/pages/rss.xml.js` - RSS feed
+- `/src/pages/llms.txt.js` - llms.txt for language models, listing every page and post
 - `/src/components/Library.astro` + `LibraryScript.astro` - SQL book search widget and its DuckDB script
 - `/src/lib/posts.ts` - Slug, filtering and sorting helpers shared by the routes and feed
 - `/static/app.css` - Custom styles
