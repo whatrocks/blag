@@ -13,7 +13,7 @@ const { title, description = '', date, slug } = Astro.props;
 const isHome = slug === undefined;
 const WIDE_PAGES = ['about', 'library'];
 // Pages that supply their own heading, so the layout skips the post header.
-const UNTITLED_PAGES = ['about', 'library', 'books', 'walkingman', '404'];
+const UNTITLED_PAGES = ['about', 'library', 'books', 'walkingman', '404', 'extras', 'wake-up-call'];
 
 const wide = slug !== undefined && WIDE_PAGES.includes(slug);
 const showSidepanels = !wide;
@@ -46,12 +46,15 @@ const barTitle = isHome ? 'Posts' : title;
           <li><a href="/"><img class="team-icon" src="/icons/posts.svg" alt="" width="22" height="22">Posts</a></li>
           <li><a href="/about"><img class="team-icon" src="/icons/document.svg" alt="" width="22" height="22">About</a></li>
           <li><a href="/library"><img class="team-icon" src="/icons/books.svg" alt="" width="22" height="22">Library</a></li>
+          <li><a href="/extras"><img class="team-icon" src="/icons/folder.svg" alt="" width="22" height="22">Extras</a></li>
         </ul>
         <!-- Open windows, filled in by the template JS -->
         <ul class="deskbar-windows" id="deskbar-windows" aria-label="Open windows"
           data-icon-posts="/icons/posts.svg"
           data-icon-books="/icons/books.svg"
-          data-icon-document="/icons/document.svg"></ul>
+          data-icon-document="/icons/document.svg"
+          data-icon-folder="/icons/folder.svg"
+          data-icon-band="/icons/wake-up-call.svg"></ul>
       </nav>
 
       <!-- Desktop icons -->
@@ -67,6 +70,10 @@ const barTitle = isHome ? 'Posts' : title;
         <div class="desktop-icon" data-url="/library">
           <img class="icon-shape" src="/icons/books.svg" alt="" width="64" height="64">
           <span class="icon-label">Library</span>
+        </div>
+        <div class="desktop-icon" data-url="/extras">
+          <img class="icon-shape" src="/icons/folder.svg" alt="" width="64" height="64">
+          <span class="icon-label">Extras</span>
         </div>
       </div>
 
