@@ -10,5 +10,12 @@
     "html_handling": "drop-trailing-slash",
     // Unmatched paths get build/404.html with a real 404 status.
     "not_found_handling": "404-page"
-  }
+  },
+  // Claimed on deploy, and Cloudflare manages the DNS records for them. Both
+  // names have to be detached from the old Pages project first, or the deploy
+  // fails with a domain-already-in-use conflict.
+  "routes": [
+    { "pattern": "www.charlieharrington.com", "custom_domain": true },
+    { "pattern": "charlieharrington.com", "custom_domain": true }
+  ]
 }
